@@ -25,18 +25,22 @@ RÈGLES DE COMPORTEMENT :
    API CALL
 ═══════════════════════════════════════════ */
 async function callAlex(messages) {
-  const res = await fetch("/api/chat", {
+  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer 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",
+    },
     body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1000,
-      system: ALEX_SYSTEM,
-      messages,
+      model: "llama3-8b-8192",
+      messages: [
+        { role: "system", content: ALEX_SYSTEM },
+        ...messages
+      ],
     }),
   });
   const data = await res.json();
-  return data.content?.[0]?.text || "Je suis désolé, une erreur s'est produite.";
+  return data.choices?.[0]?.message?.content || "Erreur, réessayez 🙏";
 }
 
 /* ═══════════════════════════════════════════
