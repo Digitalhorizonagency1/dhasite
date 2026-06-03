@@ -103,7 +103,7 @@ const STEPS = [
 const FAQS = [
   {
     cat:"💰 Investissement",
-    q:"Est-ce que ça vaut vraiment 50 000 FCFA par mois ?",
+    q:"Est-ce que ça vaut vraiment 25 000 FCFA par mois ?",
     a:"Un commercial humain à Cotonou coûte entre 80 000 et 150 000 FCFA/mois — pour 8h/jour, 5 jours/semaine. Alex travaille 24h/24, 7j/7, répond en moins de 10 secondes, ne fait jamais d'erreur de communication et vous envoie un rapport chaque matin. Le calcul est vite fait."
   },
   {
@@ -146,13 +146,13 @@ const FAQS = [
 /* Réponses simulées pour le chat démo */
 const ALEX_RESPONSES = [
   { keys:["bonjour","salut","bonsoir","hello","hi"], reply:"Bonjour ! 👋 Je suis Alex, l'assistant IA de Digital Horizon Agency. Comment puis-je vous aider aujourd'hui ?" },
-  { keys:["prix","tarif","coût","combien","fcfa"], reply:"Nos offres démarrent à **50 000 FCFA/mois** pour Alex Agent WhatsApp. Le Pack Complet (Alex + Community Manager IA) est à **110 000 FCFA/mois**. Vous souhaitez plus de détails sur une offre ?" },
+  { keys:["prix","tarif","coût","combien","fcfa"], reply:"Nos offres démarrent à **25 000 FCFA/mois** pour Alex Agent WhatsApp. Le Pack Complet est à **50 000 FCFA/mois**. Vous souhaitez plus de détails sur une offre ?" },
   { keys:["alex","agent","whatsapp","répondre","réponse","client"], reply:"Alex est notre agent commercial IA pour WhatsApp 🤖 Il répond à vos clients 24h/24, qualifie les prospects, relance automatiquement et vous envoie un rapport quotidien. Vous voulez une démo ?" },
   { keys:["facebook","publication","post","community","contenu"], reply:"Notre Community Manager IA publie automatiquement sur votre page Facebook 3x/semaine 📲 Il recherche les tendances, génère le texte et les visuels, et publie Lun/Mer/Ven à 9h. Tout automatiquement !" },
   { keys:["comment","marche","fonctionne","processus","étape"], reply:"C'est simple : 1) Consultation gratuite (30 min) → 2) Configuration sur mesure → 3) Test & validation → 4) Mise en ligne en 72h. On s'occupe de tout 🚀" },
   { keys:["ban","banni","risque","sécur"], reply:"Aucun risque de ban ! Notre système génère des messages naturels qui respectent les règles WhatsApp. Aucun de nos clients n'a jamais eu de problème 🛡️" },
   { keys:["contact","appel","rdv","rencontre","parler","humain","équipe"], reply:"Bien sûr ! Contactez notre équipe directement sur WhatsApp → wa.me/" + WA_NUMBER + " 💬 On vous répond en moins de 2h !" },
-  { keys:["pack","complet","deux","combo"], reply:"Le Pack Complet inclut Alex Agent WhatsApp + Community Manager IA pour **110 000 FCFA/mois** — au lieu de 125 000 FCFA séparément. Vous économisez 15 000 FCFA/mois ! 🎉" },
+  { keys:["pack","complet","deux","combo"], reply:"Le Pack Complet inclut Alex Agent WhatsApp + Community Manager IA pour **50 000 FCFA/mois** — au lieu de 60 000 FCFA séparément. Vous économisez 10 000 FCFA/mois ! 🎉" },
 ];
 
 function getAlexReply(msg) {
@@ -185,7 +185,11 @@ function DemoChat() {
   const bottomRef = useRef(null);
   const isMobile = useIsMobile();
 
-  useEffect(() => { if (msgs.length > 1) bottomRef.current?.scrollIntoView({ behavior:"smooth" }); }, [msgs, typing]);
+  useEffect(() => { 
+    if (msgs.length > 1) {
+      setTimeout(() => bottomRef.current?.scrollIntoView({ behavior:"smooth", block:"end" }), 100);
+    }
+  }, [msgs, typing]);
 
   const send = async () => {
     const txt = input.trim();
@@ -257,17 +261,16 @@ function DemoChat() {
           ))}
         </div>
 
-        {/* Input WhatsApp */}
+        {/* Input WhatsApp — vrai champ de saisie */}
         <div style={{ background:"#F0F0F0", padding:"8px 10px", display:"flex", alignItems:"center", gap:8 }}>
-          <div style={{ flex:1, background:"#fff", borderRadius:24, padding:"10px 14px", fontSize:13, color: input ? "#111" : "#999", cursor:"text", boxShadow:"0 1px 2px rgba(0,0,0,0.1)", minHeight:40, display:"flex", alignItems:"center" }}
-            onClick={() => {
-              const val = prompt("Tapez votre message :");
-              if (val) { setInput(val); setTimeout(() => { send(); }, 100); }
-            }}
-          >
-            {input || "Tapez votre message"}
-          </div>
-          <button onClick={send} disabled={typing || !input.trim()} style={{ width:42, height:42, borderRadius:"50%", background:"#075E54", border:"none", cursor:"pointer", fontSize:18, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, boxShadow:"0 2px 6px rgba(0,0,0,0.2)" }}>
+          <input
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => { if (e.key === "Enter") send(); }}
+            placeholder="Tapez votre message"
+            style={{ flex:1, background:"#fff", borderRadius:24, padding:"10px 14px", fontSize:13, color:"#111", border:"none", outline:"none", fontFamily:"inherit", boxShadow:"0 1px 2px rgba(0,0,0,0.1)" }}
+          />
+          <button onClick={send} disabled={typing || !input.trim()} style={{ width:42, height:42, borderRadius:"50%", background: input.trim() ? "#075E54" : "#aaa", border:"none", cursor: input.trim() ? "pointer" : "default", fontSize:18, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, boxShadow:"0 2px 6px rgba(0,0,0,0.2)", color:"#fff" }}>
             ➤
           </button>
         </div>
@@ -594,8 +597,12 @@ export default function DHASite() {
                     </p>
                   </div>
                   <div style={{ textAlign:"right", flexShrink:0 }}>
-                    <div style={{ fontSize:28, fontWeight:900, color:"#fff", letterSpacing:"-1px" }}>50 000</div>
-                    <div style={{ fontSize:12, color:"#475569" }}>FCFA / mois</div>
+                    <div style={{ fontSize:12, color:"#475569", textDecoration:"line-through" }}>50 000 FCFA/mois</div>
+                    <div style={{ fontSize:28, fontWeight:900, color:"#00FFB4", letterSpacing:"-1px" }}>25 000</div>
+                    <div style={{ display:"flex", alignItems:"center", gap:6, justifyContent:"flex-end" }}>
+                      <span style={{ fontSize:12, color:"#475569" }}>FCFA / mois</span>
+                      <span style={{ fontSize:10, background:"rgba(0,255,180,0.1)", color:"#00FFB4", border:"1px solid rgba(0,255,180,0.2)", borderRadius:20, padding:"2px 7px", fontWeight:700 }}>-50%</span>
+                    </div>
                     <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"inline-block", marginTop:10, background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#050810", padding:"10px 20px", borderRadius:10, fontSize:13, fontWeight:700, textDecoration:"none" }}>Démarrer →</a>
                   </div>
                 </div>
@@ -660,8 +667,12 @@ export default function DHASite() {
                     </p>
                   </div>
                   <div style={{ textAlign:"right", flexShrink:0 }}>
-                    <div style={{ fontSize:28, fontWeight:900, color:"#fff", letterSpacing:"-1px" }}>75 000</div>
-                    <div style={{ fontSize:12, color:"#475569" }}>FCFA / mois</div>
+                    <div style={{ fontSize:12, color:"#475569", textDecoration:"line-through" }}>75 000 FCFA/mois</div>
+                    <div style={{ fontSize:28, fontWeight:900, color:"#00C8FF", letterSpacing:"-1px" }}>35 000</div>
+                    <div style={{ display:"flex", alignItems:"center", gap:6, justifyContent:"flex-end" }}>
+                      <span style={{ fontSize:12, color:"#475569" }}>FCFA / mois</span>
+                      <span style={{ fontSize:10, background:"rgba(0,200,255,0.1)", color:"#00C8FF", border:"1px solid rgba(0,200,255,0.2)", borderRadius:20, padding:"2px 7px", fontWeight:700 }}>-53%</span>
+                    </div>
                     <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"inline-block", marginTop:10, background:"linear-gradient(135deg,#00C8FF,#00C8FF99)", color:"#050810", padding:"10px 20px", borderRadius:10, fontSize:13, fontWeight:700, textDecoration:"none" }}>Démarrer →</a>
                   </div>
                 </div>
@@ -753,16 +764,20 @@ export default function DHASite() {
           </div>
           <div className="three-col-grid" style={{ alignItems:"start" }}>
             {[
-              { name:"Alex Agent", price:"50 000", unit:"FCFA/mois", desc:"Pour les commerces et PME qui veulent automatiser leur service client WhatsApp.", features:["Agent WhatsApp personnalisé","Qualification de prospects","Relances automatiques","Rapport quotidien","Support technique inclus"], cta:"Démarrer avec Alex", accent:"#00FFB4", pop:false, id:"t1" },
-              { name:"Community Manager IA", price:"75 000", unit:"FCFA/mois", desc:"Pour les marques qui veulent une présence Facebook active sans effort.", features:["3 publications/semaine","Visuels générés par IA","Textes adaptés contexte local","Recherche de tendances auto","Rapport de performance"], cta:"Démarrer le CM IA", accent:"#00C8FF", pop:false, id:"t2" },
-              { name:"Pack Complet", price:"110 000", unit:"FCFA/mois", desc:"Les deux solutions pour une automatisation totale de votre présence digitale.", features:["Alex Agent WhatsApp","Community Manager IA","Tableau de bord unifié","Support prioritaire 24/7","Économisez 15 000 FCFA/mois"], cta:"Obtenir le Pack", accent:"#FFB400", pop:true, id:"t3" },
+              { name:"Alex Agent", oldPrice:"50 000", price:"25 000", unit:"FCFA/mois", desc:"Pour les commerces et PME qui veulent automatiser leur service client WhatsApp.", features:["Agent WhatsApp personnalisé","Qualification de prospects","Relances automatiques","Rapport quotidien","Support technique inclus"], cta:"Démarrer avec Alex", accent:"#00FFB4", pop:false, id:"t1" },
+              { name:"Community Manager IA", oldPrice:"75 000", price:"35 000", unit:"FCFA/mois", desc:"Pour les marques qui veulent une présence Facebook active sans effort.", features:["3 publications/semaine","Visuels générés par IA","Textes adaptés contexte local","Recherche de tendances auto","Rapport de performance"], cta:"Démarrer le CM IA", accent:"#00C8FF", pop:false, id:"t2" },
+              { name:"Pack Complet", oldPrice:"110 000", price:"50 000", unit:"FCFA/mois", desc:"Les deux solutions pour une automatisation totale de votre présence digitale.", features:["Alex Agent WhatsApp","Community Manager IA","Tableau de bord unifié","Support prioritaire 24/7","Économisez 15 000 FCFA/mois"], cta:"Obtenir le Pack", accent:"#FFB400", pop:true, id:"t3" },
             ].map((t, i) => (
               <div key={i} data-observe id={t.id} style={{ background: t.pop ? `linear-gradient(145deg,${t.accent}08,#070d1a)` : "rgba(255,255,255,0.025)", border:`1px solid ${t.pop ? t.accent : t.accent+"22"}`, borderRadius:20, padding:"28px 24px", position:"relative", opacity:v(t.id)?1:0, transform:v(t.id)?"none":"translateY(36px)", transition:`all 0.7s ease ${i*0.12}s` }}>
                 {t.pop && <div style={{ position:"absolute", top:-13, left:"50%", transform:"translateX(-50%)", background:t.accent, color:"#050810", padding:"4px 16px", borderRadius:20, fontSize:11, fontWeight:700, whiteSpace:"nowrap" }}>⭐ Le plus populaire</div>}
                 <h3 style={{ fontSize:17, fontWeight:700, color:t.accent, marginBottom:14 }}>{t.name}</h3>
-                <div style={{ display:"flex", alignItems:"baseline", gap:6, marginBottom:14 }}>
-                  <span style={{ fontSize:32, fontWeight:900, color:"#fff", letterSpacing:"-2px" }}>{t.price}</span>
-                  <span style={{ fontSize:13, color:"#64748b" }}>{t.unit}</span>
+                <div style={{ marginBottom:14 }}>
+                  <div style={{ fontSize:13, color:"#475569", textDecoration:"line-through", marginBottom:4 }}>{t.oldPrice} {t.unit}</div>
+                  <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                    <span style={{ fontSize:32, fontWeight:900, color:"#fff", letterSpacing:"-2px" }}>{t.price}</span>
+                    <span style={{ fontSize:13, color:"#64748b" }}>{t.unit}</span>
+                    <span style={{ fontSize:11, background:"rgba(0,255,180,0.1)", color:"#00FFB4", border:"1px solid rgba(0,255,180,0.2)", borderRadius:20, padding:"2px 8px", fontWeight:700 }}>-50%</span>
+                  </div>
                 </div>
                 <p style={{ fontSize:13, color:"#64748b", lineHeight:1.65, marginBottom:20 }}>{t.desc}</p>
                 <ul style={{ listStyle:"none", padding:0, margin:"0 0 24px", display:"flex", flexDirection:"column", gap:9 }}>
