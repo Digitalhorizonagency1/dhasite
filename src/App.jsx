@@ -32,7 +32,7 @@ async function callAlex(messages) {
       "Authorization": "Bearer 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",
     },
     body: JSON.stringify({
-      model: "llama3-8b-8192",
+      model: "llama-3.1-70b-versatile",
       messages: [
         { role: "system", content: ALEX_SYSTEM },
         ...messages
