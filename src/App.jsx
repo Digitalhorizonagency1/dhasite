@@ -26,7 +26,7 @@ RÈGLES DE COMPORTEMENT :
 ═══════════════════════════════════════════ */
 async function callAlex(messages) {
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6Je44Ygs4O6pW2hswyiAGnLPOkoL4PDx7ow7CJ2Bk_ytw`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6IXEnnzEKEiugFmcZ4ih09riTs3gQSO1NRIRFOD1c_EQA`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
