@@ -25,42 +25,22 @@ RÈGLES DE COMPORTEMENT :
    API CALL
 ═══════════════════════════════════════════ */
 async function callAlex(messages) {
-
   const res = await fetch(
-
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6Je44Ygs4O6pW2hswyiAGnLPOkoL4PDx7ow7CJ2Bk_ytw`,
-
     {
-
       method: "POST",
-
       headers: { "Content-Type": "application/json" },
-
       body: JSON.stringify({
-
         system_instruction: { parts: [{ text: ALEX_SYSTEM }] },
-
         contents: messages.map(m => ({
-
           role: m.role === "assistant" ? "model" : "user",
-
           parts: [{ text: m.content }]
-
         }))
-
       }),
-
     }
-
   );
-
   const data = await res.json();
-
   return data.candidates?.[0]?.content?.parts?.[0]?.text || "Erreur, réessayez 🙏";
-
-}
-  const data = await res.json();
-  return data.content?.[0]?.text || "Je suis désolé, une erreur s'est produite.";
 }
 
 /* ═══════════════════════════════════════════
@@ -99,7 +79,6 @@ function LiveChat({ compact = false }) {
 
   return (
     <div style={{ display:"flex", flexDirection:"column", height:h, background:"rgba(255,255,255,0.02)", borderRadius: compact ? "0 0 20px 20px" : 20, overflow:"hidden" }}>
-      {/* Messages */}
       <div style={{ flex:1, overflowY:"auto", padding:"14px 14px 8px", display:"flex", flexDirection:"column", gap:10, scrollbarWidth:"thin", scrollbarColor:"rgba(0,255,180,0.2) transparent" }}>
         {msgs.map((m, i) => (
           <div key={i} style={{ display:"flex", justifyContent: m.role==="assistant" ? "flex-start" : "flex-end" }}>
@@ -125,8 +104,6 @@ function LiveChat({ compact = false }) {
         )}
         <div ref={bottomRef} />
       </div>
-
-      {/* Input */}
       <div style={{ padding:"10px 12px", borderTop:"1px solid rgba(255,255,255,0.05)", display:"flex", gap:8 }}>
         <input
           value={input}
@@ -153,7 +130,6 @@ function FloatingWidget() {
     <div style={{ position:"fixed", bottom:24, right:20, zIndex:200 }}>
       {open && (
         <div style={{ position:"absolute", bottom:64, right:0, width:"min(340px, calc(100vw - 40px))", background:"#070d1a", border:"1px solid rgba(0,255,180,0.15)", borderRadius:20, boxShadow:"0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,255,180,0.05)", overflow:"hidden", animation:"slideUp 0.25s ease" }}>
-          {/* Header */}
           <div style={{ background:"rgba(0,255,180,0.07)", borderBottom:"1px solid rgba(255,255,255,0.06)", padding:"12px 16px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
             <div style={{ display:"flex", alignItems:"center", gap:10 }}>
               <div style={{ width:32, height:32, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:800, color:"#050810", fontSize:13 }}>A</div>
@@ -169,12 +145,9 @@ function FloatingWidget() {
           <LiveChat compact={true} />
         </div>
       )}
-
-      {/* Bubble button */}
       <button onClick={() => setOpen(!open)} style={{ width:54, height:54, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", border:"none", cursor:"pointer", fontSize:22, display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 4px 20px rgba(0,255,180,0.4)", transition:"transform 0.2s", transform: open ? "scale(0.92)" : "scale(1)" }}>
         {open ? "✕" : "💬"}
       </button>
-
       {!open && (
         <div style={{ position:"absolute", bottom:62, right:0, background:"#070d1a", border:"1px solid rgba(0,255,180,0.2)", borderRadius:"12px 12px 4px 12px", padding:"8px 12px", fontSize:12, color:"#e2e8f0", whiteSpace:"nowrap", boxShadow:"0 4px 20px rgba(0,0,0,0.4)", animation:"slideUp 0.3s ease" }}>
           💬 Parlez à Alex, notre IA
@@ -317,7 +290,6 @@ export default function DHASite() {
         <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(0,255,180,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,180,0.025) 1px,transparent 1px)", backgroundSize:"60px 60px" }} />
         <div style={{ position:"absolute", top:"5%", left:"-10%", width:400, height:400, background:"radial-gradient(circle,rgba(0,255,180,0.09) 0%,transparent 70%)", filter:"blur(50px)", borderRadius:"50%" }} />
         <div style={{ position:"absolute", bottom:"5%", right:"-10%", width:350, height:350, background:"radial-gradient(circle,rgba(0,200,255,0.08) 0%,transparent 70%)", filter:"blur(50px)", borderRadius:"50%" }} />
-
         <div className="hero-inner" style={{ position:"relative", zIndex:1, width:"100%", maxWidth:1100, display:"flex", flexDirection:"column", alignItems:"center", gap:48 }}>
           <div style={{ maxWidth:560, textAlign:"center" }}>
             <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,255,180,0.08)", border:"1px solid rgba(0,255,180,0.2)", borderRadius:20, padding:"6px 14px", fontSize:11, color:"#00FFB4", marginBottom:22 }}>
@@ -352,7 +324,6 @@ export default function DHASite() {
         <div style={{ maxWidth:700, margin:"0 auto" }}>
           <SectionHeader label="Démo Live" title="Parlez à Alex maintenant" sub="Testez notre agent IA en temps réel. Posez-lui vos questions sur DHA." visible={vis("demo")} />
           <div style={{ opacity:vis("demo")?1:0, transform:vis("demo")?"translateY(0)":"translateY(30px)", transition:"all 0.7s ease 0.2s" }}>
-            {/* Chat header */}
             <div style={{ background:"rgba(0,255,180,0.07)", border:"1px solid rgba(0,255,180,0.12)", borderRadius:"20px 20px 0 0", padding:"14px 18px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
               <div style={{ display:"flex", alignItems:"center", gap:12 }}>
                 <div style={{ width:36, height:36, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:800, color:"#050810", fontSize:14 }}>A</div>
@@ -360,7 +331,7 @@ export default function DHASite() {
                   <div style={{ fontSize:14, fontWeight:700, color:"#fff" }}>Alex · Agent Commercial DHA</div>
                   <div style={{ fontSize:11, color:"#00FFB4", display:"flex", alignItems:"center", gap:5 }}>
                     <span style={{ width:5, height:5, background:"#00FFB4", borderRadius:"50%", display:"inline-block", animation:"blink 2s infinite" }} />
-                    En ligne — IA propulsée par Claude
+                    En ligne — IA propulsée par Gemini
                   </div>
                 </div>
               </div>
@@ -476,7 +447,6 @@ const CSS = `
   .burger      { display:block !important; }
   .hero-inner  { flex-direction:column !important; }
 
-  /* Scrollbar chat */
   ::-webkit-scrollbar { width:4px; }
   ::-webkit-scrollbar-track { background:transparent; }
   ::-webkit-scrollbar-thumb { background:rgba(0,255,180,0.2); border-radius:4px; }
