@@ -25,21 +25,40 @@ RÈGLES DE COMPORTEMENT :
    API CALL
 ═══════════════════════════════════════════ */
 async function callAlex(messages) {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": "sk-ant-VOTRE_CLE_ICI",
-      "anthropic-version": "2023-06-01",
-      "anthropic-dangerous-direct-browser-access": "true",
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 1000,
-      system: ALEX_SYSTEM,
-      messages,
-    }),
-  });
+
+  const res = await fetch(
+
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AQ.Ab8RN6Je44Ygs4O6pW2hswyiAGnLPOkoL4PDx7ow7CJ2Bk_ytw`,
+
+    {
+
+      method: "POST",
+
+      headers: { "Content-Type": "application/json" },
+
+      body: JSON.stringify({
+
+        system_instruction: { parts: [{ text: ALEX_SYSTEM }] },
+
+        contents: messages.map(m => ({
+
+          role: m.role === "assistant" ? "model" : "user",
+
+          parts: [{ text: m.content }]
+
+        }))
+
+      }),
+
+    }
+
+  );
+
+  const data = await res.json();
+
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || "Erreur, réessayez 🙏";
+
+}
   const data = await res.json();
   return data.content?.[0]?.text || "Je suis désolé, une erreur s'est produite.";
 }
