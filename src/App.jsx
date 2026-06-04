@@ -373,15 +373,15 @@ function FloatingWidget() {
 /* ══════════════════════════════════════════════════════
    TÉMOIGNAGES DÉFILANTS (style Wazzap)
 ══════════════════════════════════════════════════════ */
-function TestimonialsScroll() {
+function TestimonialsScroll({ darkMode }) {
   const doubled = [...TESTIMONIALS, ...TESTIMONIALS];
   return (
     <div style={{ overflow:"hidden", position:"relative", padding:"20px 0" }}>
-      <div style={{ position:"absolute", left:0, top:0, bottom:0, width:80, background: darkMode ? "linear-gradient(90deg,#050810,transparent)" : "linear-gradient(90deg,#EAE6DF,transparent)", zIndex:2 }} />
-      <div style={{ position:"absolute", right:0, top:0, bottom:0, width:80, background: darkMode ? "linear-gradient(-90deg,#050810,transparent)" : "linear-gradient(-90deg,#EAE6DF,transparent)", zIndex:2 }} />
+      <div style={{ position:"absolute", left:0, top:0, bottom:0, width:80, background:"linear-gradient(90deg,#050810,transparent)", zIndex:2 }} />
+      <div style={{ position:"absolute", right:0, top:0, bottom:0, width:80, background:"linear-gradient(-90deg,#050810,transparent)", zIndex:2 }} />
       <div style={{ display:"flex", gap:16, animation:"scrollLeft 30s linear infinite", width:"max-content" }}>
         {doubled.map((t, i) => (
-          <div key={i} style={{ width:280, flexShrink:0, background: darkMode ? "rgba(255,255,255,0.03)" : "#fff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.07)", borderRadius:16, padding:"20px 18px", boxShadow: darkMode ? "none" : "0 2px 8px rgba(0,0,0,0.05)" }}>
+          <div key={i} style={{ width:280, flexShrink:0, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:16, padding:"20px 18px" }}>
             <div style={{ fontSize:30, color:`${t.color}22`, marginBottom:10, fontFamily:"Georgia,serif", lineHeight:1 }}>"</div>
             <p style={{ fontSize:12, color:"#94a3b8", lineHeight:1.7, marginBottom:16, fontStyle:"italic" }}>{t.text}</p>
             <div style={{ display:"flex", alignItems:"center", gap:10 }}>
@@ -401,16 +401,16 @@ function TestimonialsScroll() {
 /* ══════════════════════════════════════════════════════
    FAQ ACCORDION
 ══════════════════════════════════════════════════════ */
-function FAQ() {
+function FAQ({ darkMode }) {
   const [open, setOpen] = useState(null);
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
       {FAQS.map((f, i) => (
-        <div key={i} style={{ background: darkMode ? "rgba(255,255,255,0.03)" : "#fff", border:`1px solid ${open===i ? "rgba(0,255,180,0.25)" : (darkMode ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)")}`, borderRadius:14, boxShadow: darkMode ? "none" : "0 2px 8px rgba(0,0,0,0.04)", overflow:"hidden", transition:"border 0.3s" }}>
+        <div key={i} style={{ background:"rgba(255,255,255,0.03)", border:`1px solid ${open===i ? "rgba(0,255,180,0.25)" : "rgba(255,255,255,0.07)"}`, borderRadius:14, overflow:"hidden", transition:"border 0.3s" }}>
           <button onClick={() => setOpen(open===i ? null : i)} style={{ width:"100%", background:"none", border:"none", padding:"16px 20px", display:"flex", justifyContent:"space-between", alignItems:"center", cursor:"pointer", fontFamily:"inherit", textAlign:"left", gap:12 }}>
             <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
               <span style={{ fontSize:10, color: open===i ? "#00FFB4" : "#475569", fontWeight:700, letterSpacing:"0.5px" }}>{f.cat}</span>
-              <span style={{ fontSize:14, fontWeight:600, color: open===i ? (darkMode ? "#fff" : "#0f172a") : (darkMode ? "#cbd5e1" : "#334155"), transition:"color 0.3s", lineHeight:1.4 }}>{f.q}</span>
+              <span style={{ fontSize:14, fontWeight:600, color: open===i ? "#fff" : "#cbd5e1", transition:"color 0.3s", lineHeight:1.4 }}>{f.q}</span>
             </div>
             <span style={{ color: open===i ? "#00FFB4" : "#475569", fontSize:20, flexShrink:0, transition:"transform 0.3s, color 0.3s", transform: open===i ? "rotate(45deg)" : "rotate(0)", lineHeight:1 }}>+</span>
           </button>
@@ -469,12 +469,12 @@ export default function DHASite() {
   const v = id => vis.has(id);
 
   // Theme colors
-  const bg      = darkMode ? "#050810" : "#F2EFE9";
-  const bgNav   = darkMode ? "rgba(5,8,16,0.95)" : "rgba(242,239,233,0.95)";
+  const bg      = darkMode ? "#050810"              : "#f8fafc";
+  const bgNav   = darkMode ? "rgba(5,8,16,0.95)"    : "rgba(248,250,252,0.95)";
   const textPri = darkMode ? "#e2e8f0"              : "#0f172a";
   const textSec = darkMode ? "#94a3b8"              : "#475569";
   const border  = darkMode ? "rgba(255,255,255,0.06)": "rgba(0,0,0,0.08)";
-  const cardBg  = darkMode ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.04)";
+  const cardBg  = darkMode ? "rgba(255,255,255,0.03)": "rgba(0,0,0,0.03)";
 
   const navLinks = [
     ["produits", t.products],
@@ -493,79 +493,8 @@ export default function DHASite() {
 
   // Inject theme CSS var overrides
   const themeVars = darkMode ? "" : `
-    body { background: #F2EFE9 !important; color: #0f172a !important; }
-    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12) !important; }
-    
-    /* Override hardcoded dark backgrounds */
-    section { background: #F2EFE9 !important; }
-    nav { color: #0f172a !important; }
-    
-    /* Cards */
-    [style*="rgba(255,255,255,0.03)"],
-    [style*="rgba(255,255,255,0.025)"],
-    [style*="rgba(255,255,255,0.02)"] {
-      background: #fff !important;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
-    }
-    
-    /* Dark section backgrounds */
-    [style*="#050810"],
-    [style*="#070d1a"],
-    [style*="#07101f"],
-    [style*="#030609"],
-    [style*="#0a0f1e"],
-    [style*="#0d1117"],
-    [style*="linear-gradient(180deg,#050810"] {
-      background: #F2EFE9 !important;
-    }
-    
-    /* Text colors */
-    h1, h2, h3, h4 { color: #0f172a !important; }
-    [style*="color:\"#fff\""], [style*='color:"#fff"'] { color: #0f172a !important; }
-    [style*="color:\"#e2e8f0\""] { color: #334155 !important; }
-    [style*="color:\"#94a3b8\""] { color: #475569 !important; }
-    [style*="color:\"#64748b\""] { color: #64748b !important; }
-    
-    /* Borders */
-    [style*="rgba(255,255,255,0.06)"],
-    [style*="rgba(255,255,255,0.07)"],
-    [style*="rgba(255,255,255,0.08)"],
-    [style*="rgba(255,255,255,0.1)"] {
-      border-color: rgba(0,0,0,0.08) !important;
-    }
-    
-    /* Chat demo */
-    [style*="#0a0f1e"] { background: #fff !important; }
-    [style*="#070d1a"] { background: #F2EFE9 !important; }
-    
-    /* Inputs */
-    input, textarea, select {
-      background: #fff !important;
-      color: #0f172a !important;
-      border-color: rgba(0,0,0,0.12) !important;
-    }
-    input::placeholder { color: #94a3b8 !important; }
-    
-    /* FAQ */
-    [style*="rgba(255,255,255,0.03)"] { background: #fff !important; }
-    
-    /* Testimonials scroll gradient */
-    [style*="linear-gradient(90deg,#050810"] { background: linear-gradient(90deg,#F2EFE9,transparent) !important; }
-    [style*="linear-gradient(-90deg,#050810"] { background: linear-gradient(-90deg,#F2EFE9,transparent) !important; }
-    
-    /* Pricing cards */
-    [style*="linear-gradient(145deg"] { background: #fff !important; }
-    
-    /* Hero button secondary */
-    [style*="rgba(255,255,255,0.05)"] { background: rgba(0,0,0,0.05) !important; }
-    [style*="rgba(255,255,255,0.04)"] { background: rgba(0,0,0,0.04) !important; }
-    
-    /* Steps active */
-    [style*="rgba(0,255,180,0.06)"] { background: rgba(0,200,140,0.08) !important; }
-    
-    /* Product cards */
-    [style*="rgba(0,255,180,0.03)"] { background: rgba(0,200,140,0.04) !important; }
-    [style*="rgba(0,200,255,0.03)"] { background: rgba(0,180,230,0.04) !important; }
+    body { background: #f8fafc !important; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15) !important; }
   `;
 
   return (
@@ -684,7 +613,7 @@ export default function DHASite() {
           </div>
 
           {/* Title animé */}
-          <h1 style={{ fontSize:"clamp(36px,8vw,72px)", fontWeight:900, lineHeight:1.15, letterSpacing:"-2.5px", color:textPri, margin:"0 0 20px", animation:"fadeUp 0.7s 0.1s ease both", display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
+          <h1 style={{ fontSize:"clamp(36px,8vw,72px)", fontWeight:900, lineHeight:1.15, letterSpacing:"-2.5px", color:"#fff", margin:"0 0 20px", animation:"fadeUp 0.7s 0.1s ease both", display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
             <span>Automatisez</span>
             <HeroWord />
             <SparkleText text="avec l'IA" />
@@ -699,7 +628,7 @@ export default function DHASite() {
             <a href={`https://wa.me/${WA_NUMBER}`} style={{ background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#050810", padding:"14px 28px", borderRadius:12, fontSize:15, fontWeight:700, textDecoration:"none", display:"inline-flex", alignItems:"center", gap:8, boxShadow:"0 0 40px rgba(0,255,180,0.25)" }}>
               💬 Démarrer gratuitement
             </a>
-            <button onClick={() => scrollTo("demo")} style={{ background: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)", color: darkMode ? "#e2e8f0" : "#334155", border: darkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)", padding:"14px 28px", borderRadius:12, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit" }}>
+            <button onClick={() => scrollTo("demo")} style={{ background:"rgba(255,255,255,0.05)", color:"#e2e8f0", border:"1px solid rgba(255,255,255,0.1)", padding:"14px 28px", borderRadius:12, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit" }}>
               🤖 Tester Alex
             </button>
           </div>
@@ -729,7 +658,7 @@ export default function DHASite() {
       </section>
 
       {/* ─── FEATURES RAPIDES ─── */}
-      <section style={{ padding:"60px 20px", background: darkMode ? "linear-gradient(180deg,#050810,#070d1a)" : "#EAE6DF" }}>
+      <section style={{ padding:"60px 20px", background:"linear-gradient(180deg,#050810,#070d1a)" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
           <div className="feat-grid">
             {[
@@ -738,9 +667,9 @@ export default function DHASite() {
               { icon:"📊", title:"Rapport quotidien", desc:"Chaque matin, recevez un récapitulatif complet de toutes les conversations et prospects qualifiés." },
               { icon:"🌍", title:"Adapté au marché béninois", desc:"Compréhension du contexte local, des prix en FCFA, et des habitudes de communication africaines." },
             ].map((f, i) => (
-              <div key={i} data-observe id={`feat${i}`} style={{ background: darkMode ? "rgba(255,255,255,0.025)" : "#fff", border: darkMode ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.07)", borderRadius:16, padding:"24px 20px", boxShadow: darkMode ? "none" : "0 2px 12px rgba(0,0,0,0.05)", opacity:v(`feat${i}`)?1:0, transform:v(`feat${i}`)?"none":"translateY(24px)", transition:`all 0.6s ease ${i*0.1}s` }}>
+              <div key={i} data-observe id={`feat${i}`} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:16, padding:"24px 20px", opacity:v(`feat${i}`)?1:0, transform:v(`feat${i}`)?"none":"translateY(24px)", transition:`all 0.6s ease ${i*0.1}s` }}>
                 <div style={{ fontSize:28, marginBottom:14 }}>{f.icon}</div>
-                <h3 style={{ fontSize:15, fontWeight:700, color:textPri, marginBottom:8, lineHeight:1.3 }}>{f.title}</h3>
+                <h3 style={{ fontSize:15, fontWeight:700, color:"#fff", marginBottom:8, lineHeight:1.3 }}>{f.title}</h3>
                 <p style={{ fontSize:13, color:"#64748b", lineHeight:1.7 }}>{f.desc}</p>
               </div>
             ))}
@@ -749,11 +678,11 @@ export default function DHASite() {
       </section>
 
       {/* ─── DÉMO ALEX ─── */}
-      <section id="demo" style={{ padding:"80px 20px", background: darkMode ? "#070d1a" : "#EAE6DF" }}>
+      <section id="demo" style={{ padding:"80px 20px", background:"#070d1a" }}>
         <div style={{ maxWidth:680, margin:"0 auto" }}>
           <div data-observe id="demo-h" style={{ textAlign:"center", marginBottom:40, opacity:v("demo-h")?1:0, transform:v("demo-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
             <div style={{ display:"inline-block", background:"rgba(0,255,180,0.07)", border:"1px solid rgba(0,255,180,0.18)", borderRadius:20, padding:"5px 14px", fontSize:11, color:"#00FFB4", letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:14 }}>Démo Interactive</div>
-            <h2 style={{ fontSize:"clamp(26px,5vw,44px)", fontWeight:900, letterSpacing:"-1.5px", color:"#fff", margin:"0 0 12px" }}>Parlez à Alex maintenant</h2>
+            <h2 style={{ fontSize:"clamp(26px,5vw,44px)", fontWeight:900, letterSpacing:"-1.5px", color:textPri, margin:"0 0 12px" }}>Parlez à Alex maintenant</h2>
             <p style={{ fontSize:15, color:"#64748b", maxWidth:460, margin:"0 auto" }}>Testez notre agent IA en temps réel. Posez n'importe quelle question sur DHA.</p>
           </div>
           <div data-observe id="demo-chat" style={{ opacity:v("demo-chat")?1:0, transform:v("demo-chat")?"none":"translateY(30px)", transition:"all 0.7s 0.15s" }}>
@@ -766,16 +695,16 @@ export default function DHASite() {
       </section>
 
       {/* ─── PRODUITS ─── */}
-      <section id="produits" style={{ padding:"80px 20px", background:bg }}>
+      <section id="produits" style={{ padding:"80px 20px", background:"#050810" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
           <div data-observe id="prod-h" style={{ textAlign:"center", marginBottom:48, opacity:v("prod-h")?1:0, transform:v("prod-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
             <div style={labelStyle}>Nos Produits</div>
-            <h2 style={h2Style}>Deux solutions, un objectif</h2>
+            <h2 style={getH2Style(darkMode)}>Deux solutions, un objectif</h2>
             <p style={subStyle}>Automatiser pour vendre plus, sans travailler plus.</p>
           </div>
           {/* ── ALEX — carte principale large ── */}
           <div data-observe id="p1" style={{ opacity:v("p1")?1:0, transform:v("p1")?"none":"translateY(36px)", transition:"all 0.7s ease", marginBottom:24 }}>
-            <div style={{ background: darkMode ? "rgba(0,255,180,0.03)" : "#fff", border:"1px solid rgba(0,255,180,0.18)", boxShadow: darkMode ? "none" : "0 4px 20px rgba(0,0,0,0.06)", borderRadius:24, overflow:"hidden", position:"relative" }}>
+            <div style={{ background:"rgba(0,255,180,0.03)", border:"1px solid rgba(0,255,180,0.18)", borderRadius:24, overflow:"hidden", position:"relative" }}>
               {/* Glow BG */}
               <div style={{ position:"absolute", top:-60, right:-60, width:300, height:300, background:"radial-gradient(circle,rgba(0,255,180,0.07),transparent 70%)", borderRadius:"50%", pointerEvents:"none" }} />
 
@@ -815,16 +744,16 @@ export default function DHASite() {
                     { icon:"🧠", title:"Mémoire conversationnelle", desc:"Alex se souvient de chaque client et de l'historique de la conversation pour une expérience fluide." },
                     { icon:"📚", title:"Base de connaissance RAG", desc:"Alimenté par vos catalogues, fiches produits, prix et infos — réponses toujours précises et à jour." },
                   ].map((f,i) => (
-                    <div key={i} style={{ background: darkMode ? "rgba(255,255,255,0.025)" : "#F8F6F2", border: darkMode ? "1px solid rgba(0,255,180,0.08)" : "1px solid rgba(0,200,140,0.15)", borderRadius:14, padding:"16px 14px" }}>
+                    <div key={i} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(0,255,180,0.08)", borderRadius:14, padding:"16px 14px" }}>
                       <div style={{ fontSize:20, marginBottom:8 }}>{f.icon}</div>
-                      <div style={{ fontSize:13, fontWeight:700, color:textPri, marginBottom:5 }}>{f.title}</div>
+                      <div style={{ fontSize:13, fontWeight:700, color:"#e2e8f0", marginBottom:5 }}>{f.title}</div>
                       <div style={{ fontSize:12, color:"#64748b", lineHeight:1.6 }}>{f.desc}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Workflow visual */}
-                <div style={{ background:"rgba(0,0,0,0.3)", borderTop:"1px solid rgba(0,255,180,0.08)", padding:"18px 0 20px", display:"flex", alignItems:"center", justifyContent:"center", gap:0, flexWrap:"wrap", overflow:"hidden" }}>
+                <div style={{ background: darkMode ? "rgba(0,0,0,0.3)" : "rgba(0,200,140,0.04)", borderTop:"1px solid rgba(0,255,180,0.08)", padding:"18px 0 20px", display:"flex", alignItems:"center", justifyContent:"center", gap:0, flexWrap:"wrap", overflow:"hidden" }}>
                   {[
                     { label:"Client WhatsApp", icon:"📱", color:"#00FFB4" },
                     { label:"Alex répond", icon:"🤖", color:"#00FFB4" },
@@ -847,7 +776,7 @@ export default function DHASite() {
 
           {/* ── CM IA — carte ── */}
           <div data-observe id="p2" style={{ opacity:v("p2")?1:0, transform:v("p2")?"none":"translateY(36px)", transition:"all 0.7s ease 0.15s" }}>
-            <div style={{ background: darkMode ? "rgba(0,200,255,0.03)" : "#fff", border:"1px solid rgba(0,200,255,0.18)", boxShadow: darkMode ? "none" : "0 4px 20px rgba(0,0,0,0.06)", borderRadius:24, overflow:"hidden", position:"relative" }}>
+            <div style={{ background:"rgba(0,200,255,0.03)", border:"1px solid rgba(0,200,255,0.18)", borderRadius:24, overflow:"hidden", position:"relative" }}>
               <div style={{ position:"absolute", top:-60, left:-60, width:280, height:280, background:"radial-gradient(circle,rgba(0,200,255,0.06),transparent 70%)", borderRadius:"50%", pointerEvents:"none" }} />
 
               <div style={{ padding:"32px 28px 0" }}>
@@ -884,16 +813,16 @@ export default function DHASite() {
                     { icon:"📈", title:"Rapport de performance", desc:"Suivez les statistiques de vos publications depuis un tableau de bord simple." },
                     { icon:"🌍", title:"100% local", desc:"Contenu pensé pour le marché béninois, les références culturelles et les tendances africaines." },
                   ].map((f,i) => (
-                    <div key={i} style={{ background: darkMode ? "rgba(255,255,255,0.025)" : "#F8F6F2", border: darkMode ? "1px solid rgba(0,200,255,0.08)" : "1px solid rgba(0,180,230,0.15)", borderRadius:14, padding:"16px 14px" }}>
+                    <div key={i} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(0,200,255,0.08)", borderRadius:14, padding:"16px 14px" }}>
                       <div style={{ fontSize:20, marginBottom:8 }}>{f.icon}</div>
-                      <div style={{ fontSize:13, fontWeight:700, color:textPri, marginBottom:5 }}>{f.title}</div>
+                      <div style={{ fontSize:13, fontWeight:700, color:"#e2e8f0", marginBottom:5 }}>{f.title}</div>
                       <div style={{ fontSize:12, color:"#64748b", lineHeight:1.6 }}>{f.desc}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Workflow CM */}
-                <div style={{ background:"rgba(0,0,0,0.3)", borderTop:"1px solid rgba(0,200,255,0.08)", padding:"18px 0 20px", display:"flex", alignItems:"center", justifyContent:"center", gap:0, flexWrap:"wrap" }}>
+                <div style={{ background: darkMode ? "rgba(0,0,0,0.3)" : "rgba(0,180,230,0.04)", borderTop:"1px solid rgba(0,200,255,0.08)", padding:"18px 0 20px", display:"flex", alignItems:"center", justifyContent:"center", gap:0, flexWrap:"wrap" }}>
                   {[
                     { label:"Tendances web", icon:"🔍", color:"#00C8FF" },
                     { label:"Texte IA", icon:"✍️", color:"#00C8FF" },
@@ -917,30 +846,30 @@ export default function DHASite() {
       </section>
 
       {/* ─── COMMENT ÇA MARCHE ─── */}
-      <section id="comment" style={{ padding:"80px 20px", background: darkMode ? "linear-gradient(180deg,#050810,#070d1a)" : "#EAE6DF" }}>
+      <section id="comment" style={{ padding:"80px 20px", background:"linear-gradient(180deg,#050810,#070d1a)" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
           <div data-observe id="how-h" style={{ textAlign:"center", marginBottom:56, opacity:v("how-h")?1:0, transform:v("how-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
             <div style={labelStyle}>Processus</div>
-            <h2 style={h2Style}>Opérationnel en 72h</h2>
+            <h2 style={getH2Style(darkMode)}>Opérationnel en 72h</h2>
             <p style={subStyle}>Pas de code, pas de prise de tête. On s'occupe de tout.</p>
           </div>
           <div className="steps-layout">
             {/* Steps list */}
             <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
               {STEPS.map((s, i) => (
-                <button key={i} onClick={() => setActiveStep(i)} style={{ background: activeStep===i ? "rgba(0,255,180,0.08)" : (darkMode ? "rgba(255,255,255,0.02)" : "#fff"), border:`1px solid ${activeStep===i ? "rgba(0,255,180,0.25)" : (darkMode ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.07)")}`, borderRadius:16, boxShadow: (darkMode || activeStep===i) ? "none" : "0 2px 8px rgba(0,0,0,0.04)", padding:"18px 20px", cursor:"pointer", textAlign:"left", fontFamily:"inherit", transition:"all 0.3s", display:"flex", alignItems:"flex-start", gap:16 }}>
+                <button key={i} onClick={() => setActiveStep(i)} style={{ background: activeStep===i ? "rgba(0,255,180,0.06)" : "rgba(255,255,255,0.02)", border:`1px solid ${activeStep===i ? "rgba(0,255,180,0.25)" : "rgba(255,255,255,0.06)"}`, borderRadius:16, padding:"18px 20px", cursor:"pointer", textAlign:"left", fontFamily:"inherit", transition:"all 0.3s", display:"flex", alignItems:"flex-start", gap:16 }}>
                   <div style={{ fontSize:28, fontWeight:900, color: activeStep===i ? "#00FFB4" : "rgba(255,255,255,0.1)", letterSpacing:"-1px", lineHeight:1, flexShrink:0, transition:"color 0.3s" }}>{s.n}</div>
                   <div>
-                    <div style={{ fontSize:15, fontWeight:700, color: activeStep===i ? (darkMode ? "#fff" : "#0f172a") : "#94a3b8", marginBottom:4, transition:"color 0.3s" }}>{s.icon} {s.title}</div>
+                    <div style={{ fontSize:15, fontWeight:700, color: activeStep===i ? "#fff" : "#94a3b8", marginBottom:4, transition:"color 0.3s" }}>{s.icon} {s.title}</div>
                     {activeStep === i && <div style={{ fontSize:13, color:"#64748b", lineHeight:1.65, animation:"fadeUp 0.3s ease" }}>{s.desc}</div>}
                   </div>
                 </button>
               ))}
             </div>
             {/* Visual mockup */}
-            <div style={{ background: darkMode ? "rgba(255,255,255,0.02)" : "#fff", border: darkMode ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(0,0,0,0.07)", borderRadius:20, padding:32, boxShadow: darkMode ? "none" : "0 4px 20px rgba(0,0,0,0.05)", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", minHeight:280 }}>
+            <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:20, padding:32, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", minHeight:280 }}>
               <div style={{ fontSize:64, marginBottom:20, animation:"fadeUp 0.4s ease" }}>{STEPS[activeStep].icon}</div>
-              <h3 style={{ fontSize:20, fontWeight:800, color:"#fff", textAlign:"center", marginBottom:12, letterSpacing:"-0.5px" }}>{STEPS[activeStep].title}</h3>
+              <h3 style={{ fontSize:20, fontWeight:800, color:textPri, textAlign:"center", marginBottom:12, letterSpacing:"-0.5px" }}>{STEPS[activeStep].title}</h3>
               <p style={{ fontSize:13, color:"#64748b", textAlign:"center", lineHeight:1.7, maxWidth:260, animation:"fadeUp 0.4s ease" }}>{STEPS[activeStep].desc}</p>
               <div style={{ display:"flex", gap:8, marginTop:24 }}>
                 {STEPS.map((_,i) => (
@@ -953,11 +882,11 @@ export default function DHASite() {
       </section>
 
       {/* ─── TARIFS ─── */}
-      <section id="tarifs" style={{ padding:"80px 20px", background:bg }}>
+      <section id="tarifs" style={{ padding:"80px 20px", background:"#050810" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
           <div data-observe id="prix-h" style={{ textAlign:"center", marginBottom:48, opacity:v("prix-h")?1:0, transform:v("prix-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
             <div style={labelStyle}>Tarifs</div>
-            <h2 style={h2Style}>Des prix adaptés au marché local</h2>
+            <h2 style={getH2Style(darkMode)}>Des prix adaptés au marché local</h2>
             <p style={subStyle}>Abonnements mensuels. Sans engagement. Résiliable à tout moment.</p>
           </div>
           <div className="three-col-grid" style={{ alignItems:"start" }}>
@@ -966,13 +895,13 @@ export default function DHASite() {
               { name:"Community Manager IA", oldPrice:"75 000", price:"35 000", unit:"FCFA/mois", desc:"Pour les marques qui veulent une présence Facebook active sans effort.", features:["3 publications/semaine","Visuels générés par IA","Textes adaptés contexte local","Recherche de tendances auto","Rapport de performance"], cta:"Démarrer le CM IA", accent:"#00C8FF", pop:false, id:"t2" },
               { name:"Pack Complet", oldPrice:"110 000", price:"50 000", unit:"FCFA/mois", desc:"Les deux solutions pour une automatisation totale de votre présence digitale.", features:["Alex Agent WhatsApp","Community Manager IA","Tableau de bord unifié","Support prioritaire 24/7","Économisez 15 000 FCFA/mois"], cta:"Obtenir le Pack", accent:"#FFB400", pop:true, id:"t3" },
             ].map((t, i) => (
-              <div key={i} data-observe id={t.id} style={{ background: t.pop ? `linear-gradient(145deg,${t.accent}08,#070d1a)` : "rgba(255,255,255,0.025)", border:`1px solid ${t.pop ? t.accent : t.accent+"22"}`, borderRadius:20, padding:"28px 24px", position:"relative", opacity:v(t.id)?1:0, transform:v(t.id)?"none":"translateY(36px)", transition:`all 0.7s ease ${i*0.12}s` }}>
+              <div key={i} data-observe id={t.id} style={{ background: t.pop ? (darkMode ? `linear-gradient(145deg,${t.accent}08,#070d1a)` : `linear-gradient(145deg,${t.accent}08,#fff)`) : (darkMode ? "rgba(255,255,255,0.025)" : "#fff"), border:`1px solid ${t.pop ? t.accent : t.accent+"22"}`, borderRadius:20, padding:"28px 24px", position:"relative", opacity:v(t.id)?1:0, transform:v(t.id)?"none":"translateY(36px)", transition:`all 0.7s ease ${i*0.12}s` }}>
                 {t.pop && <div style={{ position:"absolute", top:-13, left:"50%", transform:"translateX(-50%)", background:t.accent, color:"#050810", padding:"4px 16px", borderRadius:20, fontSize:11, fontWeight:700, whiteSpace:"nowrap" }}>⭐ Le plus populaire</div>}
                 <h3 style={{ fontSize:17, fontWeight:700, color:t.accent, marginBottom:14 }}>{t.name}</h3>
                 <div style={{ marginBottom:14 }}>
                   <div style={{ fontSize:13, color:"#475569", textDecoration:"line-through", marginBottom:4 }}>{t.oldPrice} {t.unit}</div>
                   <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                    <span style={{ fontSize:32, fontWeight:900, color: darkMode ? "#fff" : "#0f172a", letterSpacing:"-2px" }}>{t.price}</span>
+                    <span style={{ fontSize:32, fontWeight:900, color:"#fff", letterSpacing:"-2px" }}>{t.price}</span>
                     <span style={{ fontSize:13, color:"#64748b" }}>{t.unit}</span>
                     <span style={{ fontSize:11, background:"rgba(0,255,180,0.1)", color:"#00FFB4", border:"1px solid rgba(0,255,180,0.2)", borderRadius:20, padding:"2px 8px", fontWeight:700 }}>-50%</span>
                   </div>
@@ -994,42 +923,42 @@ export default function DHASite() {
       </section>
 
       {/* ─── TÉMOIGNAGES ─── */}
-      <section id="temoignages" style={{ padding:"80px 0 80px", background: darkMode ? "linear-gradient(180deg,#050810,#070d1a)" : "#EAE6DF", overflow:"hidden" }}>
+      <section id="temoignages" style={{ padding:"80px 0 80px", background:"linear-gradient(180deg,#050810,#070d1a)", overflow:"hidden" }}>
         <div style={{ maxWidth:1100, margin:"0 auto", padding:"0 20px" }}>
           <div data-observe id="testi-h" style={{ textAlign:"center", marginBottom:48, opacity:v("testi-h")?1:0, transform:v("testi-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
             <div style={labelStyle}>Témoignages</div>
-            <h2 style={h2Style}>Ils nous font confiance</h2>
+            <h2 style={getH2Style(darkMode)}>Ils nous font confiance</h2>
             <p style={subStyle}>Des entreprises béninoises qui ont automatisé avec DHA.</p>
           </div>
         </div>
-        <TestimonialsScroll />
+        <TestimonialsScroll darkMode={darkMode} />
       </section>
 
       {/* ─── FAQ ─── */}
-      <section id="faq" style={{ padding:"80px 20px", background:bg }}>
+      <section id="faq" style={{ padding:"80px 20px", background:"#050810" }}>
         <div style={{ maxWidth:720, margin:"0 auto" }}>
           <div data-observe id="faq-h" style={{ textAlign:"center", marginBottom:48, opacity:v("faq-h")?1:0, transform:v("faq-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
             <div style={labelStyle}>FAQ</div>
-            <h2 style={h2Style}>Vous avez des questions ?</h2>
+            <h2 style={getH2Style(darkMode)}>Vous avez des questions ?</h2>
             <p style={subStyle}>On vous répond ici.</p>
           </div>
           <div data-observe id="faq-list" style={{ opacity:v("faq-list")?1:0, transform:v("faq-list")?"none":"translateY(24px)", transition:"all 0.7s 0.1s" }}>
-            <FAQ />
+            <FAQ darkMode={darkMode} />
           </div>
         </div>
       </section>
 
       {/* ─── FOOTER CTA ─── */}
-      <section style={{ padding:"80px 20px", position:"relative", overflow:"hidden", textAlign:"center", background: darkMode ? "linear-gradient(180deg,#070d1a,#030609)" : "#EAE6DF" }}>
+      <section style={{ padding:"80px 20px", position:"relative", overflow:"hidden", textAlign:"center", background:"linear-gradient(180deg,#070d1a,#030609)" }}>
         <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:"70vw", maxWidth:600, height:300, background:"radial-gradient(ellipse,rgba(0,255,180,0.07) 0%,transparent 70%)", filter:"blur(50px)" }} />
         <div style={{ position:"relative", zIndex:1 }}>
-          <h2 style={{ fontSize:"clamp(28px,6vw,50px)", fontWeight:900, letterSpacing:"-2px", color:textPri, margin:"0 0 14px" }}>Prêt à automatiser ?</h2>
+          <h2 style={{ fontSize:"clamp(28px,6vw,50px)", fontWeight:900, letterSpacing:"-2px", color:"#fff", margin:"0 0 14px" }}>Prêt à automatiser ?</h2>
           <p style={{ fontSize:15, color:"#64748b", marginBottom:36, maxWidth:440, margin:"0 auto 36px" }}>Rejoignez les entreprises béninoises qui font confiance à l'IA pour grandir.</p>
           <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
             <a href={`https://wa.me/${WA_NUMBER}`} style={{ background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#050810", padding:"14px 30px", borderRadius:12, fontSize:15, fontWeight:700, textDecoration:"none", display:"inline-flex", alignItems:"center", gap:8, boxShadow:"0 0 40px rgba(0,255,180,0.2)" }}>
               💬 Contactez-nous sur WhatsApp
             </a>
-            <button onClick={() => scrollTo("demo")} style={{ background:"rgba(255,255,255,0.05)", color:"#e2e8f0", border:"1px solid rgba(255,255,255,0.1)", padding:"14px 30px", borderRadius:12, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit" }}>
+            <button onClick={() => scrollTo("demo")} style={{ background: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)", color: darkMode ? "#e2e8f0" : "#334155", border: darkMode ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)", padding:"14px 30px", borderRadius:12, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit" }}>
               🤖 Tester Alex d'abord
             </button>
           </div>
@@ -1061,7 +990,7 @@ export default function DHASite() {
    HELPERS
 ══════════════════════════════════════════════════════ */
 const labelStyle = { display:"inline-block", background:"rgba(0,255,180,0.07)", border:"1px solid rgba(0,255,180,0.18)", borderRadius:20, padding:"5px 14px", fontSize:11, color:"#00FFB4", letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:14 };
-const h2Style = { fontSize:"clamp(26px,5vw,46px)", fontWeight:900, letterSpacing:"-1.5px", color:"#fff", margin:"0 0 14px", lineHeight:1.1 };
+const h2Style   = { fontSize:"clamp(26px,5vw,46px)", fontWeight:900, letterSpacing:"-1.5px", color:"#fff", margin:"0 0 14px", lineHeight:1.1 };
 const subStyle  = { fontSize:15, color:"#64748b", maxWidth:480, margin:"0 auto", lineHeight:1.7 };
 
 /* ══════════════════════════════════════════════════════
