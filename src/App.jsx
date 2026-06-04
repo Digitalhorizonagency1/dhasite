@@ -1061,7 +1061,7 @@ export default function DHASite() {
    HELPERS
 ══════════════════════════════════════════════════════ */
 const labelStyle = { display:"inline-block", background:"rgba(0,255,180,0.07)", border:"1px solid rgba(0,255,180,0.18)", borderRadius:20, padding:"5px 14px", fontSize:11, color:"#00FFB4", letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:14 };
-// h2Style moved to inline with textPri
+const h2Style = { fontSize:"clamp(26px,5vw,46px)", fontWeight:900, letterSpacing:"-1.5px", color:"#fff", margin:"0 0 14px", lineHeight:1.1 };
 const subStyle  = { fontSize:15, color:"#64748b", maxWidth:480, margin:"0 auto", lineHeight:1.7 };
 
 /* ══════════════════════════════════════════════════════
