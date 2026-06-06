@@ -68,7 +68,7 @@ const T = {
     nav_products:"Produits", nav_demo:"🤖 Démo Alex", nav_how:"Comment ça marche",
     nav_pricing:"Tarifs", nav_reviews:"Témoignages", nav_faq:"FAQ", nav_start:"Démarrer →",
     /* HERO */
-    hero_badge:"🇧🇯 Agence IA N°1 au Bénin",
+    hero_badge:"🇧🇯 Agent IA Spécialisé · Cotonou, Bénin",
     hero_title:"Automatisez",
     hero_sparkle:"avec l'IA",
     hero_sub:"Des agents IA sur mesure pour répondre à vos clients, qualifier vos prospects et publier votre contenu — pendant que vous dormez.",
@@ -205,7 +205,7 @@ const T = {
     nav_products:"Products", nav_demo:"🤖 Demo Alex", nav_how:"How it works",
     nav_pricing:"Pricing", nav_reviews:"Reviews", nav_faq:"FAQ", nav_start:"Get started →",
     /* HERO */
-    hero_badge:"🇧🇯 #1 AI Agency in Benin",
+    hero_badge:"🇧🇯 Specialized AI Agency · Cotonou, Benin",
     hero_title:"Automate",
     hero_sparkle:"with AI",
     hero_sub:"Custom AI agents to respond to your clients, qualify prospects and publish your content — while you sleep.",
