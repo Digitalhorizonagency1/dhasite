@@ -259,7 +259,7 @@ export default function Web() {
             <span style={{ fontSize:11, color:"#94a3b8", fontWeight:400, marginLeft:8, letterSpacing:"1px" }}>AGENCY</span>
           </Link>
 
-          <div className="desk-nav" style={{ display:"flex", alignItems:"center", gap:2, flex:1, justifyContent:"center" }}>
+          <div className="desk-nav" style={{ alignItems:"center", gap:2, flex:1, justifyContent:"center" }}>
             {pageLinks.map(({ to, label, emoji, active }) => (
               <Link key={to} to={to} style={{ background: active ? "rgba(0,255,180,0.08)" : "none", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid transparent", color: active ? "#00FFB4" : "#94a3b8", fontSize:12, padding:"6px 10px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, transition:"all 0.2s", display:"flex", alignItems:"center", gap:4 }}>
                 <span>{emoji}</span>{label}
@@ -267,7 +267,7 @@ export default function Web() {
             ))}
           </div>
 
-          <div className="desk-nav" style={{ display:"flex", alignItems:"center", gap:6, flexShrink:0 }}>
+          <div className="desk-nav" style={{ alignItems:"center", gap:6, flexShrink:0 }}>
             <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:8, overflow:"hidden" }}>
               {["fr","en"].map(code => (
                 <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"5px 9px", fontSize:11, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400, transition:"all 0.2s" }}>
@@ -469,7 +469,7 @@ const CSS = `
   .card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,0.3); }
   .portfolio-img { transition:transform 0.4s ease; }
   .card:hover .portfolio-img { transform:scale(1.05); }
-  .desk-nav { display:none; align-items:center; gap:4px; }
+  .desk-nav { display:none !important; align-items:center; gap:4px; }
   .burger { display:block !important; }
   ::-webkit-scrollbar { width:4px; }
   ::-webkit-scrollbar-thumb { background:rgba(0,200,255,0.2); border-radius:4px; }
@@ -477,7 +477,7 @@ const CSS = `
   textarea { resize:vertical; }
   button:hover { opacity:.88; }
   a:hover { opacity:.88; }
-  @media (min-width:768px) {
+  @media (min-width:900px) {
     .desk-nav { display:flex !important; }
     .burger { display:none !important; }
   }

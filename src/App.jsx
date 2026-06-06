@@ -611,7 +611,7 @@ export default function DHASite() {
             <span style={{ fontSize:11, color:"#94a3b8", fontWeight:400, marginLeft:8, letterSpacing:"1px" }}>AGENCY</span>
           </Link>
 
-          <div className="desk-nav" style={{ display:"flex", alignItems:"center", gap:2, flex:1, justifyContent:"center" }}>
+          <div className="desk-nav" style={{ alignItems:"center", gap:2, flex:1, justifyContent:"center" }}>
             {pageLinks.map(({ to, label, emoji, active }) => (
               <Link key={to} to={to} style={{ background: active ? "rgba(0,255,180,0.08)" : "none", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid transparent", color: active ? "#00FFB4" : "#94a3b8", fontSize:12, padding:"6px 12px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, transition:"all 0.2s", display:"flex", alignItems:"center", gap:5 }}>
                 <span>{emoji}</span>{label}
@@ -623,7 +623,7 @@ export default function DHASite() {
             ))}
           </div>
 
-          <div className="desk-nav" style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
+          <div className="desk-nav" style={{ alignItems:"center", gap:8, flexShrink:0 }}>
             {/* Lang toggle FR/EN */}
             <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:10, overflow:"hidden" }}>
               {["fr","en"].map(code => (
