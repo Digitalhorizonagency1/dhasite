@@ -293,39 +293,42 @@ export default function Creative() {
 
           <div className="desk-nav" style={{ display:"flex", alignItems:"center", gap:2, flex:1, justifyContent:"center" }}>
             {pageLinks.map(({ to, label, emoji, active }) => (
-              <Link key={to} to={to} style={{ background: active ? "rgba(0,255,180,0.08)" : "none", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid transparent", color: active ? "#00FFB4" : "#94a3b8", fontSize:12, padding:"6px 12px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, transition:"all 0.2s", display:"flex", alignItems:"center", gap:5 }}>
+              <Link key={to} to={to} style={{ background: active ? "rgba(0,255,180,0.08)" : "none", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid transparent", color: active ? "#00FFB4" : "#94a3b8", fontSize:12, padding:"6px 10px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, transition:"all 0.2s", display:"flex", alignItems:"center", gap:4 }}>
                 <span>{emoji}</span>{label}
               </Link>
             ))}
           </div>
 
-          <div className="desk-nav" style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
-            <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:10, overflow:"hidden" }}>
+          <div className="desk-nav" style={{ display:"flex", alignItems:"center", gap:6, flexShrink:0 }}>
+            <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:8, overflow:"hidden" }}>
               {["fr","en"].map(code => (
-                <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"6px 12px", fontSize:12, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400, transition:"all 0.2s" }}>
-                  {code === "fr" ? "🇫🇷 FR" : "🇬🇧 EN"}
+                <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"5px 9px", fontSize:11, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400, transition:"all 0.2s" }}>
+                  {code === "fr" ? "🇫🇷" : "🇬🇧"}
                 </button>
               ))}
             </div>
-            <button onClick={() => setModal("graphic")} style={{ background:"linear-gradient(135deg,#f59e0b,#ef4444)", color:"#fff", border:"none", padding:"9px 16px", borderRadius:10, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>{t.cta_graphic}</button>
+            <button onClick={() => setModal("graphic")} style={{ background:"linear-gradient(135deg,#f59e0b,#ef4444)", color:"#fff", border:"none", padding:"8px 12px", borderRadius:8, fontSize:11, fontWeight:700, cursor:"pointer", fontFamily:"inherit", whiteSpace:"nowrap" }}>{t.cta_graphic}</button>
           </div>
 
           <button className="burger" onClick={() => setMenuOpen(!menuOpen)} style={{ display:"none", background:"none", border:"none", color:"#e2e8f0", fontSize:24, cursor:"pointer" }}>{menuOpen ? "✕" : "☰"}</button>
         </div>
 
         {menuOpen && (
-          <div style={{ background:"rgba(5,8,16,0.98)", borderTop:"1px solid rgba(255,255,255,0.06)" }}>
-            <div style={{ padding:"10px 20px 6px", display:"flex", gap:8, flexWrap:"wrap" }}>
+          <div style={{ background:"rgba(5,8,16,0.98)", borderTop:"1px solid rgba(255,255,255,0.06)", maxHeight:"90vh", overflowY:"auto" }}>
+            {/* Pages */}
+            <div style={{ padding:"12px 20px 8px", display:"flex", gap:8, flexWrap:"wrap" }}>
               {pageLinks.map(({ to, label, emoji, active }) => (
-                <Link key={to} to={to} onClick={() => setMenuOpen(false)} style={{ background: active ? "rgba(0,255,180,0.08)" : "rgba(255,255,255,0.03)", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid rgba(255,255,255,0.06)", color: active ? "#00FFB4" : "#94a3b8", fontSize:12, padding:"6px 12px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, display:"flex", alignItems:"center", gap:5 }}>
+                <Link key={to} to={to} onClick={() => setMenuOpen(false)} style={{ background: active ? "rgba(0,255,180,0.08)" : "rgba(255,255,255,0.03)", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid rgba(255,255,255,0.06)", color: active ? "#00FFB4" : "#94a3b8", fontSize:13, padding:"7px 14px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, display:"flex", alignItems:"center", gap:5 }}>
                   {emoji} {label}
                 </Link>
               ))}
             </div>
-            <div style={{ display:"flex", alignItems:"center", gap:10, padding:"12px 20px" }}>
-              <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:10, overflow:"hidden" }}>
+            <div style={{ height:1, background:"rgba(255,255,255,0.06)", margin:"4px 0" }} />
+            {/* Lang + CTAs */}
+            <div style={{ padding:"10px 20px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+              <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:8, overflow:"hidden" }}>
                 {["fr","en"].map(code => (
-                  <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"7px 14px", fontSize:12, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400 }}>
+                  <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"7px 14px", fontSize:13, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400 }}>
                     {code==="fr" ? "🇫🇷 FR" : "🇬🇧 EN"}
                   </button>
                 ))}
