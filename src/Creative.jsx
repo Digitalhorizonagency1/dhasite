@@ -37,7 +37,7 @@ const LANG = {
     ],
     video_steps_titles:["Vos coordonnées","Type de projet","Détails du projet","Script & Voix","Délai & Budget"],
     graphic_steps_titles:["Vos coordonnées","Type de projet","Style & Références","Délai & Budget"],
-    footer_copy:"Digital Horizon Agency · Cotonou, Bénin · © 2025 DHA",
+    footer_copy:"Digital Horizon Agency · Cotonou, Bénin · © 2026 DHA",
     wa_bubble:"💬 Discutez avec nous sur WhatsApp !",
   },
   en: {
@@ -73,7 +73,7 @@ const LANG = {
     ],
     video_steps_titles:["Your details","Project type","Project details","Script & Voice","Deadline & Budget"],
     graphic_steps_titles:["Your details","Project type","Style & References","Deadline & Budget"],
-    footer_copy:"Digital Horizon Agency · Cotonou, Benin · © 2025 DHA",
+    footer_copy:"Digital Horizon Agency · Cotonou, Benin · © 2026 DHA",
     wa_bubble:"💬 Chat with us on WhatsApp!",
   },
 };

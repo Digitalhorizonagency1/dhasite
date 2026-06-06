@@ -184,7 +184,7 @@ const T = {
     cta_demo:"🤖 Tester Alex d'abord",
     cta_badges:["✅ Consultation gratuite","✅ Sans engagement","✅ Support inclus"],
     /* FOOTER */
-    footer_copy:"Digital Horizon Agency · Cotonou, Bénin · © 2025 DHA",
+    footer_copy:"Digital Horizon Agency · Cotonou, Bénin · © 2026 DHA",
     /* FLOATING */
     wa_bubble:"💬 Discutez avec Alex sur WhatsApp !",
     /* ALEX CHAT REPLIES */
@@ -321,7 +321,7 @@ const T = {
     cta_demo:"🤖 Test Alex first",
     cta_badges:["✅ Free consultation","✅ No commitment","✅ Support included"],
     /* FOOTER */
-    footer_copy:"Digital Horizon Agency · Cotonou, Benin · © 2025 DHA",
+    footer_copy:"Digital Horizon Agency · Cotonou, Benin · © 2026 DHA",
     /* FLOATING */
     wa_bubble:"💬 Chat with Alex on WhatsApp!",
     /* ALEX CHAT REPLIES */
@@ -351,6 +351,48 @@ function useIsMobile() {
   return isMobile;
 }
 
+const ALEX_SYSTEM_PROMPT = `Tu es Alex, l'agent commercial IA de Digital Horizon Agency (DHA), une agence d'automatisation IA basée à Cotonou, Bénin.
+
+TON RÔLE : répondre aux visiteurs du site web de DHA, présenter les offres, qualifier les prospects et les orienter vers WhatsApp pour démarrer.
+
+PRODUITS DHA :
+1. Alex Agent WhatsApp (Produit 1) — 25 000 FCFA/mois (promo, -50% du prix normal 50 000)
+   - Agent IA WhatsApp disponible 24h/24, 7j/7
+   - Répond aux clients en moins de 10 secondes
+   - Qualification automatique des prospects avec tag dans CRM Google Sheets
+   - Relance automatique après 1h si pas de réponse
+   - Rapport quotidien WhatsApp chaque matin
+   - Mémoire conversationnelle, base de connaissance RAG personnalisée
+   - Idéal pour : commerces, PME, pharmacies, restaurants, boutiques
+
+2. Community Manager IA (Produit 2) — 35 000 FCFA/mois (promo, -53%)
+   - Publication automatique sur Facebook : Lundi, Mercredi, Vendredi à 9h
+   - Recherche de tendances via Tavily
+   - Textes et visuels générés par IA, adaptés au contexte béninois
+   - Rapport de performance inclus
+
+3. Pack Complet — 50 000 FCFA/mois (les deux produits, économie de 10 000 FCFA/mois)
+   - Tout Alex Agent + Community Manager IA
+   - Support prioritaire 24/7
+
+PROCESSUS : Consultation gratuite (30 min) → Configuration sur mesure → Test & validation → Mise en ligne en 72h
+
+ARGUMENTS CLÉS :
+- Un commercial humain à Cotonou coûte 80 000–150 000 FCFA/mois pour 8h/jour. Alex travaille 24h/24 pour 25 000 FCFA.
+- Aucun risque de ban WhatsApp : messages naturels, respect des fenêtres 24h
+- Adapté au marché béninois : FCFA, Cotonou/Porto-Novo/Parakou, peut répondre en Fon ou Yoruba
+- Sans engagement, résiliable à tout moment
+
+CONTACT : WhatsApp +229 01 60 00 80 46
+
+RÈGLES DE COMPORTEMENT :
+- Réponds toujours en français sauf si le visiteur écrit en anglais
+- Sois chaleureux, direct et professionnel — tu es un commercial, pas un robot
+- Réponses courtes (2-4 phrases max) adaptées au chat
+- À la fin de chaque réponse, oriente naturellement vers WhatsApp ou vers la démo
+- N'invente jamais de chiffres ou de faits non listés ci-dessus
+- Si une question sort de ton domaine, redirige vers l'équipe WhatsApp`;
+
 function DemoChat({ lang }) {
   const t = T[lang] || T.fr;
   const [msgs, setMsgs] = useState([
@@ -358,31 +400,51 @@ function DemoChat({ lang }) {
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
+  const [apiError, setApiError] = useState(false);
   const bottomRef = useRef(null);
   const isMobile = useIsMobile();
+  const historyRef = useRef([]);
 
   useEffect(() => {
     if (msgs.length > 1) setTimeout(() => bottomRef.current?.scrollIntoView({ behavior:"smooth", block:"end" }), 100);
   }, [msgs, typing]);
-
-  const getReply = (msg) => {
-    const lower = msg.toLowerCase();
-    for (const r of t.alex_replies) {
-      if (r.keys.some(k => lower.includes(k))) return r.reply;
-    }
-    return t.alex_fallback;
-  };
 
   const send = async () => {
     const txt = input.trim();
     if (!txt || typing) return;
     const time = new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
     setInput("");
+    setApiError(false);
     setMsgs(p => [...p, { role:"user", text:txt, time }]);
     setTyping(true);
-    await new Promise(r => setTimeout(r, 900 + Math.random() * 600));
-    setTyping(false);
-    setMsgs(p => [...p, { role:"alex", text:getReply(txt), time: new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}) }]);
+
+    // Ajouter le message au historique Groq
+    historyRef.current = [...historyRef.current, { role:"user", content:txt }];
+
+    try {
+      const res = await fetch("/api/chat", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          max_tokens: 300,
+          messages: [
+            { role:"system", content: ALEX_SYSTEM_PROMPT },
+            ...historyRef.current.slice(-10), // max 10 messages d'historique
+          ],
+        }),
+      });
+      const data = await res.json();
+      const reply = data?.choices?.[0]?.message?.content?.trim() || (lang==="en" ? "Sorry, I'm having a connection issue. Contact us on WhatsApp!" : "Désolé, je rencontre un problème de connexion. Contactez-nous sur WhatsApp !");
+      historyRef.current = [...historyRef.current, { role:"assistant", content:reply }];
+      setTyping(false);
+      setMsgs(p => [...p, { role:"alex", text:reply, time: new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}) }]);
+    } catch {
+      setTyping(false);
+      setApiError(true);
+      const fallback = lang==="en" ? "Connection issue 😔 Contact our team on WhatsApp, they respond in under 2h!" : "Problème de connexion 😔 Contactez notre équipe sur WhatsApp, ils répondent en moins de 2h !";
+      setMsgs(p => [...p, { role:"alex", text:fallback, time: new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}) }]);
+    }
   };
 
   const renderText = (tx) => tx.split(/\*\*(.*?)\*\*/g).map((part, i) => i % 2 === 1 ? <strong key={i}>{part}</strong> : part);
