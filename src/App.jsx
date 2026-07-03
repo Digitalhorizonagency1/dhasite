@@ -3,14 +3,14 @@ import { useLang } from "./LangContext";
 
 const HERO_BLOCKS = {
   fr: [
-    { text:"vos activités",       bg:"#00FFB4", color:"#050810" },
-    { text:"votre support client", bg:"#FFB400", color:"#050810" },
-    { text:"vos prospections",    bg:"#00C8FF", color:"#050810" },
+    { text:"vos activités",       bg:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#030712" },
+    { text:"votre support client", bg:"linear-gradient(135deg,#FFB400,#FF7C00)", color:"#030712" },
+    { text:"vos prospections",    bg:"linear-gradient(135deg,#a855f7,#7c3aed)", color:"#fff" },
   ],
   en: [
-    { text:"your activities",     bg:"#00FFB4", color:"#050810" },
-    { text:"your customer support",bg:"#FFB400", color:"#050810" },
-    { text:"your prospecting",    bg:"#00C8FF", color:"#050810" },
+    { text:"your activities",     bg:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#030712" },
+    { text:"your customer support",bg:"linear-gradient(135deg,#FFB400,#FF7C00)", color:"#030712" },
+    { text:"your prospecting",    bg:"linear-gradient(135deg,#a855f7,#7c3aed)", color:"#fff" },
   ],
 };
 
@@ -22,9 +22,23 @@ function HeroWord({ lang }) {
     return () => clearInterval(t);
   }, [blocks.length]);
   return (
-    <span style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:10, margin:"10px 0" }}>
+    <span style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:10, margin:"14px 0" }}>
       {blocks.map((b, i) => (
-        <span key={i} style={{ display:"inline-block", background: active===i ? b.bg : "rgba(255,255,255,0.05)", color: active===i ? b.color : "rgba(255,255,255,0.2)", padding:"6px 20px", borderRadius:8, fontSize:"clamp(22px,5vw,48px)", fontWeight:900, letterSpacing:"-1.5px", lineHeight:1.15, transition:"background 0.4s ease, color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease", transform: active===i ? "scale(1.04)" : "scale(1)", boxShadow: active===i ? `0 0 30px ${b.bg}55` : "none", WebkitTextFillColor:"unset" }}>
+        <span key={i} style={{ 
+          display:"inline-block", 
+          background: active===i ? b.bg : "rgba(255,255,255,0.02)", 
+          color: active===i ? b.color : "rgba(255,255,255,0.15)", 
+          padding:"8px 24px", 
+          borderRadius:16, 
+          fontSize:"clamp(24px,6vw,52px)", 
+          fontWeight:900, 
+          letterSpacing:"-0.03em", 
+          lineHeight:1.15, 
+          transition:"all 0.5s cubic-bezier(0.16, 1, 0.3, 1)", 
+          transform: active===i ? "scale(1.05)" : "scale(0.96)", 
+          boxShadow: active===i ? "0 10px 40px rgba(0,255,180,0.15)" : "none",
+          border: active===i ? "1px solid rgba(255,255,255,0.15)" : "1px solid rgba(255,255,255,0.03)"
+        }}>
           {b.text}
         </span>
       ))}
@@ -57,7 +71,7 @@ const WA_NUMBER = "2290160008046";
 
 const T = {
   fr: {
-    hero_badge:"🇧🇯 Agent IA Spécialisé · Cotonou, Bénin",
+    hero_badge:"🇧🇯 Agence IA & Automatisation · Bénin",
     hero_title:"Automatisez",
     hero_sparkle:"avec l'IA",
     hero_sub:"Des agents IA sur mesure pour répondre à vos clients, qualifier vos prospects et publier votre contenu — pendant que vous dormez.",
@@ -68,7 +82,7 @@ const T = {
     features:[
       { icon:"⚡", title:"Réponse en 10 secondes", desc:"Ne laissez plus vos prospects en attente. L'IA répond instantanément, même à 3h du matin." },
       { icon:"🎯", title:"Qualification automatique", desc:"Alex identifie les prospects chauds et vous alerte immédiatement pour les convertir." },
-      { icon:"📊", title:"Rapport quotidien", desc:"Chaque matin, receivez un récapitulatif complet de toutes les conversations et prospects qualifiés." },
+      { icon:"📊", title:"Rapport quotidien", desc:"Chaque matin, recevez un récapitulatif complet de toutes les conversations et prospects qualifiés." },
       { icon:"🌍", title:"Adapté au marché béninois", desc:"Compréhension du contexte local, des prix en FCFA, et des habitudes de communication africaines." },
     ],
     demo_label:"Démo Interactive",
@@ -96,7 +110,7 @@ const T = {
       { label:"Client WhatsApp", icon:"📱", color:"#00FFB4" },
       { label:"Alex répond", icon:"🤖", color:"#00FFB4" },
       { label:"Prospect qualifié", icon:"🎯", color:"#FFB400" },
-      { label:"Team alert", icon:"🔔", color:"#00C8FF" },
+      { label:"Alerte équipe", icon:"🔔", color:"#00C8FF" },
       { label:"Rapport quotidien", icon:"📊", color:"#A855F7" },
     ],
     prod2_tag:"Produit 2 · Community Manager",
@@ -127,7 +141,7 @@ const T = {
       { n:"04", icon:"🚀", title:"Mise en ligne en 72h", desc:"Votre agent IA est actif. Support continu pour les évolutions et optimisations." },
     ],
     pricing_label:"Tarifs",
-    pricing_title:"Des prix adaptés au marché local",
+    pricing_title:"Des tarifs adaptés",
     pricing_sub:"Abonnements mensuels. Sans engagement. Résiliable à tout moment.",
     pricing_note:"Hésitations ? La consultation est gratuite —",
     pricing_wa:"contactez-nous sur WhatsApp",
@@ -153,7 +167,7 @@ const T = {
       { cat:"💰 Investissement", q:"Est-ce que ça vaut vraiment 25 000 FCFA par mois ?", a:"Un commercial humain à Cotonou coûte entre 80 000 et 150 000 FCFA/mois — pour 8h/jour, 5 jours/semaine. Alex travaille 24h/24, 7j/7, répond en moins de 10 secondes et vous envoie un rapport chaque matin. Le calcul est vite fait." },
       { cat:"⚙️ Technique", q:"Comment Alex connaît mon business ?", a:"Lors de la configuration, on alimente Alex avec tout ce qu'il doit savoir : votre catalogue, vos prix, vos conditions de livraison, vos horaires. Il stocke ces informations dans une base de connaissance intelligente (RAG) et les utilise pour répondre avec précision." },
       { cat:"📱 WhatsApp", q:"Mon numéro WhatsApp risque-t-il d'être banni ?", a:"Non. Alex génère des messages naturels, avec des variations humaines — jamais du copier-coller en masse. Il respecte les fenêtres de 24h de WhatsApp et les règles anti-spam. Aucun de nos clients n'a jamais eu de problème." },
-      { cat:"🤔 Objections", q:"Mes clients sont-ils prêts à parler à une IA ?", a:"Dans 95% des cas, les clients ne savent même pas qu'ils parlent à une IA — et s'en fichent, du moment qu'ils obtiennent une réponse rapide. Alex répond en 10 secondes, même à minuit. C'est ça qui compte." },
+      { cat:"🤔 Objections", q:"Mes clients sont-ils prêts à parler à une IA ?", a:"Dans 95% des cas, les clients ne savent même pas qu'ils parlent à une IA — et s'en fichent, du moment qu'ils ont une réponse rapide." },
       { cat:"🌍 Local", q:"Est-ce que Alex comprend le contexte béninois ?", a:"Oui. Alex est configuré pour votre marché : il parle en FCFA, connaît Cotonou, Porto-Novo, Parakou, et peut même être configuré pour répondre en Fon ou Yoruba si votre clientèle le nécessite." },
       { cat:"📊 Résultats", q:"Comment je mesure les résultats ?", a:"Chaque matin, vous recevez un rapport avec : nombre de conversations gérées, prospects qualifiés, relances envoyées. Vous avez aussi accès à un tableau de bord Google Sheets mis à jour en temps réel." },
       { cat:"⚡ Démarrage", q:"Je ne suis pas tech. Est-ce que je peux vraiment utiliser ça ?", a:"Vous n'avez rien à installer, rien à coder. Vous nous donnez vos infos produits et votre numéro WhatsApp — on fait tout le reste. Si vous savez lire WhatsApp, vous savez utiliser nos produits." },
@@ -166,7 +180,7 @@ const T = {
     cta_badges:["✅ Consultation gratuite","✅ Sans engagement","✅ Support inclus"],
   },
   en: {
-    hero_badge:"🇧🇯 Specialized AI Agency · Cotonou, Benin",
+    hero_badge:"🇧🇯 AI & Automation Agency · Benin",
     hero_title:"Automate",
     hero_sparkle:"with AI",
     hero_sub:"Custom AI agents to respond to your clients, qualify prospects and publish your content — while you sleep.",
@@ -249,7 +263,7 @@ const T = {
     reviews_title:"They trust us",
     reviews_sub:"Beninese businesses that automated with DHA.",
     testimonials:[
-      { name:"Fatou A.", role:"Manager · Beauty Boutique, Cotonou", text:"Since Alex, I don't receive the same questions 10 times a day. My clients get answers in seconds.", avatar:"F", color:"#00FFB4" },
+      { name:"Fatou A.", role:"Manager · Beauty Boutique, Cotonou", text:"Since Alex, I no longer receive the same questions 10 times a day. My clients get answers in seconds.", avatar:"F", color:"#00FFB4" },
       { name:"Kodjo M.", role:"Director · Import-Export, Porto-Novo", text:"The daily qualified prospect report is indispensable. My team knows exactly who to follow up with each morning.", avatar:"K", color:"#00C8FF" },
       { name:"Rosine D.", role:"Founder · Catering company", text:"My Facebook page has never been so active. The AI CM posts for me while I work.", avatar:"R", color:"#FFB400" },
       { name:"Ibrahim S.", role:"CEO · Central Pharmacy, Parakou", text:"In 3 weeks, Alex handled over 400 conversations. Zero errors, zero client complaints. Impressive.", avatar:"I", color:"#00FFB4" },
@@ -335,55 +349,65 @@ function DemoChat({ lang }) {
 
   if (isMobile) {
     return (
-      <div style={{ borderRadius:16, overflow:"hidden", boxShadow:"0 20px 60px rgba(0,0,0,0.6)", maxWidth:340, margin:"0 auto", fontFamily:"'Segoe UI',sans-serif" }}>
-        <div style={{ background:"#075E54", padding:"10px 14px", display:"flex", alignItems:"center", gap:10 }}>
+      <div style={{ borderRadius:24, overflow:"hidden", boxShadow:"0 20px 60px rgba(0,0,0,0.6)", maxWidth:340, margin:"0 auto", fontFamily:"'Segoe UI',sans-serif", border:"1px solid rgba(255,255,255,0.08)" }}>
+        <div style={{ background:"rgba(18,30,49,0.9)", backdropFilter:"blur(12px)", padding:"12px 16px", display:"flex", alignItems:"center", gap:10, borderBottom:"1px solid rgba(255,255,255,0.08)" }}>
           <div style={{ fontSize:18, color:"#fff" }}>←</div>
-          <div style={{ width:36, height:36, borderRadius:"50%", background:"#25D366", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, color:"#fff", fontSize:14 }}>A</div>
+          <div style={{ width:36, height:36, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, color:"#030712", fontSize:14 }}>A</div>
           <div style={{ flex:1 }}>
             <div style={{ fontSize:14, fontWeight:700, color:"#fff" }}>Alex · DHA</div>
-            <div style={{ fontSize:11, color:"rgba(255,255,255,0.7)" }}>{lang==="en" ? "online" : "en ligne"}</div>
+            <div style={{ fontSize:11, color:"#00FFB4" }}>{lang==="en" ? "online" : "en ligne"}</div>
           </div>
           <div style={{ display:"flex", gap:16, color:"rgba(255,255,255,0.8)", fontSize:18 }}><span>📞</span><span>⋮</span></div>
         </div>
-        <div style={{ background:"#ECE5DD", backgroundImage:"url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4c9ba' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")", height:320, overflowY:"auto", padding:"12px 10px", display:"flex", flexDirection:"column", gap:6 }}>
+        <div style={{ background:"#050814", backgroundImage:"radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px)", backgroundSize:"20px 20px", height:320, overflowY:"auto", padding:"12px 10px", display:"flex", flexDirection:"column", gap:8 }}>
           {msgs.map((m, i) => (
             <div key={i} style={{ display:"flex", justifyContent: m.role==="alex" ? "flex-start" : "flex-end" }}>
-              <div style={{ maxWidth:"80%", padding:"7px 10px 4px", fontSize:13, lineHeight:1.5, background: m.role==="alex" ? "#fff" : "#DCF8C6", color:"#111", borderRadius: m.role==="alex" ? "0px 10px 10px 10px" : "10px 0px 10px 10px", boxShadow:"0 1px 2px rgba(0,0,0,0.15)" }}>
-                {m.role==="alex" && <div style={{ fontSize:11, color:"#075E54", fontWeight:700, marginBottom:3 }}>Alex · DHA</div>}
+              <div style={{ 
+                maxWidth:"80%", 
+                padding:"10px 14px", 
+                fontSize:13, 
+                lineHeight:1.5, 
+                background: m.role==="alex" ? "rgba(255,255,255,0.05)" : "linear-gradient(135deg,#00FFB4,#00C8FF)", 
+                color: m.role==="alex" ? "#fff" : "#030712", 
+                borderRadius: m.role==="alex" ? "4px 16px 16px 16px" : "16px 4px 16px 16px", 
+                boxShadow:"0 1px 3px rgba(0,0,0,0.3)", 
+                border: m.role==="alex" ? "1px solid rgba(255,255,255,0.06)" : "none" 
+              }}>
+                {m.role==="alex" && <div style={{ fontSize:11, color:"#00FFB4", fontWeight:700, marginBottom:3 }}>Alex · DHA</div>}
                 <div>{renderText(m.text)}</div>
-                <div style={{ fontSize:10, color:"#999", textAlign:"right", marginTop:3, display:"flex", alignItems:"center", justifyContent:"flex-end", gap:3 }}>
-                  {m.time}{m.role==="user" && <span style={{ color:"#53BDEB" }}>✓✓</span>}
+                <div style={{ fontSize:10, color: m.role==="alex"?"#64748b":"#03071299", textAlign:"right", marginTop:3, display:"flex", alignItems:"center", justifyContent:"flex-end", gap:3 }}>
+                  {m.time}{m.role==="user" && <span>✓✓</span>}
                 </div>
               </div>
             </div>
           ))}
           {typing && (
             <div style={{ display:"flex", justifyContent:"flex-start" }}>
-              <div style={{ background:"#fff", borderRadius:"0px 10px 10px 10px", padding:"10px 14px", boxShadow:"0 1px 2px rgba(0,0,0,0.15)", display:"flex", gap:4, alignItems:"center" }}>
-                {[0,0.2,0.4].map((d,i) => <span key={i} style={{ width:7, height:7, background:"#aaa", borderRadius:"50%", display:"inline-block", animation:`typeBounce 0.9s ${d}s infinite` }} />)}
+              <div style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:"4px 16px 16px 16px", padding:"10px 14px", display:"flex", gap:4, alignItems:"center" }}>
+                {[0,0.2,0.4].map((d,i) => <span key={i} style={{ width:7, height:7, background:"#00FFB4", borderRadius:"50%", display:"inline-block", animation:`typeBounce 0.9s ${d}s infinite` }} />)}
               </div>
             </div>
           )}
           <div ref={bottomRef} />
         </div>
-        <div style={{ background:"#ECE5DD", padding:"6px 10px", display:"flex", gap:6, flexWrap:"wrap" }}>
+        <div style={{ background:"#030712", padding:"6px 10px", display:"flex", gap:6, flexWrap:"wrap", borderTop:"1px solid rgba(255,255,255,0.04)" }}>
           {t.demo_wa_suggestions.map(s => (
-            <button key={s} onClick={() => setInput(s)} style={{ background:"#fff", border:"1px solid #d0d0d0", borderRadius:20, padding:"4px 10px", fontSize:11, color:"#075E54", cursor:"pointer", fontFamily:"inherit" }}>{s}</button>
+            <button key={s} onClick={() => setInput(s)} style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:20, padding:"4px 10px", fontSize:11, color:"#e2e8f0", cursor:"pointer", fontFamily:"inherit" }}>{s}</button>
           ))}
         </div>
-        <div style={{ background:"#F0F0F0", padding:"8px 10px", display:"flex", alignItems:"center", gap:8 }}>
-          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key==="Enter") send(); }} placeholder={t.demo_wa_placeholder} style={{ flex:1, background:"#fff", borderRadius:24, padding:"10px 14px", fontSize:13, color:"#111", border:"none", outline:"none", fontFamily:"inherit" }} />
-          <button onClick={send} disabled={typing || !input.trim()} style={{ width:42, height:42, borderRadius:"50%", background: input.trim() ? "#075E54" : "#aaa", border:"none", cursor: input.trim() ? "pointer" : "default", fontSize:18, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, color:"#fff" }}>➤</button>
+        <div style={{ background:"#030712", padding:"8px 10px", display:"flex", alignItems:"center", gap:8, borderTop:"1px solid rgba(255,255,255,0.04)" }}>
+          <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key==="Enter") send(); }} placeholder={t.demo_wa_placeholder} style={{ flex:1, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:24, padding:"10px 14px", fontSize:13, color:"#fff", outline:"none", fontFamily:"inherit" }} />
+          <button onClick={send} disabled={typing || !input.trim()} style={{ width:42, height:42, borderRadius:"50%", background: input.trim() ? "linear-gradient(135deg,#00FFB4,#00C8FF)" : "rgba(255,255,255,0.05)", border:"none", cursor: input.trim() ? "pointer" : "default", fontSize:18, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, color:"#030712" }}>➤</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ background:"#0a0f1e", border:"1px solid rgba(0,255,180,0.12)", borderRadius:20, overflow:"hidden", boxShadow:"0 30px 80px rgba(0,0,0,0.5)" }}>
-      <div style={{ background:"rgba(0,255,180,0.06)", borderBottom:"1px solid rgba(0,255,180,0.1)", padding:"14px 18px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+    <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:24, overflow:"hidden", boxShadow:"0 30px 80px rgba(0,0,0,0.5)", backdropFilter:"blur(12px)" }}>
+      <div style={{ background:"rgba(255,255,255,0.03)", borderBottom:"1px solid rgba(255,255,255,0.06)", padding:"14px 18px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-          <div style={{ width:38, height:38, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, color:"#050810", fontSize:15 }}>A</div>
+          <div style={{ width:38, height:38, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, color:"#030712", fontSize:15 }}>A</div>
           <div>
             <div style={{ fontSize:14, fontWeight:700, color:"#fff" }}>Alex · Agent Commercial DHA</div>
             <div style={{ fontSize:11, color:"#00FFB4", display:"flex", alignItems:"center", gap:5, marginTop:3 }}>
@@ -392,79 +416,34 @@ function DemoChat({ lang }) {
             </div>
           </div>
         </div>
-        <div style={{ background:"rgba(0,255,180,0.1)", border:"1px solid rgba(0,255,180,0.2)", borderRadius:8, padding:"4px 10px", fontSize:10, color:"#00FFB4", fontWeight:700 }}>LIVE DEMO</div>
+        <div style={{ background:"rgba(0,255,180,0.1)", border:"1px solid rgba(0,255,180,0.25)", borderRadius:8, padding:"4px 10px", fontSize:10, color:"#00FFB4", fontWeight:700 }}>LIVE DEMO</div>
       </div>
-      <div style={{ height:340, overflowY:"auto", padding:"16px 14px", display:"flex", flexDirection:"column", gap:12 }}>
+      <div style={{ height:340, overflowY:"auto", padding:"16px 14px", display:"flex", flexDirection:"column", gap:12, background:"#030712", backgroundImage:"radial-gradient(rgba(255,255,255,0.015) 1px, transparent 1px)", backgroundSize:"24px 24px" }}>
         {msgs.map((m, i) => (
           <div key={i} style={{ display:"flex", justifyContent: m.role==="alex" ? "flex-start" : "flex-end", alignItems:"flex-end", gap:8 }}>
-            {m.role==="alex" && <div style={{ width:26, height:26, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, color:"#050810", fontSize:10, flexShrink:0 }}>A</div>}
-            <div style={{ maxWidth:"78%", padding:"10px 14px", fontSize:13, lineHeight:1.65, background: m.role==="alex" ? "rgba(255,255,255,0.05)" : "linear-gradient(135deg,#00FFB4,#00C8FF)", color: m.role==="alex" ? "#e2e8f0" : "#050810", borderRadius: m.role==="alex" ? "4px 16px 16px 16px" : "16px 4px 16px 16px", border: m.role==="alex" ? "1px solid rgba(255,255,255,0.07)" : "none" }}>{renderText(m.text)}</div>
+            {m.role==="alex" && <div style={{ width:26, height:26, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, color:"#030712", fontSize:10, flexShrink:0 }}>A</div>}
+            <div style={{ maxWidth:"78%", padding:"11px 16px", fontSize:13, lineHeight:1.65, background: m.role==="alex" ? "rgba(255,255,255,0.04)" : "linear-gradient(135deg,#00FFB4,#00C8FF)", color: m.role==="alex" ? "#f3f4f6" : "#030712", borderRadius: m.role==="alex" ? "4px 16px 16px 16px" : "16px 4px 16px 16px", border: m.role==="alex" ? "1px solid rgba(255,255,255,0.06)" : "none" }}>{renderText(m.text)}</div>
           </div>
         ))}
         {typing && (
           <div style={{ display:"flex", alignItems:"flex-end", gap:8 }}>
-            <div style={{ width:26, height:26, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, color:"#050810", fontSize:10, flexShrink:0 }}>A</div>
-            <div style={{ background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:"4px 16px 16px 16px", padding:"12px 16px", display:"flex", gap:4 }}>
+            <div style={{ width:26, height:26, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, color:"#030712", fontSize:10, flexShrink:0 }}>A</div>
+            <div style={{ background:"rgba(255,255,255,0.04)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:"4px 16px 16px 16px", padding:"12px 16px", display:"flex", gap:4 }}>
               {[0,0.2,0.4].map((d,i) => <span key={i} style={{ width:6, height:6, background:"#00FFB4", borderRadius:"50%", display:"inline-block", animation:`typeBounce 0.9s ${d}s infinite` }} />)}
             </div>
           </div>
         )}
         <div ref={bottomRef} />
       </div>
-      <div style={{ padding:"0 14px 10px", display:"flex", gap:6, flexWrap:"wrap" }}>
+      <div style={{ padding:"0 14px 10px", display:"flex", gap:6, flexWrap:"wrap", background:"#030712" }}>
         {t.demo_suggestions.map(s => (
-          <button key={s} onClick={() => setInput(s)} style={{ background:"rgba(0,255,180,0.06)", border:"1px solid rgba(0,255,180,0.15)", borderRadius:20, padding:"5px 12px", fontSize:11, color:"#00FFB4", cursor:"pointer", fontFamily:"inherit" }}>{s}</button>
+          <button key={s} onClick={() => setInput(s)} style={{ background:"rgba(0,255,180,0.05)", border:"1px solid rgba(0,255,180,0.15)", borderRadius:20, padding:"5px 12px", fontSize:11, color:"#00FFB4", cursor:"pointer", fontFamily:"inherit", transition:"all 0.2s" }} className="chat-sug">{s}</button>
         ))}
       </div>
-      <div style={{ padding:"10px 12px 14px", borderTop:"1px solid rgba(255,255,255,0.05)", display:"flex", gap:8 }}>
+      <div style={{ padding:"10px 12px 14px", borderTop:"1px solid rgba(255,255,255,0.05)", display:"flex", gap:8, background:"#030712" }}>
         <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")send();}} placeholder={t.demo_placeholder} style={{ flex:1, background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:12, padding:"11px 14px", fontSize:13, color:"#e2e8f0", outline:"none", fontFamily:"inherit" }} />
-        <button onClick={send} disabled={typing || !input.trim()} style={{ width:42, height:42, borderRadius:12, background: input.trim() ? "linear-gradient(135deg,#00FFB4,#00C8FF)" : "rgba(255,255,255,0.05)", border:"none", cursor: input.trim() ? "pointer" : "default", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>➤</button>
+        <button onClick={send} disabled={typing || !input.trim()} style={{ width:42, height:42, borderRadius:12, background: input.trim() ? "linear-gradient(135deg,#00FFB4,#00C8FF)" : "rgba(255,255,255,0.05)", border:"none", cursor: input.trim() ? "pointer" : "default", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0, color: input.trim() ? "#030712" : "#555" }}>➤</button>
       </div>
-    </div>
-  );
-}
-
-function TestimonialsScroll({ testimonials }) {
-  const doubled = [...testimonials, ...testimonials];
-  return (
-    <div style={{ overflow:"hidden", position:"relative", padding:"20px 0" }}>
-      <div style={{ position:"absolute", left:0, top:0, bottom:0, width:80, background:"linear-gradient(90deg,#050810,transparent)", zIndex:2 }} />
-      <div style={{ position:"absolute", right:0, top:0, bottom:0, width:80, background:"linear-gradient(-90deg,#050810,transparent)", zIndex:2 }} />
-      <div style={{ display:"flex", gap:16, animation:"scrollLeft 30s linear infinite", width:"max-content" }}>
-        {doubled.map((t, i) => (
-          <div key={i} style={{ width:280, flexShrink:0, background:"rgba(255,255,255,0.03)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:16, padding:"20px 18px" }}>
-            <div style={{ fontSize:30, color:`${t.color}22`, marginBottom:10, fontFamily:"Georgia,serif", lineHeight:1 }}>"</div>
-            <p style={{ fontSize:12, color:"#94a3b8", lineHeight:1.7, marginBottom:16, fontStyle:"italic" }}>{t.text}</p>
-            <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-              <div style={{ width:32, height:32, borderRadius:"50%", background:`${t.color}20`, color:t.color, border:`1px solid ${t.color}40`, display:"flex", alignItems:"center", justifyContent:"center", fontWeight:800, fontSize:12, flexShrink:0 }}>{t.avatar}</div>
-              <div>
-                <div style={{ fontSize:12, fontWeight:700, color:t.color }}>{t.name}</div>
-                <div style={{ fontSize:10, color:"#475569", marginTop:1 }}>{t.role}</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function FAQ({ faqs }) {
-  const [open, setOpen] = useState(null);
-  return (
-    <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
-      {faqs.map((f, i) => (
-        <div key={i} style={{ background:"rgba(255,255,255,0.03)", border:`1px solid ${open===i ? "rgba(0,255,180,0.25)" : "rgba(255,255,255,0.07)"}`, borderRadius:14, overflow:"hidden", transition:"border 0.3s" }}>
-          <button onClick={() => setOpen(open===i ? null : i)} style={{ width:"100%", background:"none", border:"none", padding:"16px 20px", display:"flex", justifyContent:"space-between", alignItems:"center", cursor:"pointer", fontFamily:"inherit", textAlign:"left", gap:12 }}>
-            <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
-              <span style={{ fontSize:10, color: open===i ? "#00FFB4" : "#475569", fontWeight:700, letterSpacing:"0.5px" }}>{f.cat}</span>
-              <span style={{ fontSize:14, fontWeight:600, color: open===i ? "#fff" : "#cbd5e1", transition:"color 0.3s", lineHeight:1.4 }}>{f.q}</span>
-            </div>
-            <span style={{ color: open===i ? "#00FFB4" : "#475569", fontSize:20, flexShrink:0, transition:"transform 0.3s, color 0.3s", transform: open===i ? "rotate(45deg)" : "rotate(0)", lineHeight:1 }}>+</span>
-          </button>
-          {open===i && <div style={{ padding:"0 20px 18px", paddingTop:14, fontSize:13, color:"#94a3b8", lineHeight:1.85, borderTop:"1px solid rgba(255,255,255,0.04)" }}>{f.a}</div>}
-        </div>
-      ))}
     </div>
   );
 }
@@ -496,33 +475,33 @@ export default function DHASite() {
   };
 
   return (
-    <div style={{ fontFamily:"'Outfit',sans-serif", background:"#050810", color:"#e2e8f0", overflowX:"hidden" }}>
+    <div style={{ fontFamily:"'Outfit',sans-serif", background:"#030712", color:"#f3f4f6", overflowX:"hidden" }}>
       <style>{CSS}</style>
 
       {/* HERO */}
-      <section style={{ minHeight:"100svh", padding:"90px 20px 60px", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
-        <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(0,255,180,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,180,0.03) 1px,transparent 1px)", backgroundSize:"64px 64px" }} />
+      <section style={{ minHeight:"100svh", padding:"100px 20px 60px", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
+        <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px)", backgroundSize:"64px 64px" }} />
         <div style={{ position:"absolute", top:"-5%", left:"-10%", width:"50vw", height:"50vw", maxWidth:600, maxHeight:600, background:"radial-gradient(circle,rgba(0,255,180,0.08) 0%,transparent 65%)", filter:"blur(60px)", borderRadius:"50%" }} />
         <div style={{ position:"absolute", bottom:"-5%", right:"-10%", width:"45vw", height:"45vw", maxWidth:500, maxHeight:500, background:"radial-gradient(circle,rgba(0,200,255,0.07) 0%,transparent 65%)", filter:"blur(60px)", borderRadius:"50%" }} />
         <div style={{ position:"relative", zIndex:1, maxWidth:700, textAlign:"center" }}>
-          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,255,180,0.07)", border:"1px solid rgba(0,255,180,0.2)", borderRadius:24, padding:"7px 16px", fontSize:12, color:"#00FFB4", marginBottom:28 }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,255,180,0.05)", border:"1px solid rgba(0,255,180,0.18)", borderRadius:24, padding:"7px 16px", fontSize:12, color:"#00FFB4", marginBottom:28, fontWeight:600 }}>
             <span style={{ width:6, height:6, background:"#00FFB4", borderRadius:"50%", animation:"blink 2s infinite" }} />
             {t.hero_badge}
           </div>
-          <h1 style={{ fontSize:"clamp(36px,8vw,72px)", fontWeight:900, lineHeight:1.15, letterSpacing:"-2.5px", color:"#fff", margin:"0 0 20px", display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
+          <h1 style={{ fontSize:"clamp(38px,8vw,76px)", fontWeight:900, lineHeight:1.1, letterSpacing:"-0.03em", color:"#fff", margin:"0 0 20px", display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
             <span>{t.hero_title}</span>
             <HeroWord lang={lang} />
             <SparkleText text={t.hero_sparkle} />
           </h1>
-          <p style={{ fontSize:"clamp(15px,3.5vw,18px)", color:"#94a3b8", lineHeight:1.75, maxWidth:520, margin:"0 auto 36px" }}>{t.hero_sub}</p>
+          <p style={{ fontSize:"clamp(15px,3.5vw,18px)", color:"#94a3b8", lineHeight:1.8, maxWidth:520, margin:"0 auto 36px" }}>{t.hero_sub}</p>
           <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap", marginBottom:48 }}>
-            <a href={`https://wa.me/${WA_NUMBER}`} style={{ background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#050810", padding:"14px 28px", borderRadius:12, fontSize:15, fontWeight:700, textDecoration:"none", display:"inline-flex", alignItems:"center", gap:8, boxShadow:"0 0 40px rgba(0,255,180,0.25)" }}>{t.hero_cta1}</a>
-            <button onClick={() => scrollTo("demo")} style={{ background:"rgba(255,255,255,0.05)", color:"#e2e8f0", border:"1px solid rgba(255,255,255,0.1)", padding:"14px 28px", borderRadius:12, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit" }}>{t.hero_cta2}</button>
+            <a href={`https://wa.me/${WA_NUMBER}`} style={{ background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#030712", padding:"14px 28px", borderRadius:14, fontSize:15, fontWeight:800, textDecoration:"none", display:"inline-flex", alignItems:"center", gap:8, boxShadow:"0 0 40px rgba(0,255,180,0.25)" }} className="primary-hero-cta">{t.hero_cta1}</a>
+            <button onClick={() => scrollTo("demo")} style={{ background:"rgba(255,255,255,0.04)", color:"#e2e8f0", border:"1px solid rgba(255,255,255,0.08)", padding:"14px 28px", borderRadius:14, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit", transition:"all 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }} className="secondary-hero-cta">{t.hero_cta2}</button>
           </div>
           <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:16, flexWrap:"wrap" }}>
             <div style={{ display:"flex" }}>
               {["F","K","R","I","A"].map((l,i) => (
-                <div key={i} style={{ width:32, height:32, borderRadius:"50%", background:`linear-gradient(135deg,${["#00FFB4","#00C8FF","#FFB400","#00FFB4","#00C8FF"][i]},#050810)`, border:"2px solid #050810", marginLeft: i>0?-8:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:800, color:"#050810" }}>{l}</div>
+                <div key={i} style={{ width:32, height:32, borderRadius:"50%", background:`linear-gradient(135deg,${["#00FFB4","#00C8FF","#FFB400","#00FFB4","#00C8FF"][i]},#030712)`, border:"2px solid #030712", marginLeft: i>0?-8:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:800, color:"#fff" }}>{l}</div>
               ))}
             </div>
             <div style={{ fontSize:13, color:"#64748b" }}><span style={{ color:"#00FFB4", fontWeight:700 }}>4.9/5</span> · {t.hero_social}</div>
@@ -530,8 +509,8 @@ export default function DHASite() {
           <div style={{ display:"flex", gap:24, justifyContent:"center", flexWrap:"wrap", marginTop:48 }}>
             {t.hero_stats.map(([v,l]) => (
               <div key={l} style={{ textAlign:"center" }}>
-                <div style={{ fontSize:"clamp(20px,4vw,28px)", fontWeight:900, color:"#00FFB4", letterSpacing:"-1px", lineHeight:1.1 }}>{v}</div>
-                <div style={{ fontSize:11, color:"#475569", marginTop:3 }}>{l}</div>
+                <div style={{ fontSize:"clamp(22px,4vw,30px)", fontWeight:900, color:"#00FFB4", letterSpacing:"-1px", lineHeight:1.1 }}>{v}</div>
+                <div style={{ fontSize:11, color:"#4b5563", marginTop:3, fontWeight:500 }}>{l}</div>
               </div>
             ))}
           </div>
@@ -539,13 +518,13 @@ export default function DHASite() {
       </section>
 
       {/* FEATURES */}
-      <section style={{ padding:"60px 20px", background:"linear-gradient(180deg,#050810,#070d1a)" }}>
+      <section style={{ padding:"80px 20px", background:"linear-gradient(180deg,#030712,#050917)" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
           <div className="feat-grid">
             {t.features.map((f, i) => (
-              <div key={i} data-observe id={`feat${i}`} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(255,255,255,0.06)", borderRadius:16, padding:"24px 20px", opacity:v(`feat${i}`)?1:0, transform:v(`feat${i}`)?"none":"translateY(24px)", transition:`all 0.6s ease ${i*0.1}s` }}>
-                <div style={{ fontSize:28, marginBottom:14 }}>{f.icon}</div>
-                <h3 style={{ fontSize:15, fontWeight:700, color:"#fff", marginBottom:8, lineHeight:1.3 }}>{f.title}</h3>
+              <div key={i} data-observe id={`feat${i}`} className="card" style={{ background:"rgba(255,255,255,0.015)", border:"1px solid rgba(255,255,255,0.05)", borderRadius:20, padding:"28px 24px", opacity:v(`feat${i}`)?1:0, transform:v(`feat${i}`)?"none":"translateY(24px)", transition:`all 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.1}s`, backdropFilter:"blur(8px)" }}>
+                <div style={{ fontSize:32, marginBottom:16, background:"rgba(255,255,255,0.02)", width:54, height:54, borderRadius:12, display:"flex", alignItems:"center", justifyContent:"center", border:"1px solid rgba(255,255,255,0.05)" }}>{f.icon}</div>
+                <h3 style={{ fontSize:16, fontWeight:700, color:"#fff", marginBottom:10, lineHeight:1.3 }}>{f.title}</h3>
                 <p style={{ fontSize:13, color:"#64748b", lineHeight:1.7 }}>{f.desc}</p>
               </div>
             ))}
@@ -554,14 +533,15 @@ export default function DHASite() {
       </section>
 
       {/* DEMO */}
-      <section id="demo" style={{ padding:"80px 20px", background:"#070d1a" }}>
-        <div style={{ maxWidth:680, margin:"0 auto" }}>
-          <div data-observe id="demo-h" style={{ textAlign:"center", marginBottom:40, opacity:v("demo-h")?1:0, transform:v("demo-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
+      <section id="demo" style={{ padding:"100px 20px", background:"#050917", position:"relative" }}>
+        <div style={{ position:"absolute", top:"30%", left:"10%", width:350, height:350, background:"radial-gradient(circle,rgba(0,255,180,0.04) 0%,transparent 70%)", filter:"blur(40px)", borderRadius:"50%" }} />
+        <div style={{ maxWidth:680, margin:"0 auto", position:"relative", zIndex:1 }}>
+          <div data-observe id="demo-h" style={{ textAlign:"center", marginBottom:44, opacity:v("demo-h")?1:0, transform:v("demo-h")?"none":"translateY(24px)", transition:"all 0.7s cubic-bezier(0.16, 1, 0.3, 1)" }}>
             <div style={labelStyle}>{t.demo_label}</div>
             <h2 style={h2Style}>{t.demo_title}</h2>
-            <p style={{ fontSize:15, color:"#64748b", maxWidth:460, margin:"0 auto" }}>{t.demo_sub}</p>
+            <p style={{ fontSize:15, color:"#64748b", maxWidth:460, margin:"0 auto", lineHeight:1.7 }}>{t.demo_sub}</p>
           </div>
-          <div data-observe id="demo-chat" style={{ opacity:v("demo-chat")?1:0, transform:v("demo-chat")?"none":"translateY(30px)", transition:"all 0.7s 0.15s" }}>
+          <div data-observe id="demo-chat" style={{ opacity:v("demo-chat")?1:0, transform:v("demo-chat")?"none":"translateY(30px)", transition:"all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s" }}>
             <DemoChat lang={lang} />
           </div>
           <p style={{ textAlign:"center", fontSize:12, color:"#334155", marginTop:14 }}>{t.demo_disclaimer}</p>
@@ -569,56 +549,56 @@ export default function DHASite() {
       </section>
 
       {/* PRODUCTS */}
-      <section id="produits" style={{ padding:"80px 20px", background:"#050810" }}>
+      <section id="produits" style={{ padding:"100px 20px", background:"#030712" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
-          <div data-observe id="prod-h" style={{ textAlign:"center", marginBottom:48, opacity:v("prod-h")?1:0, transform:v("prod-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
+          <div data-observe id="prod-h" style={{ textAlign:"center", marginBottom:54, opacity:v("prod-h")?1:0, transform:v("prod-h")?"none":"translateY(24px)", transition:"all 0.7s cubic-bezier(0.16, 1, 0.3, 1)" }}>
             <div style={labelStyle}>{t.products_label}</div>
             <h2 style={h2Style}>{t.products_title}</h2>
             <p style={subStyle}>{t.products_sub}</p>
           </div>
           {/* ALEX */}
-          <div data-observe id="p1" style={{ opacity:v("p1")?1:0, transform:v("p1")?"none":"translateY(36px)", transition:"all 0.7s ease", marginBottom:24 }}>
-            <div style={{ background:"rgba(0,255,180,0.03)", border:"1px solid rgba(0,255,180,0.18)", borderRadius:24, overflow:"hidden", position:"relative" }}>
-              <div style={{ position:"absolute", top:-60, right:-60, width:300, height:300, background:"radial-gradient(circle,rgba(0,255,180,0.07),transparent 70%)", borderRadius:"50%", pointerEvents:"none" }} />
-              <div style={{ padding:"32px 28px 0" }}>
-                <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", flexWrap:"wrap", gap:16, marginBottom:20 }}>
+          <div data-observe id="p1" style={{ opacity:v("p1")?1:0, transform:v("p1")?"none":"translateY(36px)", transition:"all 0.8s cubic-bezier(0.16, 1, 0.3, 1)", marginBottom:32 }}>
+            <div style={{ background:"rgba(255,255,255,0.01)", border:"1px solid rgba(0,255,180,0.18)", borderRadius:24, overflow:"hidden", position:"relative", backdropFilter:"blur(12px)" }} className="product-card">
+              <div style={{ position:"absolute", top:-60, right:-60, width:300, height:300, background:"radial-gradient(circle,rgba(0,255,180,0.05),transparent 70%)", borderRadius:"50%", pointerEvents:"none" }} />
+              <div style={{ padding:"40px 36px 0" }}>
+                <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", flexWrap:"wrap", gap:24, marginBottom:28 }}>
                   <div>
-                    <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
-                      <div style={{ width:48, height:48, borderRadius:13, background:"rgba(0,255,180,0.1)", border:"1px solid rgba(0,255,180,0.2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22 }}>🤖</div>
+                    <div style={{ display:"flex", alignItems:"center", gap:14, marginBottom:14 }}>
+                      <div style={{ width:54, height:54, borderRadius:16, background:"rgba(0,255,180,0.08)", border:"1px solid rgba(0,255,180,0.18)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26 }}>🤖</div>
                       <div>
-                        <div style={{ fontSize:10, letterSpacing:"1.5px", color:"#00FFB4", fontWeight:700, textTransform:"uppercase", marginBottom:3 }}>{t.prod1_tag}</div>
-                        <h3 style={{ fontSize:28, fontWeight:900, color:"#00FFB4", letterSpacing:"-1px", lineHeight:1 }}>ALEX</h3>
+                        <div style={{ fontSize:10, letterSpacing:"1.5px", color:"#00FFB4", fontWeight:800, textTransform:"uppercase", marginBottom:4 }}>{t.prod1_tag}</div>
+                        <h3 style={{ fontSize:32, fontWeight:900, color:"#00FFB4", letterSpacing:"-1px", lineHeight:1 }}>ALEX</h3>
                       </div>
                     </div>
-                    <p style={{ fontSize:14, color:"#94a3b8", lineHeight:1.75, maxWidth:520 }}>{t.prod1_desc}</p>
+                    <p style={{ fontSize:14, color:"#94a3b8", lineHeight:1.8, maxWidth:560 }}>{t.prod1_desc}</p>
                   </div>
                   <div style={{ textAlign:"right", flexShrink:0 }}>
-                    <div style={{ fontSize:12, color:"#475569", textDecoration:"line-through" }}>50 000 FCFA/mois</div>
-                    <div style={{ fontSize:28, fontWeight:900, color:"#00FFB4", letterSpacing:"-1px" }}>25 000</div>
+                    <div style={{ fontSize:12, color:"#4b5563", textDecoration:"line-through" }}>50 000 FCFA/mois</div>
+                    <div style={{ fontSize:32, fontWeight:900, color:"#00FFB4", letterSpacing:"-1px", marginTop:2 }}>25 000</div>
                     <div style={{ display:"flex", alignItems:"center", gap:6, justifyContent:"flex-end" }}>
-                      <span style={{ fontSize:12, color:"#475569" }}>FCFA / {lang==="en"?"mo":"mois"}</span>
+                      <span style={{ fontSize:12, color:"#64748b" }}>FCFA / {lang==="en"?"mo":"mois"}</span>
                       <span style={{ fontSize:10, background:"rgba(0,255,180,0.1)", color:"#00FFB4", border:"1px solid rgba(0,255,180,0.2)", borderRadius:20, padding:"2px 7px", fontWeight:700 }}>-50%</span>
                     </div>
-                    <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"inline-block", marginTop:10, background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#050810", padding:"10px 20px", borderRadius:10, fontSize:13, fontWeight:700, textDecoration:"none" }}>{t.start_btn}</a>
+                    <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"inline-block", marginTop:14, background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#030712", padding:"12px 24px", borderRadius:12, fontSize:13, fontWeight:800, textDecoration:"none", transition:"all 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }} className="prod-cta">{t.start_btn}</a>
                   </div>
                 </div>
-                <div className="feat6-grid" style={{ marginBottom:28 }}>
+                <div className="feat6-grid" style={{ marginBottom:36 }}>
                   {t.prod1_features.map((f,i) => (
-                    <div key={i} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(0,255,180,0.08)", borderRadius:14, padding:"16px 14px" }}>
-                      <div style={{ fontSize:20, marginBottom:8 }}>{f.icon}</div>
-                      <div style={{ fontSize:13, fontWeight:700, color:"#e2e8f0", marginBottom:5 }}>{f.title}</div>
-                      <div style={{ fontSize:12, color:"#64748b", lineHeight:1.6 }}>{f.desc}</div>
+                    <div key={i} style={{ background:"rgba(255,255,255,0.015)", border:"1px solid rgba(255,255,255,0.04)", borderRadius:16, padding:"20px 18px", transition:"all 0.3s" }} className="sub-feat-card">
+                      <div style={{ fontSize:24, marginBottom:10 }}>{f.icon}</div>
+                      <div style={{ fontSize:14, fontWeight:700, color:"#fff", marginBottom:6 }}>{f.title}</div>
+                      <div style={{ fontSize:12, color:"#64748b", lineHeight:1.65 }}>{f.desc}</div>
                     </div>
                   ))}
                 </div>
-                <div style={{ background:"rgba(0,0,0,0.3)", borderTop:"1px solid rgba(0,255,180,0.08)", padding:"18px 0 20px", display:"flex", alignItems:"center", justifyContent:"center", gap:0, flexWrap:"wrap", overflow:"hidden" }}>
+                <div style={{ background:"rgba(255,255,255,0.01)", borderTop:"1px solid rgba(255,255,255,0.05)", padding:"24px 0 28px", display:"flex", alignItems:"center", justifyContent:"center", gap:0, flexWrap:"wrap", overflow:"hidden" }}>
                   {t.prod1_workflow.map((step, i, arr) => (
                     <div key={i} style={{ display:"flex", alignItems:"center" }}>
-                      <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"0 10px" }}>
-                        <div style={{ width:36, height:36, borderRadius:"50%", background:`${step.color}15`, border:`1px solid ${step.color}40`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:16 }}>{step.icon}</div>
-                        <span style={{ fontSize:10, color:"#475569", textAlign:"center", maxWidth:70, lineHeight:1.3 }}>{step.label}</span>
+                      <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:6, padding:"0 16px" }}>
+                        <div style={{ width:40, height:40, borderRadius:"50%", background:`${step.color}10`, border:`1px solid ${step.color}30`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>{step.icon}</div>
+                        <span style={{ fontSize:11, color:"#64748b", textAlign:"center", maxWidth:80, lineHeight:1.3 }}>{step.label}</span>
                       </div>
-                      {i < arr.length-1 && <div style={{ color:"rgba(0,255,180,0.25)", fontSize:16, flexShrink:0 }}>→</div>}
+                      {i < arr.length-1 && <div style={{ color:"rgba(255,255,255,0.1)", fontSize:18, flexShrink:0, margin:"0 4px" }}>→</div>}
                     </div>
                   ))}
                 </div>
@@ -626,48 +606,48 @@ export default function DHASite() {
             </div>
           </div>
           {/* CM */}
-          <div data-observe id="p2" style={{ opacity:v("p2")?1:0, transform:v("p2")?"none":"translateY(36px)", transition:"all 0.7s ease 0.15s" }}>
-            <div style={{ background:"rgba(0,200,255,0.03)", border:"1px solid rgba(0,200,255,0.18)", borderRadius:24, overflow:"hidden", position:"relative" }}>
-              <div style={{ position:"absolute", top:-60, left:-60, width:280, height:280, background:"radial-gradient(circle,rgba(0,200,255,0.06),transparent 70%)", borderRadius:"50%", pointerEvents:"none" }} />
-              <div style={{ padding:"32px 28px 0" }}>
+          <div data-observe id="p2" style={{ opacity:v("p2")?1:0, transform:v("p2")?"none":"translateY(36px)", transition:"all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s" }}>
+            <div style={{ background:"rgba(255,255,255,0.01)", border:"1px solid rgba(0,200,255,0.18)", borderRadius:24, overflow:"hidden", position:"relative", backdropFilter:"blur(12px)" }} className="product-card blue">
+              <div style={{ position:"absolute", top:-60, left:-60, width:280, height:280, background:"radial-gradient(circle,rgba(0,200,255,0.05),transparent 70%)", borderRadius:"50%", pointerEvents:"none" }} />
+              <div style={{ padding:"40px 36px 0" }}>
                 <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", flexWrap:"wrap", gap:16, marginBottom:20 }}>
                   <div>
-                    <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:10 }}>
-                      <div style={{ width:48, height:48, borderRadius:13, background:"rgba(0,200,255,0.1)", border:"1px solid rgba(0,200,255,0.2)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22 }}>📲</div>
+                    <div style={{ display:"flex", alignItems:"center", gap:14, marginBottom:14 }}>
+                      <div style={{ width:54, height:54, borderRadius:16, background:"rgba(0,200,255,0.08)", border:"1px solid rgba(0,200,255,0.18)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26 }}>📲</div>
                       <div>
-                        <div style={{ fontSize:10, letterSpacing:"1.5px", color:"#00C8FF", fontWeight:700, textTransform:"uppercase", marginBottom:3 }}>{t.prod2_tag}</div>
-                        <h3 style={{ fontSize:24, fontWeight:900, color:"#00C8FF", letterSpacing:"-0.8px", lineHeight:1 }}>{lang==="en" ? "AI Community Manager" : "Community Manager IA"}</h3>
+                        <div style={{ fontSize:10, letterSpacing:"1.5px", color:"#00C8FF", fontWeight:800, textTransform:"uppercase", marginBottom:4 }}>{t.prod2_tag}</div>
+                        <h3 style={{ fontSize:26, fontWeight:900, color:"#00C8FF", letterSpacing:"-0.8px", lineHeight:1 }}>{lang==="en" ? "AI Community Manager" : "Community Manager IA"}</h3>
                       </div>
                     </div>
                     <p style={{ fontSize:14, color:"#94a3b8", lineHeight:1.75, maxWidth:520 }}>{t.prod2_desc}</p>
                   </div>
                   <div style={{ textAlign:"right", flexShrink:0 }}>
                     <div style={{ fontSize:12, color:"#475569", textDecoration:"line-through" }}>75 000 FCFA/mois</div>
-                    <div style={{ fontSize:28, fontWeight:900, color:"#00C8FF", letterSpacing:"-1px" }}>35 000</div>
+                    <div style={{ fontSize:32, fontWeight:900, color:"#00C8FF", letterSpacing:"-1px", marginTop:2 }}>35 000</div>
                     <div style={{ display:"flex", alignItems:"center", gap:6, justifyContent:"flex-end" }}>
-                      <span style={{ fontSize:12, color:"#475569" }}>FCFA / {lang==="en"?"mo":"mois"}</span>
+                      <span style={{ fontSize:12, color:"#64748b" }}>FCFA / {lang==="en"?"mo":"mois"}</span>
                       <span style={{ fontSize:10, background:"rgba(0,200,255,0.1)", color:"#00C8FF", border:"1px solid rgba(0,200,255,0.2)", borderRadius:20, padding:"2px 7px", fontWeight:700 }}>-53%</span>
                     </div>
-                    <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"inline-block", marginTop:10, background:"linear-gradient(135deg,#00C8FF,#00C8FF99)", color:"#050810", padding:"10px 20px", borderRadius:10, fontSize:13, fontWeight:700, textDecoration:"none" }}>{t.start_btn}</a>
+                    <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"inline-block", marginTop:14, background:"linear-gradient(135deg,#00C8FF,#00C8FF99)", color:"#030712", padding:"12px 24px", borderRadius:12, fontSize:13, fontWeight:800, textDecoration:"none", transition:"all 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }} className="prod-cta">{t.start_btn}</a>
                   </div>
                 </div>
-                <div className="feat6-grid" style={{ marginBottom:28 }}>
+                <div className="feat6-grid" style={{ marginBottom:36 }}>
                   {t.prod2_features.map((f,i) => (
-                    <div key={i} style={{ background:"rgba(255,255,255,0.025)", border:"1px solid rgba(0,200,255,0.08)", borderRadius:14, padding:"16px 14px" }}>
-                      <div style={{ fontSize:20, marginBottom:8 }}>{f.icon}</div>
-                      <div style={{ fontSize:13, fontWeight:700, color:"#e2e8f0", marginBottom:5 }}>{f.title}</div>
-                      <div style={{ fontSize:12, color:"#64748b", lineHeight:1.6 }}>{f.desc}</div>
+                    <div key={i} style={{ background:"rgba(255,255,255,0.015)", border:"1px solid rgba(255,255,255,0.04)", borderRadius:16, padding:"20px 18px", transition:"all 0.3s" }} className="sub-feat-card">
+                      <div style={{ fontSize:20, marginBottom:10 }}>{f.icon}</div>
+                      <div style={{ fontSize:14, fontWeight:700, color:"#fff", marginBottom:6 }}>{f.title}</div>
+                      <div style={{ fontSize:12, color:"#64748b", lineHeight:1.65 }}>{f.desc}</div>
                     </div>
                   ))}
                 </div>
-                <div style={{ background:"rgba(0,0,0,0.3)", borderTop:"1px solid rgba(0,200,255,0.08)", padding:"18px 0 20px", display:"flex", alignItems:"center", justifyContent:"center", gap:0, flexWrap:"wrap" }}>
+                <div style={{ background:"rgba(255,255,255,0.01)", borderTop:"1px solid rgba(255,255,255,0.05)", padding:"24px 0 28px", display:"flex", alignItems:"center", justifyContent:"center", gap:0, flexWrap:"wrap" }}>
                   {t.prod2_workflow.map((step, i, arr) => (
                     <div key={i} style={{ display:"flex", alignItems:"center" }}>
-                      <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4, padding:"0 10px" }}>
-                        <div style={{ width:36, height:36, borderRadius:"50%", background:`${step.color}15`, border:`1px solid ${step.color}40`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:16 }}>{step.icon}</div>
-                        <span style={{ fontSize:10, color:"#475569", textAlign:"center", maxWidth:70, lineHeight:1.3 }}>{step.label}</span>
+                      <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:6, padding:"0 16px" }}>
+                        <div style={{ width:40, height:40, borderRadius:"50%", background:`${step.color}10`, border:`1px solid ${step.color}30`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>{step.icon}</div>
+                        <span style={{ fontSize:11, color:"#64748b", textAlign:"center", maxWidth:80, lineHeight:1.3 }}>{step.label}</span>
                       </div>
-                      {i < arr.length-1 && <div style={{ color:"rgba(0,200,255,0.25)", fontSize:16, flexShrink:0 }}>→</div>}
+                      {i < arr.length-1 && <div style={{ color:"rgba(255,255,255,0.1)", fontSize:18, flexShrink:0, margin:"0 4px" }}>→</div>}
                     </div>
                   ))}
                 </div>
@@ -678,32 +658,36 @@ export default function DHASite() {
       </section>
 
       {/* PROCESS */}
-      <section id="comment" style={{ padding:"80px 20px", background:"linear-gradient(180deg,#050810,#070d1a)" }}>
+      <section id="comment" style={{ padding:"100px 20px", background:"linear-gradient(180deg,#030712,#050917)" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
-          <div data-observe id="how-h" style={{ textAlign:"center", marginBottom:56, opacity:v("how-h")?1:0, transform:v("how-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
+          <div data-observe id="how-h" style={{ textAlign:"center", marginBottom:56, opacity:v("how-h")?1:0, transform:v("how-h")?"none":"translateY(24px)", transition:"all 0.7s cubic-bezier(0.16, 1, 0.3, 1)" }}>
             <div style={labelStyle}>{t.process_label}</div>
             <h2 style={h2Style}>{t.process_title}</h2>
             <p style={subStyle}>{t.process_sub}</p>
           </div>
           <div className="steps-layout">
-            <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+            <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
               {t.steps.map((s, i) => (
-                <button key={i} onClick={() => setActiveStep(i)} style={{ background: activeStep===i ? "rgba(0,255,180,0.06)" : "rgba(255,255,255,0.02)", border:`1px solid ${activeStep===i ? "rgba(0,255,180,0.25)" : "rgba(255,255,255,0.06)"}`, borderRadius:16, padding:"18px 20px", cursor:"pointer", textAlign:"left", fontFamily:"inherit", transition:"all 0.3s", display:"flex", alignItems:"flex-start", gap:16 }}>
-                  <div style={{ fontSize:28, fontWeight:900, color: activeStep===i ? "#00FFB4" : "rgba(255,255,255,0.1)", letterSpacing:"-1px", lineHeight:1, flexShrink:0, transition:"color 0.3s" }}>{s.n}</div>
+                <button key={i} onClick={() => setActiveStep(i)} style={{ 
+                  background: activeStep===i ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.01)", 
+                  border:`1px solid ${activeStep===i ? "rgba(0,255,180,0.25)" : "rgba(255,255,255,0.04)"}`, 
+                  borderRadius:20, padding:"20px 24px", cursor:"pointer", textAlign:"left", fontFamily:"inherit", transition:"all 0.3s cubic-bezier(0.16, 1, 0.3, 1)", display:"flex", alignItems:"flex-start", gap:20 
+                }} className="step-button">
+                  <div style={{ fontSize:28, fontWeight:900, color: activeStep===i ? "#00FFB4" : "rgba(255,255,255,0.08)", letterSpacing:"-1px", lineHeight:1, flexShrink:0, transition:"color 0.3s" }}>{s.n}</div>
                   <div>
-                    <div style={{ fontSize:15, fontWeight:700, color: activeStep===i ? "#fff" : "#94a3b8", marginBottom:4, transition:"color 0.3s" }}>{s.icon} {s.title}</div>
-                    {activeStep===i && <div style={{ fontSize:13, color:"#64748b", lineHeight:1.65, animation:"fadeUp 0.3s ease" }}>{s.desc}</div>}
+                    <div style={{ fontSize:16, fontWeight:700, color: activeStep===i ? "#fff" : "#94a3b8", marginBottom:6, transition:"color 0.3s" }}>{s.icon} {s.title}</div>
+                    {activeStep===i && <div style={{ fontSize:13, color:"#64748b", lineHeight:1.7, animation:"fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }}>{s.desc}</div>}
                   </div>
                 </button>
               ))}
             </div>
-            <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:20, padding:32, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", minHeight:280 }}>
-              <div style={{ fontSize:64, marginBottom:20 }}>{t.steps[activeStep].icon}</div>
-              <h3 style={{ fontSize:20, fontWeight:800, color:"#fff", textAlign:"center", marginBottom:12, letterSpacing:"-0.5px" }}>{t.steps[activeStep].title}</h3>
-              <p style={{ fontSize:13, color:"#64748b", textAlign:"center", lineHeight:1.7, maxWidth:260 }}>{t.steps[activeStep].desc}</p>
-              <div style={{ display:"flex", gap:8, marginTop:24 }}>
+            <div style={{ background:"rgba(255,255,255,0.015)", border:"1px solid rgba(255,255,255,0.04)", borderRadius:24, padding:40, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", minHeight:320, backdropFilter:"blur(8px)" }}>
+              <div style={{ fontSize:72, marginBottom:20 }}>{t.steps[activeStep].icon}</div>
+              <h3 style={{ fontSize:22, fontWeight:800, color:"#fff", textAlign:"center", marginBottom:14, letterSpacing:"-0.5px" }}>{t.steps[activeStep].title}</h3>
+              <p style={{ fontSize:14, color:"#64748b", textAlign:"center", lineHeight:1.8, maxWidth:280 }}>{t.steps[activeStep].desc}</p>
+              <div style={{ display:"flex", gap:8, marginTop:28 }}>
                 {t.steps.map((_,i) => (
-                  <div key={i} style={{ width: activeStep===i ? 20 : 6, height:6, borderRadius:3, background: activeStep===i ? "#00FFB4" : "rgba(255,255,255,0.15)", transition:"all 0.3s" }} />
+                  <div key={i} style={{ width: activeStep===i ? 24 : 6, height:6, borderRadius:3, background: activeStep===i ? "#00FFB4" : "rgba(255,255,255,0.15)", transition:"all 0.3s" }} />
                 ))}
               </div>
             </div>
@@ -712,46 +696,46 @@ export default function DHASite() {
       </section>
 
       {/* PRICING */}
-      <section id="tarifs" style={{ padding:"80px 20px", background:"#050810" }}>
+      <section id="tarifs" style={{ padding:"100px 20px", background:"#030712" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
-          <div data-observe id="prix-h" style={{ textAlign:"center", marginBottom:48, opacity:v("prix-h")?1:0, transform:v("prix-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
+          <div data-observe id="prix-h" style={{ textAlign:"center", marginBottom:54, opacity:v("prix-h")?1:0, transform:v("prix-h")?"none":"translateY(24px)", transition:"all 0.7s cubic-bezier(0.16, 1, 0.3, 1)" }}>
             <div style={labelStyle}>{t.pricing_label}</div>
             <h2 style={h2Style}>{t.pricing_title}</h2>
             <p style={subStyle}>{t.pricing_sub}</p>
           </div>
           <div className="three-col-grid" style={{ alignItems:"start" }}>
             {t.pricing_cards.map((card, i) => (
-              <div key={i} data-observe id={`t${i}`} style={{ background: card.pop ? `linear-gradient(145deg,${card.accent}08,#070d1a)` : "rgba(255,255,255,0.025)", border:`1px solid ${card.pop ? card.accent : card.accent+"22"}`, borderRadius:20, padding:"28px 24px", position:"relative", opacity:v(`t${i}`)?1:0, transform:v(`t${i}`)?"none":"translateY(36px)", transition:`all 0.7s ease ${i*0.12}s` }}>
-                {card.pop && <div style={{ position:"absolute", top:-13, left:"50%", transform:"translateX(-50%)", background:card.accent, color:"#050810", padding:"4px 16px", borderRadius:20, fontSize:11, fontWeight:700, whiteSpace:"nowrap" }}>⭐ {lang==="en"?"Most popular":"Le plus populaire"}</div>}
-                <h3 style={{ fontSize:17, fontWeight:700, color:card.accent, marginBottom:14 }}>{card.name}</h3>
-                <div style={{ marginBottom:14 }}>
-                  <div style={{ fontSize:13, color:"#475569", textDecoration:"line-through", marginBottom:4 }}>{card.oldPrice} {card.unit}</div>
+              <div key={i} data-observe id={`t${i}`} style={{ background: card.pop ? `linear-gradient(145deg,${card.accent}08,#050917)` : "rgba(255,255,255,0.015)", border:`1px solid ${card.pop ? card.accent : "rgba(255,255,255,0.05)"}`, borderRadius:24, padding:"36px 28px", position:"relative", opacity:v(`t${i}`)?1:0, transform:v(`t${i}`)?"none":"translateY(36px)", transition:`all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.12}s`, backdropFilter:"blur(10px)" }} className="pricing-card">
+                {card.pop && <div style={{ position:"absolute", top:-13, left:"50%", transform:"translateX(-50%)", background:card.accent, color:"#030712", padding:"4px 18px", borderRadius:20, fontSize:11, fontWeight:800, whiteSpace:"nowrap" }}>⭐ {lang==="en"?"Most popular":"Le plus populaire"}</div>}
+                <h3 style={{ fontSize:18, fontWeight:800, color:card.accent, marginBottom:16 }}>{card.name}</h3>
+                <div style={{ marginBottom:16 }}>
+                  <div style={{ fontSize:13, color:"#4b5563", textDecoration:"line-through", marginBottom:4 }}>{card.oldPrice} {card.unit}</div>
                   <div style={{ display:"flex", alignItems:"center", gap:8 }}>
-                    <span style={{ fontSize:32, fontWeight:900, color:"#fff", letterSpacing:"-2px" }}>{card.price}</span>
+                    <span style={{ fontSize:36, fontWeight:900, color:"#fff", letterSpacing:"-1.5px" }}>{card.price}</span>
                     <span style={{ fontSize:13, color:"#64748b" }}>{card.unit}</span>
                     <span style={{ fontSize:11, background:"rgba(0,255,180,0.1)", color:"#00FFB4", border:"1px solid rgba(0,255,180,0.2)", borderRadius:20, padding:"2px 8px", fontWeight:700 }}>-50%</span>
                   </div>
                 </div>
-                <p style={{ fontSize:13, color:"#64748b", lineHeight:1.65, marginBottom:20 }}>{card.desc}</p>
-                <ul style={{ listStyle:"none", padding:0, margin:"0 0 24px", display:"flex", flexDirection:"column", gap:9 }}>
+                <p style={{ fontSize:13, color:"#64748b", lineHeight:1.7, marginBottom:24 }}>{card.desc}</p>
+                <ul style={{ listStyle:"none", padding:0, margin:"0 0 32px", display:"flex", flexDirection:"column", gap:11 }}>
                   {card.features.map(f => (
-                    <li key={f} style={{ display:"flex", alignItems:"center", gap:9, fontSize:13, color:"#94a3b8" }}>
+                    <li key={f} style={{ display:"flex", alignItems:"center", gap:10, fontSize:13, color:"#94a3b8" }}>
                       <span style={{ width:6, height:6, borderRadius:"50%", background:card.accent, flexShrink:0 }} />{f}
                     </li>
                   ))}
                 </ul>
-                <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"block", textAlign:"center", background:`linear-gradient(135deg,${card.accent},${card.accent}AA)`, color:"#050810", padding:"12px", borderRadius:12, fontSize:14, fontWeight:700, textDecoration:"none" }}>{card.cta}</a>
+                <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"block", textAlign:"center", background: card.pop ? "linear-gradient(135deg,#00FFB4,#00C8FF)" : "rgba(255,255,255,0.05)", border: card.pop ? "none" : "1px solid rgba(255,255,255,0.08)", color: card.pop ? "#030712" : "#fff", padding:"14px", borderRadius:12, fontSize:14, fontWeight:800, textDecoration:"none", transition:"all 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }} className="pricing-card-btn">{card.cta}</a>
               </div>
             ))}
           </div>
-          <p style={{ textAlign:"center", color:"#475569", fontSize:13, marginTop:32 }}>📞 {t.pricing_note} <a href={`https://wa.me/${WA_NUMBER}`} style={{ color:"#00FFB4", textDecoration:"none" }}>{t.pricing_wa}</a></p>
+          <p style={{ textAlign:"center", color:"#4b5563", fontSize:13, marginTop:36 }}>📞 {t.pricing_note} <a href={`https://wa.me/${WA_NUMBER}`} style={{ color:"#00FFB4", textDecoration:"none" }}>{t.pricing_wa}</a></p>
         </div>
       </section>
 
       {/* TESTIMONIALS */}
-      <section id="temoignages" style={{ padding:"80px 0", background:"linear-gradient(180deg,#050810,#070d1a)", overflow:"hidden" }}>
+      <section id="temoignages" style={{ padding:"100px 0", background:"linear-gradient(180deg,#030712,#050917)", overflow:"hidden" }}>
         <div style={{ maxWidth:1100, margin:"0 auto", padding:"0 20px" }}>
-          <div data-observe id="testi-h" style={{ textAlign:"center", marginBottom:48, opacity:v("testi-h")?1:0, transform:v("testi-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
+          <div data-observe id="testi-h" style={{ textAlign:"center", marginBottom:48, opacity:v("testi-h")?1:0, transform:v("testi-h")?"none":"translateY(24px)", transition:"all 0.7s cubic-bezier(0.16, 1, 0.3, 1)" }}>
             <div style={labelStyle}>{t.reviews_label}</div>
             <h2 style={h2Style}>{t.reviews_title}</h2>
             <p style={subStyle}>{t.reviews_sub}</p>
@@ -761,9 +745,9 @@ export default function DHASite() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" style={{ padding:"80px 20px", background:"#050810" }}>
+      <section id="faq" style={{ padding:"100px 20px", background:"#030712" }}>
         <div style={{ maxWidth:720, margin:"0 auto" }}>
-          <div data-observe id="faq-h" style={{ textAlign:"center", marginBottom:48, opacity:v("faq-h")?1:0, transform:v("faq-h")?"none":"translateY(24px)", transition:"all 0.7s" }}>
+          <div data-observe id="faq-h" style={{ textAlign:"center", marginBottom:48, opacity:v("faq-h")?1:0, transform:v("faq-h")?"none":"translateY(24px)", transition:"all 0.7s cubic-bezier(0.16, 1, 0.3, 1)" }}>
             <div style={labelStyle}>{t.faq_label}</div>
             <h2 style={h2Style}>{t.faq_title}</h2>
             <p style={subStyle}>{t.faq_sub}</p>
@@ -775,17 +759,17 @@ export default function DHASite() {
       </section>
 
       {/* CTA FINAL */}
-      <section style={{ padding:"80px 20px", position:"relative", overflow:"hidden", textAlign:"center", background:"linear-gradient(180deg,#070d1a,#030609)" }}>
+      <section style={{ padding:"100px 20px", position:"relative", overflow:"hidden", textAlign:"center", background:"linear-gradient(180deg,#050917,#03050b)" }}>
         <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:"70vw", maxWidth:600, height:300, background:"radial-gradient(ellipse,rgba(0,255,180,0.07) 0%,transparent 70%)", filter:"blur(50px)" }} />
         <div style={{ position:"relative", zIndex:1 }}>
-          <h2 style={{ fontSize:"clamp(28px,6vw,50px)", fontWeight:900, letterSpacing:"-2px", color:"#fff", margin:"0 0 14px" }}>{t.cta_title}</h2>
-          <p style={{ fontSize:15, color:"#64748b", marginBottom:36, maxWidth:440, margin:"0 auto 36px" }}>{t.cta_sub}</p>
-          <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap" }}>
-            <a href={`https://wa.me/${WA_NUMBER}`} style={{ background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#050810", padding:"14px 30px", borderRadius:12, fontSize:15, fontWeight:700, textDecoration:"none", display:"inline-flex", alignItems:"center", gap:8, boxShadow:"0 0 40px rgba(0,255,180,0.2)" }}>{t.cta_wa}</a>
-            <button onClick={() => scrollTo("demo")} style={{ background:"rgba(255,255,255,0.05)", color:"#e2e8f0", border:"1px solid rgba(255,255,255,0.1)", padding:"14px 30px", borderRadius:12, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit" }}>{t.cta_demo}</button>
+          <h2 style={{ fontSize:"clamp(30px,6vw,54px)", fontWeight:900, letterSpacing:"-2px", color:"#fff", margin:"0 0 16px" }}>{t.cta_title}</h2>
+          <p style={{ fontSize:16, color:"#64748b", marginBottom:36, maxWidth:440, margin:"0 auto 36px" }}>{t.cta_sub}</p>
+          <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
+            <a href={`https://wa.me/${WA_NUMBER}`} style={{ background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#030712", padding:"14px 32px", borderRadius:14, fontSize:15, fontWeight:800, textDecoration:"none", display:"inline-flex", alignItems:"center", gap:8, boxShadow:"0 0 40px rgba(0,255,180,0.2)" }} className="primary-hero-cta">{t.cta_wa}</a>
+            <button onClick={() => scrollTo("demo")} style={{ background:"rgba(255,255,255,0.04)", color:"#e2e8f0", border:"1px solid rgba(255,255,255,0.1)", padding:"14px 32px", borderRadius:14, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit" }} className="secondary-hero-cta">{t.cta_demo}</button>
           </div>
-          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:20, marginTop:32, flexWrap:"wrap" }}>
-            {t.cta_badges.map(b => <span key={b} style={{ fontSize:13, color:"#475569" }}>{b}</span>)}
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:20, marginTop:36, flexWrap:"wrap" }}>
+            {t.cta_badges.map(b => <span key={b} style={{ fontSize:13, color:"#4b5563", fontWeight:500 }}>{b}</span>)}
           </div>
         </div>
       </section>
@@ -793,25 +777,91 @@ export default function DHASite() {
   );
 }
 
-const labelStyle = { display:"inline-block", background:"rgba(0,255,180,0.07)", border:"1px solid rgba(0,255,180,0.18)", borderRadius:20, padding:"5px 14px", fontSize:11, color:"#00FFB4", letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:14 };
-const h2Style   = { fontSize:"clamp(26px,5vw,46px)", fontWeight:900, letterSpacing:"-1.5px", color:"#fff", margin:"0 0 14px", lineHeight:1.1 };
+const labelStyle = { display:"inline-block", background:"rgba(0,255,180,0.04)", border:"1px solid rgba(0,255,180,0.15)", borderRadius:20, padding:"5px 14px", fontSize:11, color:"#00FFB4", letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:14, fontWeight:700 };
+const h2Style   = { fontSize:"clamp(28px,5vw,48px)", fontWeight:900, letterSpacing:"-1.5px", color:"#fff", margin:"0 0 14px", lineHeight:1.1 };
 const subStyle  = { fontSize:15, color:"#64748b", maxWidth:480, margin:"0 auto", lineHeight:1.7 };
 
 const CSS = `
   @keyframes blink      { 0%,100%{opacity:.35} 50%{opacity:1} }
   @keyframes sparkle    { 0%,100%{opacity:0;transform:scale(0) rotate(0deg)} 20%{opacity:1;transform:scale(1.2) rotate(15deg)} 50%{opacity:.8;transform:scale(0.9) rotate(-10deg)} 80%{opacity:.3;transform:scale(1.1) rotate(20deg)} }
-  @keyframes fadeUp     { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeUp     { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
   @keyframes typeBounce { 0%,80%,100%{transform:scale(0.6);opacity:.4} 40%{transform:scale(1);opacity:1} }
   @keyframes scrollLeft { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-  input::placeholder { color:#334155; }
-  input:focus { border-color:rgba(0,255,180,0.3) !important; }
-  ::-webkit-scrollbar { width:4px; height:4px; }
-  ::-webkit-scrollbar-thumb { background:rgba(0,255,180,0.15); border-radius:4px; }
+  input::placeholder { color:#4b5563; }
+  input:focus { border-color:rgba(0,255,180,0.25) !important; background: rgba(255,255,255,0.07) !important; }
+  
+  /* Bento Grid & Card micro-interactions inspired by linear/apple */
+  .card { 
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; 
+  }
+  .card:hover { 
+    transform: translateY(-5px); 
+    border-color: rgba(0,255,180,0.18) !important;
+    background: rgba(255,255,255,0.025) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .product-card {
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .product-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0,255,180,0.3) !important;
+    box-shadow: 0 30px 60px rgba(0,255,180,0.06);
+  }
+  .product-card.blue:hover {
+    border-color: rgba(0,200,255,0.3) !important;
+    box-shadow: 0 30px 60px rgba(0,200,255,0.06);
+  }
+
+  .sub-feat-card {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sub-feat-card:hover {
+    background: rgba(255,255,255,0.035) !important;
+    border-color: rgba(255,255,255,0.08) !important;
+  }
+
+  .step-button {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .step-button:hover {
+    border-color: rgba(255,255,255,0.12) !important;
+    background: rgba(255,255,255,0.015) !important;
+  }
+
+  .pricing-card {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .pricing-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,255,255,0.12) !important;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+  }
+  .pricing-card-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  .primary-hero-cta:hover, .prod-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,255,180,0.35) !important;
+  }
+  .secondary-hero-cta:hover {
+    background: rgba(255,255,255,0.08) !important;
+    border-color: rgba(255,255,255,0.15) !important;
+    transform: translateY(-2px);
+  }
+
+  .chat-sug:hover {
+    background: rgba(0,255,180,0.1) !important;
+    border-color: rgba(0,255,180,0.25) !important;
+  }
 
   .feat6-grid     { display:grid; grid-template-columns:1fr; gap:12px; }
   .three-col-grid { display:grid; grid-template-columns:1fr; gap:20px; }
-  .feat-grid      { display:grid; grid-template-columns:1fr; gap:14px; }
+  .feat-grid      { display:grid; grid-template-columns:1fr; gap:16px; }
   .steps-layout   { display:grid; grid-template-columns:1fr; gap:20px; }
 
   @media(min-width:600px) {
@@ -822,11 +872,7 @@ const CSS = `
   @media(min-width:900px) {
     .three-col-grid { grid-template-columns:repeat(3,1fr); }
     .feat-grid      { grid-template-columns:repeat(4,1fr); }
-    .steps-layout   { grid-template-columns:1fr 1fr; gap:28px; align-items:start; }
+    .steps-layout   { grid-template-columns:1fr 1fr; gap:32px; align-items:start; }
     .feat6-grid     { grid-template-columns:repeat(3,1fr); }
   }
-
-  button:hover { opacity:.85; }
-  a:hover      { opacity:.85; }
 `;
-import { useLang } from "./LangContext";
