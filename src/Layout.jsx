@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import {
+  RobotIcon, PaletteIcon, CodeIcon, RocketLaunchIcon,
+  ChatCircleDotsIcon, ArrowRightIcon, ListIcon, XIcon,
+  WhatsappLogoIcon, GlobeIcon,
+} from "@phosphor-icons/react";
 import { useLang } from "./LangContext";
 
 const WA_NUMBER = "2290160008046";
@@ -7,16 +12,16 @@ const WA_NUMBER = "2290160008046";
 const T_NAV = {
   fr: {
     ia: "IA", creative: "Créatif", web: "Web",
-    products: "Produits", demo: "🤖 Démo Alex", how: "Comment ça marche",
-    pricing: "Tarifs", reviews: "Témoignages", faq: "FAQ", start: "Démarrer →",
-    wa_bubble: "💬 Discutez avec nous sur WhatsApp !",
+    products: "Produits", demo: "Démo Alex", how: "Comment ça marche",
+    pricing: "Tarifs", reviews: "Témoignages", faq: "FAQ", start: "Démarrer",
+    wa_bubble: "Discutez avec nous sur WhatsApp",
     footer_copy: "Digital Horizon Agency · Cotonou, Bénin · © 2026 DHA"
   },
   en: {
     ia: "AI", creative: "Creative", web: "Web",
-    products: "Products", demo: "🤖 Demo Alex", how: "How it works",
-    pricing: "Pricing", reviews: "Reviews", faq: "FAQ", start: "Get started →",
-    wa_bubble: "💬 Chat with us on WhatsApp !",
+    products: "Products", demo: "Demo Alex", how: "How it works",
+    pricing: "Pricing", reviews: "Reviews", faq: "FAQ", start: "Get started",
+    wa_bubble: "Chat with us on WhatsApp",
     footer_copy: "Digital Horizon Agency · Cotonou, Benin · © 2026 DHA"
   }
 };
@@ -63,9 +68,9 @@ export default function Layout() {
   }, [location]);
 
   const pageLinks = [
-    { to: "/", label: t.ia, emoji: "🤖", active: location.pathname === "/" },
-    { to: "/creative", label: t.creative, emoji: "🎨", active: location.pathname === "/creative" },
-    { to: "/web", label: t.web, emoji: "💻", active: location.pathname === "/web" },
+    { to: "/", label: t.ia, Icon: RobotIcon, active: location.pathname === "/" },
+    { to: "/creative", label: t.creative, Icon: PaletteIcon, active: location.pathname === "/creative" },
+    { to: "/web", label: t.web, Icon: CodeIcon, active: location.pathname === "/web" },
   ];
 
   const navLinks = [
@@ -81,86 +86,73 @@ export default function Layout() {
     <div className="layout-root">
       <style>{NAV_CSS}</style>
       <header>
-        <nav style={{
-          position: "fixed", top: 12, left: 12, right: 12, zIndex: 1000,
-          transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-          background: scrollY > 30 ? "rgba(3, 7, 18, 0.75)" : "transparent",
-          backdropFilter: scrollY > 30 ? "blur(16px)" : "none",
-          border: scrollY > 30 ? "1px solid rgba(255, 255, 255, 0.08)" : "1px solid transparent",
-          borderRadius: scrollY > 30 ? "24px" : "0px",
-          maxWidth: "1200px", margin: "0 auto"
-        }}>
-          <div style={{ padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-            <Link to="/" style={{ fontSize: 20, fontWeight: 900, color: "#fff", textDecoration: "none", letterSpacing: "-1px" }}>
-              <span style={{ color: "#00FFB4" }}>D</span>HA
-              <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 500, marginLeft: 6, letterSpacing: "1px" }}>AGENCY</span>
+        <nav className={`main-nav ${scrollY > 30 ? "is-scrolled" : ""}`}>
+          <div className="nav-inner">
+            <Link to="/" className="brand">
+              <span className="brand-mark">D</span>HA
+              <span className="brand-suffix">AGENCY</span>
             </Link>
 
-            <div className="desk-nav" style={{ alignItems: "center", gap: 4 }}>
-              {pageLinks.map(({ to, label, emoji, active }) => (
-                <Link key={to} to={to} style={{
-                  background: active ? "rgba(0,255,180,0.06)" : "none",
-                  border: active ? "1px solid rgba(0,255,180,0.18)" : "1px solid transparent",
-                  color: active ? "#00FFB4" : "#94a3b8",
-                  fontSize: 12, padding: "8px 14px", borderRadius: 12, textDecoration: "none", fontWeight: active ? 700 : 500, display: "flex", alignItems: "center", gap: 6, transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
-                }}>
-                  <span>{emoji}</span>{label}
+            <div className="desk-nav page-links">
+              {pageLinks.map(({ to, label, Icon, active }) => (
+                <Link key={to} to={to} className={`page-link ${active ? "is-active" : ""}`}>
+                  <Icon size={15} weight={active ? "fill" : "regular"} />{label}
                 </Link>
               ))}
-              <div style={{ width: 1, height: 18, background: "rgba(255,255,255,0.06)", margin: "0 8px" }} />
+              <div className="nav-sep" />
               {navLinks.map(([id, label]) => (
-                <button key={id} onClick={() => scrollTo(id)} style={{
-                  background: "none", border: "none", color: id === "demo" ? "#00FFB4" : "#94a3b8", fontSize: 12, cursor: "pointer", padding: "6px 11px", borderRadius: 12, fontWeight: id === "demo" ? 700 : 500, transition: "color 0.25s"
-                }}>{label}</button>
+                <button key={id} onClick={() => scrollTo(id)} className={`nav-link ${id === "demo" ? "is-accent" : ""}`}>
+                  {label}
+                </button>
               ))}
             </div>
 
-            <div className="desk-nav" style={{ alignItems: "center", gap: 8 }}>
-              <div style={{ display: "flex", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 10, overflow: "hidden", padding: 2 }}>
+            <div className="desk-nav" style={{ alignItems: "center", gap: 10 }}>
+              <div className="lang-switch">
                 {["fr", "en"].map(code => (
-                  <button key={code} onClick={() => setLang(code)} style={{
-                    background: lang === code ? "rgba(0,255,180,0.15)" : "none", border: "none", padding: "6px 12px", fontSize: 11, color: lang === code ? "#00FFB4" : "#64748b", cursor: "pointer", fontWeight: lang === code ? 700 : 400, borderRadius: 10, transition: "all 0.25s"
-                  }}>
-                    {code === "fr" ? "🇫🇷" : "🇬🇧"}
+                  <button key={code} onClick={() => setLang(code)} className={`lang-btn ${lang === code ? "is-active" : ""}`}>
+                    {code.toUpperCase()}
                   </button>
                 ))}
               </div>
-              <a href={`https://wa.me/${WA_NUMBER}`} style={{ background: "linear-gradient(135deg,#00FFB4,#00C8FF)", color: "#050810", padding: "10px 18px", borderRadius: 12, fontSize: 12, fontWeight: 800, textDecoration: "none", boxShadow: "0 4px 20px rgba(0,255,180,0.15)", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }} className="nav-cta-btn">{t.start}</a>
+              <a href={`https://wa.me/${WA_NUMBER}`} className="nav-cta-btn">
+                {t.start}<ArrowRightIcon size={14} weight="bold" />
+              </a>
             </div>
 
-            <button className="burger" onClick={() => setMenuOpen(!menuOpen)} style={{ background: "none", border: "none", color: "#e2e8f0", fontSize:24, cursor: "pointer" }}>
-              {menuOpen ? "✕" : "☰"}
+            <button className="burger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+              {menuOpen ? <XIcon size={22} /> : <ListIcon size={22} />}
             </button>
           </div>
 
           {menuOpen && (
-            <div style={{ background: "rgba(3, 7, 18, 0.98)", borderRadius: 20, margin: "0 10px 10px", paddingBottom: 16, border: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ padding: "14px 20px 8px", display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {pageLinks.map(({ to, label, emoji, active }) => (
-                  <Link key={to} to={to} onClick={() => setMenuOpen(false)} style={{
-                    background: active ? "rgba(0,255,180,0.06)" : "rgba(255,255,255,0.02)",
-                    border: active ? "1px solid rgba(0,255,180,0.15)" : "1px solid rgba(255,255,255,0.05)",
-                    color: active ? "#00FFB4" : "#94a3b8", fontSize: 12, padding: "6px 12px", borderRadius: 8, textDecoration: "none", fontWeight: active ? 700 : 500, display: "flex", alignItems: "center", gap: 5
-                  }}>{emoji} {label}</Link>
+            <div className="mobile-panel">
+              <div className="mobile-pagelinks">
+                {pageLinks.map(({ to, label, Icon, active }) => (
+                  <Link key={to} to={to} onClick={() => setMenuOpen(false)} className={`mobile-pagelink ${active ? "is-active" : ""}`}>
+                    <Icon size={16} weight={active ? "fill" : "regular"} />{label}
+                  </Link>
                 ))}
               </div>
-              <div style={{ height: 1, background: "rgba(255,255,255,0.06)", margin: "6px 0" }} />
+              <div className="mobile-divider" />
               {navLinks.map(([id, label]) => (
-                <button key={id} onClick={() => scrollTo(id)} style={{
-                  display: "block", width: "100%", background: "none", border: "none", borderBottom: "1px solid rgba(255,255,255,0.04)", color: id === "demo" ? "#00FFB4" : "#94a3b8", fontSize: 14, padding: "12px 24px", textAlign: "left", cursor: "pointer"
-                }}>{label}</button>
+                <button key={id} onClick={() => scrollTo(id)} className={`mobile-navlink ${id === "demo" ? "is-accent" : ""}`}>
+                  {label}
+                </button>
               ))}
-              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 20px" }}>
-                <div style={{ display: "flex", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, overflow: "hidden", padding: 2 }}>
+              <div className="mobile-lang-row">
+                <div className="lang-switch">
                   {["fr", "en"].map(code => (
-                    <button key={code} onClick={() => { setLang(code); setMenuOpen(false); }} style={{
-                      background: lang === code ? "rgba(0,255,180,0.15)" : "none", border: "none", padding: "7px 14px", fontSize: 12, color: lang === code ? "#00FFB4" : "#64748b", cursor: "pointer", fontWeight: lang === code ? 700 : 400
-                    }}>{code === "fr" ? "🇫🇷" : "🇬🇧"}</button>
+                    <button key={code} onClick={() => { setLang(code); setMenuOpen(false); }} className={`lang-btn ${lang === code ? "is-active" : ""}`}>
+                      {code.toUpperCase()}
+                    </button>
                   ))}
                 </div>
               </div>
               <div style={{ padding: "4px 20px 4px" }}>
-                <a href={`https://wa.me/${WA_NUMBER}`} style={{ display: "block", background: "linear-gradient(135deg,#00FFB4,#00C8FF)", color: "#050810", padding: "13px", borderRadius: 12, fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center" }}>{t.start}</a>
+                <a href={`https://wa.me/${WA_NUMBER}`} className="mobile-cta">
+                  {t.start}<ArrowRightIcon size={15} weight="bold" />
+                </a>
               </div>
             </div>
           )}
@@ -171,25 +163,24 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "40px 20px", textAlign: "center", background: "#030712" }}>
-        <div style={{ fontSize: 20, fontWeight: 900, color: "#fff", marginBottom: 14 }}><span style={{ color: "#00FFB4" }}>D</span>HA</div>
-        <div style={{ display: "flex", justifyContent: "center", gap: 20, marginBottom: 16, flexWrap: "wrap" }}>
-          {pageLinks.map(({ to, label, emoji }) => (
-            <Link key={to} to={to} style={{ fontSize: 13, color: "#94a3b8", textDecoration: "none", display: "flex", alignItems: "center", gap: 5 }}>{emoji} {label}</Link>
+      <footer className="site-footer">
+        <div className="brand footer-brand"><span className="brand-mark">D</span>HA</div>
+        <div className="footer-links">
+          {pageLinks.map(({ to, label, Icon }) => (
+            <Link key={to} to={to} className="footer-link"><Icon size={14} />{label}</Link>
           ))}
         </div>
-        <p style={{ fontSize: 13, color: "#334155" }}>{t.footer_copy}</p>
+        <p className="footer-copy">{t.footer_copy}</p>
       </footer>
 
-      {/* WhatsApp Flottant */}
-      <div style={{ position: "fixed", bottom: 24, right: 20, zIndex: 1000 }}>
+      <div className="wa-float">
         {pulse && (
-          <div style={{ position: "absolute", bottom: 66, right: 0, background: "#075E54", border: "1px solid rgba(37,211,102,0.3)", borderRadius: "12px 12px 4px 12px", padding: "8px 14px", fontSize: 12, color: "#fff", whiteSpace: "nowrap", boxShadow: "0 4px 20px rgba(0,0,0,0.4)" }}>
-            {t.wa_bubble}
+          <div className="wa-bubble">
+            <GlobeIcon size={13} weight="bold" />{t.wa_bubble}
           </div>
         )}
-        <a href={`https://wa.me/${WA_NUMBER}?text=Bonjour%20Alex%20!%20Je%20veux%20en%20savoir%20plus%20sur%20DHA.`} target="_blank" rel="noopener noreferrer" style={{ width: 56, height: 56, borderRadius: "50%", background: "#25D366", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 20px rgba(37,211,102,0.5)", textDecoration: "none" }}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <a href={`https://wa.me/${WA_NUMBER}?text=Bonjour%20Alex%20!%20Je%20veux%20en%20savoir%20plus%20sur%20DHA.`} target="_blank" rel="noopener noreferrer" className="wa-button">
+          <WhatsappLogoIcon size={28} weight="fill" color="#fff" />
         </a>
       </div>
     </div>
@@ -197,18 +188,119 @@ export default function Layout() {
 }
 
 const NAV_CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
-  body { background: #030712; color: #f3f4f6; }
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --bg: #F6F8FC;
+    --bg-alt: #EEF2FA;
+    --ink: #0F172A;
+    --ink-soft: #475569;
+    --ink-faint: #94A3B8;
+    --glass: rgba(255,255,255,0.55);
+    --glass-strong: rgba(255,255,255,0.72);
+    --glass-border: rgba(15,23,42,0.08);
+    --cyan: #06B6D4;
+    --violet: #8B5CF6;
+    --green: #22D97A;
+    --indigo: #6366F1;
+    --grad-primary: linear-gradient(135deg, var(--cyan), var(--indigo));
+    --grad-secondary: linear-gradient(135deg, var(--violet), var(--indigo));
+    --grad-accent: linear-gradient(135deg, var(--green), var(--cyan));
+    --grad-full: linear-gradient(120deg, var(--cyan), var(--indigo) 45%, var(--violet) 75%, var(--green));
+    --shadow-glass: 0 8px 32px rgba(99,102,241,0.08), 0 2px 8px rgba(15,23,42,0.04);
+    --shadow-glass-lg: 0 20px 60px rgba(99,102,241,0.12), 0 4px 16px rgba(15,23,42,0.06);
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin:0; }
+  h1, h2, h3, h4 { font-family: var(--font-display); }
+  ::selection { background: rgba(139,92,246,0.18); }
+
+  .glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+  }
+  .glass-card:hover { box-shadow: var(--shadow-glass-lg); }
+
   .desk-nav { display: none !important; }
-  .burger { display: block !important; }
-  
+  .burger { display: flex !important; }
   @media(min-width: 900px) {
     .desk-nav { display: flex !important; }
     .burger { display: none !important; }
   }
 
-  .nav-cta-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0,255,180,0.3) !important;
+  .main-nav {
+    position: fixed; top: 14px; left: 14px; right: 14px; z-index: 1000;
+    transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+    background: transparent; border: 1px solid transparent; border-radius: 22px;
+    max-width: 1180px; margin: 0 auto;
   }
+  .main-nav.is-scrolled {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-color: rgba(15,23,42,0.06);
+    box-shadow: 0 8px 32px rgba(99,102,241,0.10);
+  }
+  .nav-inner { padding: 0 22px; height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+  .brand { font-size: 19px; font-weight: 800; color: var(--ink); text-decoration: none; letter-spacing: -0.5px; font-family: var(--font-display); display:flex; align-items:baseline; gap:6px; }
+  .brand-mark { background: var(--grad-full); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .brand-suffix { font-size: 9px; color: var(--ink-faint); font-weight: 600; letter-spacing: 1.5px; font-family: var(--font-body); }
+
+  .page-links { align-items: center; gap: 4px; }
+  .page-link {
+    background: transparent; border: 1px solid transparent; color: var(--ink-soft);
+    font-size: 12.5px; padding: 8px 13px; border-radius: 11px; text-decoration: none;
+    font-weight: 500; display: flex; align-items: center; gap: 6px;
+    transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
+  }
+  .page-link:hover { background: rgba(99,102,241,0.06); color: var(--indigo); }
+  .page-link.is-active { background: rgba(99,102,241,0.09); border-color: rgba(99,102,241,0.18); color: var(--indigo); font-weight: 700; }
+
+  .nav-sep { width: 1px; height: 16px; background: rgba(15,23,42,0.08); margin: 0 8px; }
+
+  .nav-link { background: none; border: none; color: var(--ink-soft); font-size: 12.5px; cursor: pointer; padding: 6px 10px; border-radius: 10px; font-weight: 500; transition: color 0.2s; font-family: var(--font-body); }
+  .nav-link:hover { color: var(--indigo); }
+  .nav-link.is-accent { color: var(--violet); font-weight: 700; }
+
+  .lang-switch { display: flex; background: rgba(15,23,42,0.04); border: 1px solid rgba(15,23,42,0.07); border-radius: 9px; overflow: hidden; padding: 2px; }
+  .lang-btn { background: none; border: none; padding: 6px 11px; font-size: 11px; color: var(--ink-faint); cursor: pointer; font-weight: 600; border-radius: 7px; transition: all 0.2s; font-family: var(--font-body); }
+  .lang-btn.is-active { background: #fff; color: var(--indigo); box-shadow: 0 1px 4px rgba(15,23,42,0.08); }
+
+  .nav-cta-btn {
+    background: var(--grad-primary); color: #fff; padding: 10px 18px; border-radius: 11px;
+    font-size: 12.5px; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 16px rgba(6,182,212,0.25); transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(6,182,212,0.35); }
+
+  .burger { background: none; border: none; color: var(--ink); cursor: pointer; align-items:center; justify-content:center; }
+
+  .mobile-panel { background: rgba(255,255,255,0.92); backdrop-filter: blur(20px); border-radius: 18px; margin: 0 8px 8px; padding-bottom: 14px; border: 1px solid rgba(15,23,42,0.06); }
+  .mobile-pagelinks { padding: 14px 18px 6px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .mobile-pagelink { background: rgba(15,23,42,0.03); border: 1px solid rgba(15,23,42,0.06); color: var(--ink-soft); font-size: 12px; padding: 7px 12px; border-radius: 9px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .mobile-pagelink.is-active { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.2); color: var(--indigo); }
+  .mobile-divider { height: 1px; background: rgba(15,23,42,0.06); margin: 6px 0; }
+  .mobile-navlink { display: block; width: 100%; background: none; border: none; border-bottom: 1px solid rgba(15,23,42,0.04); color: var(--ink-soft); font-size: 14px; padding: 12px 22px; text-align: left; cursor: pointer; font-family: var(--font-body); font-weight: 500; }
+  .mobile-navlink.is-accent { color: var(--violet); font-weight: 700; }
+  .mobile-lang-row { display: flex; align-items: center; gap: 10px; padding: 12px 18px; }
+  .mobile-cta { display: flex; align-items:center; justify-content:center; gap:8px; background: var(--grad-primary); color: #fff; padding: 13px; border-radius: 12px; font-size: 15px; font-weight: 700; text-decoration: none; text-align: center; }
+
+  .site-footer { border-top: 1px solid rgba(15,23,42,0.06); padding: 44px 20px; text-align: center; background: var(--bg-alt); }
+  .footer-brand { justify-content: center; margin-bottom: 16px; font-size: 21px; }
+  .footer-links { display: flex; justify-content: center; gap: 22px; margin-bottom: 18px; flex-wrap: wrap; }
+  .footer-link { font-size: 13px; color: var(--ink-soft); text-decoration: none; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+  .footer-link:hover { color: var(--indigo); }
+  .footer-copy { font-size: 12.5px; color: var(--ink-faint); }
+
+  .wa-float { position: fixed; bottom: 24px; right: 20px; z-index: 1000; }
+  .wa-bubble { position: absolute; bottom: 66px; right: 0; background: rgba(15,23,42,0.92); backdrop-filter: blur(10px); border-radius: 12px 12px 4px 12px; padding: 9px 14px; font-size: 12px; color: #fff; white-space: nowrap; box-shadow: 0 8px 24px rgba(15,23,42,0.25); display:flex; align-items:center; gap:6px; font-weight: 500; }
+  .wa-button { width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.4); text-decoration: none; transition: transform 0.25s; }
+  .wa-button:hover { transform: scale(1.06); }
 `;
