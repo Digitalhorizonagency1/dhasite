@@ -14,6 +14,87 @@ const HERO_BLOCKS = {
   ],
 };
 
+function TestimonialsScroll({ testimonials }) {
+  const items = [...testimonials, ...testimonials];
+  return (
+    <div style={{ position:"relative" }}>
+      <div className="testi-track" style={{ display:"flex", gap:20, width:"max-content" }}>
+        {items.map((tst, i) => (
+          <div key={i} style={{
+            width:320, flexShrink:0, background:"rgba(255,255,255,0.02)",
+            border:"1px solid rgba(255,255,255,0.06)", borderRadius:20,
+            padding:"24px 22px", backdropFilter:"blur(8px)"
+          }}>
+            <p style={{ fontSize:14, color:"#cbd5e1", lineHeight:1.7, marginBottom:20, minHeight:95 }}>
+              "{tst.text}"
+            </p>
+            <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+              <div style={{
+                width:40, height:40, borderRadius:"50%", background:`${tst.color}18`,
+                border:`1px solid ${tst.color}40`, color:tst.color, fontWeight:800,
+                fontSize:15, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0
+              }}>{tst.avatar}</div>
+              <div>
+                <div style={{ fontSize:13, fontWeight:700, color:"#fff" }}>{tst.name}</div>
+                <div style={{ fontSize:11, color:"#64748b" }}>{tst.role}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <style>{`
+        .testi-track { animation: testiScroll 40s linear infinite; }
+        .testi-track:hover { animation-play-state: paused; }
+        @keyframes testiScroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function FAQ({ faqs }) {
+  const [open, setOpen] = useState(0);
+  return (
+    <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+      {faqs.map((item, i) => {
+        const isOpen = open === i;
+        return (
+          <div key={i} style={{
+            background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.06)",
+            borderRadius:16, overflow:"hidden", transition:"border-color 0.3s"
+          }}>
+            <button onClick={() => setOpen(isOpen ? -1 : i)} style={{
+              width:"100%", background:"none", border:"none", cursor:"pointer",
+              padding:"18px 20px", display:"flex", alignItems:"center", justifyContent:"space-between",
+              gap:16, fontFamily:"inherit", textAlign:"left"
+            }}>
+              <div>
+                <div style={{ fontSize:11, color:"#00FFB4", fontWeight:700, marginBottom:4 }}>{item.cat}</div>
+                <div style={{ fontSize:14, fontWeight:700, color:"#fff" }}>{item.q}</div>
+              </div>
+              <span style={{
+                flexShrink:0, width:26, height:26, borderRadius:"50%",
+                background:"rgba(255,255,255,0.05)", display:"flex", alignItems:"center",
+                justifyContent:"center", fontSize:14, color:"#94a3b8",
+                transform: isOpen ? "rotate(45deg)" : "none", transition:"transform 0.3s"
+              }}>+</span>
+            </button>
+            <div style={{
+              maxHeight: isOpen ? 300 : 0, overflow:"hidden", transition:"max-height 0.35s ease"
+            }}>
+              <p style={{ padding:"0 20px 20px", fontSize:13, color:"#94a3b8", lineHeight:1.8, margin:0 }}>
+                {item.a}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function HeroWord({ lang }) {
   const [active, setActive] = useState(0);
   const blocks = HERO_BLOCKS[lang] || HERO_BLOCKS.fr;
