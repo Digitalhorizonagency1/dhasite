@@ -304,3 +304,4 @@ const NAV_CSS = `
   .wa-button { width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.4); text-decoration: none; transition: transform 0.25s; }
   .wa-button:hover { transform: scale(1.06); }
 `;
+      
