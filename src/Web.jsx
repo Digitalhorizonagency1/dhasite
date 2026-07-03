@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useLang } from "./LangContext";
 
 const WA_NUMBER = "2290160008046";
 
-const LANG = {
+const T = {
   fr: {
-    nav_ia:"IA", nav_creative:"Créatif", nav_web:"Web",
-    nav_start:"Démarrer →",
     hero_badge:"Sites · Apps · E-commerce",
     hero_title:"Votre présence digitale,",
     hero_title2:"pensée pour convertir",
@@ -22,11 +20,9 @@ const LANG = {
     cta_sub:"Dites-nous ce que vous voulez construire.",
     submit_wa:"Soumettre via WhatsApp",
     next:"Suivant →", prev:"← Retour", step:"Étape", of:"sur",
-    footer_copy:"Digital Horizon Agency · Cotonou, Bénin · © 2026 DHA",
     devis:"✅ Devis gratuit sous 24h",
     no_commit:"✅ Sans engagement",
     support:"✅ Support inclus",
-    most_popular:"Le plus populaire",
     services:[
       { icon:"🖥️", title:"Site Vitrine", desc:"Votre carte de visite en ligne. Design soigné, rapide, optimisé mobile et SEO.", price:"Dès 150 000 FCFA", items:["Design sur mesure","Responsive mobile","SEO de base","Formulaire de contact","Livraison en 7 jours"] },
       { icon:"🛒", title:"E-commerce", desc:"Vendez en ligne 24h/24. Catalogue produits, paiements sécurisés, gestion des commandes.", price:"Dès 300 000 FCFA", items:["Catalogue produits","Paiement Mobile Money","Gestion des commandes","Tableau de bord admin","Notifications SMS/Email"] },
@@ -43,8 +39,6 @@ const LANG = {
     form_steps_titles:["Vos coordonnées","Type de projet","Détails du projet","Design & Contenu","Délai & Budget"],
   },
   en: {
-    nav_ia:"AI", nav_creative:"Creative", nav_web:"Web",
-    nav_start:"Get started →",
     hero_badge:"Websites · Apps · E-commerce",
     hero_title:"Your digital presence,",
     hero_title2:"built to convert",
@@ -60,11 +54,9 @@ const LANG = {
     cta_sub:"Tell us what you want to build.",
     submit_wa:"Submit via WhatsApp",
     next:"Next →", prev:"← Back", step:"Step", of:"of",
-    footer_copy:"Digital Horizon Agency · Cotonou, Benin · © 2026 DHA",
     devis:"✅ Free quote within 24h",
     no_commit:"✅ No commitment",
     support:"✅ Support included",
-    most_popular:"Most popular",
     services:[
       { icon:"🖥️", title:"Website", desc:"Your online business card. Clean design, fast, mobile optimized and SEO.", price:"From 150,000 FCFA", items:["Custom design","Mobile responsive","Basic SEO","Contact form","Delivered in 7 days"] },
       { icon:"🛒", title:"E-commerce", desc:"Sell online 24/7. Product catalog, secure payments, order management.", price:"From 300,000 FCFA", items:["Product catalog","Mobile Money payment","Order management","Admin dashboard","SMS/Email notifications"] },
@@ -126,7 +118,7 @@ const WEB_FORM_STEPS = [
 ];
 
 function WebBriefModal({ onClose, lang }) {
-  const t = LANG[lang] || LANG.fr;
+  const t = T[lang] || T.fr;
   const [step, setStep] = useState(0);
   const [data, setData] = useState({});
   const [tile, setTile] = useState("");
@@ -144,7 +136,7 @@ function WebBriefModal({ onClose, lang }) {
 
   return (
     <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.85)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }} onClick={e => e.target === e.currentTarget && onClose()}>
-      <div style={{ background:"#0d1117", border:"1px solid rgba(0,200,255,0.15)", borderRadius:24, width:"100%", maxWidth:580, maxHeight:"90vh", overflowY:"auto", animation:"fadeUp 0.3s ease" }}>
+      <div style={{ background:"#0d1117", border:"1px solid rgba(0,200,255,0.15)", borderRadius:24, width:"100%", maxWidth:580, maxHeight:"90vh", overflowY:"auto" }}>
         <div style={{ padding:"20px 24px 0", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
           <div>
             <div style={{ fontSize:11, color:"#00C8FF", fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:4 }}>🌐 Brief Création Web / App</div>
@@ -223,115 +215,37 @@ function useInView(threshold = 0.1) {
 }
 
 export default function Web() {
-  const [scrollY, setScrollY] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { lang } = useLang();
   const [modal, setModal] = useState(false);
-  const [lang, setLang] = useState("fr");
   const [portRef, portIn] = useInView(0.1);
   const [servRef, servIn] = useInView(0.1);
   const [procRef, procIn] = useInView(0.1);
-  const t = LANG[lang] || LANG.fr;
+  const t = T[lang] || T.fr;
 
-  /* Fix auto-scroll — scroll to top on mount */
   useEffect(() => { window.scrollTo(0, 0); }, []);
-
-  useEffect(() => {
-    const fn = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-
-  const pageLinks = [
-    { to:"/",         label:t.nav_ia,       emoji:"🤖" },
-    { to:"/creative", label:t.nav_creative,  emoji:"🎨" },
-    { to:"/web",      label:t.nav_web,       emoji:"💻", active:true },
-  ];
 
   return (
     <div style={{ fontFamily:"'Outfit',sans-serif", background:"#050810", color:"#e2e8f0", overflowX:"hidden" }}>
       <style>{CSS}</style>
 
-      {/* ── NAV UNIFORME ── */}
-      <nav style={{ position:"fixed", top:0, left:0, right:0, zIndex:200, transition:"all 0.4s", background: scrollY>60 ? "rgba(5,8,16,0.95)" : "transparent", backdropFilter: scrollY>60 ? "blur(24px)" : "none", borderBottom: scrollY>60 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
-        <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 20px", height:64, display:"flex", alignItems:"center", justifyContent:"space-between", gap:12 }}>
-          <Link to="/" style={{ fontSize:22, fontWeight:900, letterSpacing:"-1px", color:"#e2e8f0", textDecoration:"none", flexShrink:0 }}>
-            <span style={{ color:"#00FFB4" }}>D</span>HA
-            <span style={{ fontSize:11, color:"#94a3b8", fontWeight:400, marginLeft:8, letterSpacing:"1px" }}>AGENCY</span>
-          </Link>
-
-          <div className="desk-nav" style={{ alignItems:"center", gap:2, flex:1, justifyContent:"center" }}>
-            {pageLinks.map(({ to, label, emoji, active }) => (
-              <Link key={to} to={to} style={{ background: active ? "rgba(0,255,180,0.08)" : "none", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid transparent", color: active ? "#00FFB4" : "#94a3b8", fontSize:12, padding:"6px 10px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, transition:"all 0.2s", display:"flex", alignItems:"center", gap:4 }}>
-                <span>{emoji}</span>{label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="desk-nav" style={{ alignItems:"center", gap:6, flexShrink:0 }}>
-            <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:8, overflow:"hidden" }}>
-              {["fr","en"].map(code => (
-                <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"5px 9px", fontSize:11, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400, transition:"all 0.2s" }}>
-                  {code === "fr" ? "🇫🇷" : "🇬🇧"}
-                </button>
-              ))}
-            </div>
-            <button onClick={() => setModal(true)} style={{ background:"linear-gradient(135deg,#00C8FF,#a855f7)", color:"#fff", border:"none", padding:"8px 12px", borderRadius:8, fontSize:11, fontWeight:700, cursor:"pointer", fontFamily:"inherit", whiteSpace:"nowrap" }}>{t.cta_start}</button>
-          </div>
-
-          <button className="burger" onClick={() => setMenuOpen(!menuOpen)} style={{ display:"none", background:"none", border:"none", color:"#e2e8f0", fontSize:24, cursor:"pointer" }}>{menuOpen ? "✕" : "☰"}</button>
-        </div>
-
-        {menuOpen && (
-          <div style={{ background:"rgba(5,8,16,0.98)", borderTop:"1px solid rgba(255,255,255,0.06)", maxHeight:"90vh", overflowY:"auto" }}>
-            <div style={{ padding:"12px 20px 8px", display:"flex", gap:8, flexWrap:"wrap" }}>
-              {pageLinks.map(({ to, label, emoji, active }) => (
-                <Link key={to} to={to} onClick={() => setMenuOpen(false)} style={{ background: active ? "rgba(0,255,180,0.08)" : "rgba(255,255,255,0.03)", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid rgba(255,255,255,0.06)", color: active ? "#00FFB4" : "#94a3b8", fontSize:13, padding:"7px 14px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, display:"flex", alignItems:"center", gap:5 }}>
-                  {emoji} {label}
-                </Link>
-              ))}
-            </div>
-            <div style={{ height:1, background:"rgba(255,255,255,0.06)", margin:"4px 0" }} />
-            <div style={{ padding:"10px 20px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-              <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:8, overflow:"hidden" }}>
-                {["fr","en"].map(code => (
-                  <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"7px 14px", fontSize:13, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400 }}>
-                    {code==="fr" ? "🇫🇷 FR" : "🇬🇧 EN"}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div style={{ padding:"0 20px 16px" }}>
-              <button onClick={() => { setModal(true); setMenuOpen(false); }} style={{ width:"100%", background:"linear-gradient(135deg,#00C8FF,#a855f7)", color:"#fff", border:"none", padding:"13px", borderRadius:12, fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>{t.cta_start}</button>
-            </div>
-          </div>
-        )}
-      </nav>
-
       {/* HERO */}
       <section style={{ minHeight:"100svh", display:"flex", alignItems:"center", justifyContent:"center", padding:"100px 24px 60px", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,200,255,0.07) 0%,transparent 70%)" }} />
-        <div style={{ position:"absolute", top:"20%", left:"5%", width:400, height:400, background:"radial-gradient(circle,rgba(168,85,247,0.06),transparent 70%)", filter:"blur(60px)", borderRadius:"50%" }} />
-        <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(0,200,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.02) 1px,transparent 1px)", backgroundSize:"80px 80px" }} />
+        <div style={{ position:"absolute", top:"20%", left:"5%", width:400, height:400, background:"radial-gradient(circle,rgba(0,200,255,0.06),transparent 70%)", filter:"blur(60px)", borderRadius:"50%" }} />
+        <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(0,200,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.02) 1px,transparent 1px)", backgroundSize:"64px 64px" }} />
         <div style={{ position:"relative", zIndex:1, textAlign:"center", maxWidth:760 }}>
-          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,200,255,0.08)", border:"1px solid rgba(0,200,255,0.25)", borderRadius:50, padding:"7px 18px", fontSize:12, color:"#00C8FF", marginBottom:32, animation:"fadeUp 0.8s ease both" }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,200,255,0.07)", border:"1px solid rgba(0,200,255,0.18)", borderRadius:50, padding:"5px 14px", fontSize:11, color:"#00C8FF", letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:14 }}>
             <span style={{ width:7, height:7, background:"#00C8FF", borderRadius:"50%", animation:"pulse 2s infinite" }} />
             {t.hero_badge}
           </div>
-          <h1 style={{ fontSize:"clamp(38px,7vw,72px)", fontWeight:900, lineHeight:1.05, letterSpacing:"-2.5px", color:"#fff", margin:"0 0 24px", animation:"fadeUp 0.8s 0.1s ease both" }}>
+          <h1 style={{ fontSize:"clamp(38px,7vw,72px)", fontWeight:900, lineHeight:1.05, letterSpacing:"-2.5px", color:"#fff", margin:"0 0 24px" }}>
             {t.hero_title}<br />
-            <span style={{ background:"linear-gradient(135deg,#00C8FF,#a855f7)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>{t.hero_title2}</span>
+            <span style={{ background:"linear-gradient(135deg,#00C8FF,#00C8FF99)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>{t.hero_title2}</span>
           </h1>
-          <p style={{ fontSize:"clamp(15px,2.5vw,18px)", color:"#94a3b8", lineHeight:1.8, maxWidth:520, margin:"0 auto 40px", animation:"fadeUp 0.8s 0.2s ease both" }}>{t.hero_sub}</p>
-          <div style={{ animation:"fadeUp 0.8s 0.3s ease both" }}>
-            <button onClick={() => setModal(true)} style={{ background:"linear-gradient(135deg,#00C8FF,#a855f7)", color:"#fff", border:"none", padding:"14px 36px", borderRadius:50, fontSize:16, fontWeight:700, cursor:"pointer", fontFamily:"inherit", boxShadow:"0 8px 30px rgba(0,200,255,0.3)" }}>{t.cta_start}</button>
-          </div>
-          <div style={{ display:"flex", gap:40, justifyContent:"center", flexWrap:"wrap", marginTop:56, animation:"fadeUp 0.8s 0.4s ease both" }}>
-            {[["20+",lang==="en"?"Sites delivered":"Sites livrés"],["100%","Responsive"],["72h",lang==="en"?"Landing avg":"Délai moyen landing"]].map(([v,l]) => (
-              <div key={l} style={{ textAlign:"center" }}>
-                <div style={{ fontSize:28, fontWeight:900, color:"#00C8FF", letterSpacing:"-1px" }}>{v}</div>
-                <div style={{ fontSize:12, color:"#64748b", marginTop:2 }}>{l}</div>
-              </div>
-            ))}
+          <p style={{ fontSize:"clamp(15px,2.5vw,18px)", color:"#94a3b8", lineHeight:1.8, maxWidth:520, margin:"0 auto 40px" }}>{t.hero_sub}</p>
+          <button onClick={() => setModal(true)} style={{ background:"linear-gradient(135deg,#00C8FF,#a855f7)", color:"#fff", border:"none", padding:"16px 40px", borderRadius:50, fontSize:16, fontWeight:700, cursor:"pointer", fontFamily:"inherit", boxShadow:"0 8px 30px rgba(0,200,255,0.3)" }}>{t.cta_start}</button>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:20, marginTop:28, flexWrap:"wrap" }}>
+            {[t.devis, t.no_commit, t.support].map(txt => <span key={txt} style={{ fontSize:13, color:"#475569" }}>{txt}</span>)}
           </div>
         </div>
       </section>
@@ -339,7 +253,7 @@ export default function Web() {
       {/* PORTFOLIO */}
       <section ref={portRef} style={{ padding:"100px 24px", background:"linear-gradient(180deg,#050810,#07101f)" }}>
         <div style={{ maxWidth:1100, margin:"0 auto" }}>
-          <div style={{ textAlign:"center", marginBottom:56, opacity:portIn?1:0, transform:portIn?"none":"translateY(30px)", transition:"all 0.7s" }}>
+          <div style={{ textAlign:"center", marginBottom:48, opacity:portIn?1:0, transform:portIn?"none":"translateY(30px)", transition:"all 0.7s" }}>
             <div style={lbl("#00C8FF")}>{t.portfolio_title}</div>
             <h2 style={h2}>{t.portfolio_title}</h2>
             <p style={sub}>{t.portfolio_sub}</p>
@@ -431,24 +345,6 @@ export default function Web() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ borderTop:"1px solid rgba(255,255,255,0.06)", padding:"32px 24px", textAlign:"center" }}>
-        <Link to="/" style={{ textDecoration:"none", fontSize:20, fontWeight:900 }}>
-          <span style={{ color:"#00FFB4" }}>D</span><span style={{ color:"#fff" }}>HA</span>
-        </Link>
-        <div style={{ display:"flex", justifyContent:"center", gap:20, margin:"12px 0", flexWrap:"wrap" }}>
-          {pageLinks.map(({ to, label, emoji }) => (
-            <Link key={to} to={to} style={{ fontSize:13, color:"#94a3b8", textDecoration:"none", display:"flex", alignItems:"center", gap:5 }}>{emoji} {label}</Link>
-          ))}
-        </div>
-        <p style={{ fontSize:13, color:"#334155" }}>{t.footer_copy}</p>
-      </footer>
-
-      {/* WhatsApp flottant */}
-      <a href={`https://wa.me/${WA_NUMBER}`} target="_blank" rel="noopener noreferrer" style={{ position:"fixed", bottom:28, right:28, zIndex:999, width:56, height:56, borderRadius:"50%", background:"#25D366", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 8px 30px rgba(37,211,102,0.5)", textDecoration:"none", transition:"transform 0.2s" }} onMouseEnter={e=>e.currentTarget.style.transform="scale(1.1)"} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </a>
-
       {modal && <WebBriefModal onClose={() => setModal(false)} lang={lang} />}
     </div>
   );
@@ -459,26 +355,17 @@ const h2 = { fontSize:"clamp(28px,5vw,46px)", fontWeight:900, letterSpacing:"-1.
 const sub = { fontSize:16, color:"#64748b", maxWidth:500, margin:"0 auto" };
 
 const CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
-  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-  html { scroll-behavior:smooth; }
-  body { background:#050810; -webkit-font-smoothing:antialiased; }
   @keyframes pulse  { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.2)} }
   @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
   .card { transition:transform 0.25s ease, box-shadow 0.25s ease; }
   .card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,0.3); }
   .portfolio-img { transition:transform 0.4s ease; }
   .card:hover .portfolio-img { transform:scale(1.05); }
-  .desk-nav { display:none !important; align-items:center; gap:4px; }
-  .burger { display:block !important; }
   ::-webkit-scrollbar { width:4px; }
   ::-webkit-scrollbar-thumb { background:rgba(0,200,255,0.2); border-radius:4px; }
   input:focus, textarea:focus, select:focus { border-color:rgba(0,200,255,0.4) !important; outline:none; }
   textarea { resize:vertical; }
   button:hover { opacity:.88; }
   a:hover { opacity:.88; }
-  @media (min-width:900px) {
-    .desk-nav { display:flex !important; }
-    .burger { display:none !important; }
-  }
 `;
+import { useLang } from "./LangContext";
