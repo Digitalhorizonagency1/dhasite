@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useLang } from "./LangContext";
 
-/* ══════════════════════════════════════════════════════
-   HERO TITLE — MOT QUI CYCLE + SPARKLES
-══════════════════════════════════════════════════════ */
 const HERO_BLOCKS = {
   fr: [
     { text:"vos activités",       bg:"#00FFB4", color:"#050810" },
@@ -56,18 +53,10 @@ function SparkleText({ text }) {
   );
 }
 
-/* ══════════════════════════════════════════════════════
-   TRADUCTIONS COMPLÈTES
-══════════════════════════════════════════════════════ */
 const WA_NUMBER = "2290160008046";
 
 const T = {
   fr: {
-    /* NAV */
-    nav_ia:"IA", nav_creative:"Créatif", nav_web:"Web",
-    nav_products:"Produits", nav_demo:"🤖 Démo Alex", nav_how:"Comment ça marche",
-    nav_pricing:"Tarifs", nav_reviews:"Témoignages", nav_faq:"FAQ", nav_start:"Démarrer →",
-    /* HERO */
     hero_badge:"🇧🇯 Agent IA Spécialisé · Cotonou, Bénin",
     hero_title:"Automatisez",
     hero_sparkle:"avec l'IA",
@@ -76,14 +65,12 @@ const T = {
     hero_cta2:"🤖 Tester Alex",
     hero_social:"Utilisé par +50 entreprises béninoises",
     hero_stats:[["24/7","Disponible"],["< 10s","Temps réponse"],["72h","Mise en ligne"],["0 FCFA","Consultation"]],
-    /* FEATURES */
     features:[
       { icon:"⚡", title:"Réponse en 10 secondes", desc:"Ne laissez plus vos prospects en attente. L'IA répond instantanément, même à 3h du matin." },
       { icon:"🎯", title:"Qualification automatique", desc:"Alex identifie les prospects chauds et vous alerte immédiatement pour les convertir." },
-      { icon:"📊", title:"Rapport quotidien", desc:"Chaque matin, recevez un récapitulatif complet de toutes les conversations et prospects qualifiés." },
+      { icon:"📊", title:"Rapport quotidien", desc:"Chaque matin, receivez un récapitulatif complet de toutes les conversations et prospects qualifiés." },
       { icon:"🌍", title:"Adapté au marché béninois", desc:"Compréhension du contexte local, des prix en FCFA, et des habitudes de communication africaines." },
     ],
-    /* DEMO */
     demo_label:"Démo Interactive",
     demo_title:"Parlez à Alex maintenant",
     demo_sub:"Testez notre agent IA en temps réel. Posez n'importe quelle question sur DHA.",
@@ -92,7 +79,6 @@ const T = {
     demo_placeholder:"Posez votre question à Alex...",
     demo_wa_suggestions:["💰 Les prix","🤖 Comment ça marche ?","📞 Contacter"],
     demo_wa_placeholder:"Tapez votre message",
-    /* PRODUCTS */
     products_label:"Nos Produits",
     products_title:"Deux solutions, un objectif",
     products_sub:"Automatiser pour vendre plus, sans travailler plus.",
@@ -110,7 +96,7 @@ const T = {
       { label:"Client WhatsApp", icon:"📱", color:"#00FFB4" },
       { label:"Alex répond", icon:"🤖", color:"#00FFB4" },
       { label:"Prospect qualifié", icon:"🎯", color:"#FFB400" },
-      { label:"Alerte équipe", icon:"🔔", color:"#00C8FF" },
+      { label:"Team alert", icon:"🔔", color:"#00C8FF" },
       { label:"Rapport quotidien", icon:"📊", color:"#A855F7" },
     ],
     prod2_tag:"Produit 2 · Community Manager",
@@ -131,7 +117,6 @@ const T = {
       { label:"Rapport stats", icon:"📈", color:"#00FFB4" },
     ],
     start_btn:"Démarrer →",
-    /* PROCESS */
     process_label:"Processus",
     process_title:"Opérationnel en 72h",
     process_sub:"Pas de code, pas de prise de tête. On s'occupe de tout.",
@@ -141,7 +126,6 @@ const T = {
       { n:"03", icon:"✅", title:"Test & validation", desc:"Vous testez l'agent avant la mise en ligne. On ajuste jusqu'à votre satisfaction totale." },
       { n:"04", icon:"🚀", title:"Mise en ligne en 72h", desc:"Votre agent IA est actif. Support continu pour les évolutions et optimisations." },
     ],
-    /* PRICING */
     pricing_label:"Tarifs",
     pricing_title:"Des prix adaptés au marché local",
     pricing_sub:"Abonnements mensuels. Sans engagement. Résiliable à tout moment.",
@@ -152,7 +136,6 @@ const T = {
       { name:"Community Manager IA", oldPrice:"75 000", price:"35 000", unit:"FCFA/mois", desc:"Pour les marques qui veulent une présence Facebook active sans effort.", features:["3 publications/semaine","Visuels générés par IA","Textes adaptés contexte local","Recherche de tendances auto","Rapport de performance"], cta:"Démarrer le CM IA", accent:"#00C8FF", pop:false },
       { name:"Pack Complet", oldPrice:"110 000", price:"50 000", unit:"FCFA/mois", desc:"Les deux solutions pour une automatisation totale de votre présence digitale.", features:["Alex Agent WhatsApp","Community Manager IA","Tableau de bord unifié","Support prioritaire 24/7","Économisez 15 000 FCFA/mois"], cta:"Obtenir le Pack", accent:"#FFB400", pop:true },
     ],
-    /* TESTIMONIALS */
     reviews_label:"Témoignages",
     reviews_title:"Ils nous font confiance",
     reviews_sub:"Des entreprises béninoises qui ont automatisé avec DHA.",
@@ -163,7 +146,6 @@ const T = {
       { name:"Ibrahim S.", role:"PDG · Pharmacie Centrale, Parakou", text:"En 3 semaines, Alex a géré plus de 400 conversations. Zéro erreur, zéro plainte client. Impressionnant.", avatar:"I", color:"#00FFB4" },
       { name:"Aïcha B.", role:"Directrice · Centre de formation", text:"Nos inscriptions ont doublé. Alex répond la nuit quand nous sommes fermés. Nos concurrents ne comprennent pas comment.", avatar:"A", color:"#00C8FF" },
     ],
-    /* FAQ */
     faq_label:"FAQ",
     faq_title:"Vous avez des questions ?",
     faq_sub:"On vous répond ici.",
@@ -177,34 +159,13 @@ const T = {
       { cat:"⚡ Démarrage", q:"Je ne suis pas tech. Est-ce que je peux vraiment utiliser ça ?", a:"Vous n'avez rien à installer, rien à coder. Vous nous donnez vos infos produits et votre numéro WhatsApp — on fait tout le reste. Si vous savez lire WhatsApp, vous savez utiliser nos produits." },
       { cat:"🔄 Flexibilité", q:"Que se passe-t-il si je veux arrêter ?", a:"Aucun engagement. Nos abonnements sont au mois, résiliables à tout moment sans frais. Un message WhatsApp suffit." },
     ],
-    /* CTA FINAL */
     cta_title:"Prêt à automatiser ?",
     cta_sub:"Rejoignez les entreprises béninoises qui font confiance à l'IA pour grandir.",
     cta_wa:"💬 Contactez-nous sur WhatsApp",
     cta_demo:"🤖 Tester Alex d'abord",
     cta_badges:["✅ Consultation gratuite","✅ Sans engagement","✅ Support inclus"],
-    /* FOOTER */
-    footer_copy:"Digital Horizon Agency · Cotonou, Bénin · © 2026 DHA",
-    /* FLOATING */
-    wa_bubble:"💬 Discutez avec Alex sur WhatsApp !",
-    /* ALEX CHAT REPLIES */
-    alex_replies:[
-      { keys:["bonjour","salut","bonsoir","hello","hi"], reply:"Bonjour ! 👋 Je suis Alex, l'assistant IA de Digital Horizon Agency. Comment puis-je vous aider ?" },
-      { keys:["prix","tarif","coût","combien","fcfa"], reply:"Nos offres démarrent à **25 000 FCFA/mois** pour Alex Agent WhatsApp. Le Pack Complet est à **50 000 FCFA/mois**. Vous souhaitez plus de détails ?" },
-      { keys:["alex","agent","whatsapp","répondre","client"], reply:"Alex est notre agent commercial IA pour WhatsApp 🤖 Il répond à vos clients 24h/24, qualifie les prospects et envoie un rapport quotidien." },
-      { keys:["facebook","publication","post","community","contenu"], reply:"Notre Community Manager IA publie automatiquement sur Facebook 3x/semaine 📲 Il recherche les tendances, génère le texte et les visuels." },
-      { keys:["comment","marche","fonctionne","processus"], reply:"C'est simple : 1) Consultation gratuite → 2) Configuration → 3) Test → 4) Mise en ligne en 72h. On s'occupe de tout 🚀" },
-      { keys:["contact","appel","parler","équipe"], reply:"Contactez notre équipe directement sur WhatsApp 💬 On vous répond en moins de 2h !" },
-      { keys:["pack","complet","combo"], reply:"Le Pack Complet inclut Alex + Community Manager IA pour **50 000 FCFA/mois** — économisez 10 000 FCFA/mois ! 🎉" },
-    ],
-    alex_fallback:"Bonne question ! 🤔 Pour une réponse précise, contactez notre équipe directement sur WhatsApp. Ils vous répondront en moins de 2h 💬",
   },
   en: {
-    /* NAV */
-    nav_ia:"AI", nav_creative:"Creative", nav_web:"Web",
-    nav_products:"Products", nav_demo:"🤖 Demo Alex", nav_how:"How it works",
-    nav_pricing:"Pricing", nav_reviews:"Reviews", nav_faq:"FAQ", nav_start:"Get started →",
-    /* HERO */
     hero_badge:"🇧🇯 Specialized AI Agency · Cotonou, Benin",
     hero_title:"Automate",
     hero_sparkle:"with AI",
@@ -213,14 +174,12 @@ const T = {
     hero_cta2:"🤖 Test Alex",
     hero_social:"Used by 50+ businesses in Benin",
     hero_stats:[["24/7","Available"],["< 10s","Response time"],["72h","Go live"],["Free","Consultation"]],
-    /* FEATURES */
     features:[
       { icon:"⚡", title:"Response in 10 seconds", desc:"Never leave your prospects waiting. AI responds instantly, even at 3am." },
       { icon:"🎯", title:"Automatic qualification", desc:"Alex identifies hot prospects and alerts you immediately to convert them." },
       { icon:"📊", title:"Daily report", desc:"Every morning, receive a full summary of all conversations and qualified prospects." },
       { icon:"🌍", title:"Adapted to Beninese market", desc:"Understanding of local context, FCFA pricing, and African communication habits." },
     ],
-    /* DEMO */
     demo_label:"Live Demo",
     demo_title:"Talk to Alex now",
     demo_sub:"Test our AI agent in real time. Ask any question about DHA.",
@@ -229,7 +188,6 @@ const T = {
     demo_placeholder:"Ask Alex a question...",
     demo_wa_suggestions:["💰 Pricing","🤖 How it works?","📞 Contact"],
     demo_wa_placeholder:"Type your message",
-    /* PRODUCTS */
     products_label:"Our Products",
     products_title:"Two solutions, one goal",
     products_sub:"Automate to sell more, without working more.",
@@ -268,7 +226,6 @@ const T = {
       { label:"Stats report", icon:"📈", color:"#00FFB4" },
     ],
     start_btn:"Get started →",
-    /* PROCESS */
     process_label:"Process",
     process_title:"Live in 72 hours",
     process_sub:"No code, no hassle. We handle everything.",
@@ -278,29 +235,26 @@ const T = {
       { n:"03", icon:"✅", title:"Test & validation", desc:"You test the agent before going live. We adjust until you're fully satisfied." },
       { n:"04", icon:"🚀", title:"Go live in 72h", desc:"Your AI agent is active. Ongoing support for updates and optimizations." },
     ],
-    /* PRICING */
     pricing_label:"Pricing",
     pricing_title:"Prices adapted to the local market",
     pricing_sub:"Monthly subscriptions. No commitment. Cancel anytime.",
     pricing_note:"Hesitant? The consultation is free —",
     pricing_wa:"contact us on WhatsApp",
     pricing_cards:[
-      { name:"Alex Agent", oldPrice:"50 000", price:"25 000", unit:"FCFA/mo", desc:"For businesses and SMEs who want to automate their WhatsApp customer service.", features:["Custom WhatsApp agent","Prospect qualification","Automatic follow-ups","Daily report","Technical support included"], cta:"Start with Alex", accent:"#00FFB4", pop:false },
+      { name:"Alex Agent", oldPrice:"50 000", price:"25 000", unit:"FCFA/mo", desc:"For businesses and SMEs who want to automate their WhatsApp customer service.", features:["Custom WhatsApp agent","Prospect qualification","Daily report","Technical support included"], cta:"Start with Alex", accent:"#00FFB4", pop:false },
       { name:"AI Community Manager", oldPrice:"75 000", price:"35 000", unit:"FCFA/mo", desc:"For brands who want an active Facebook presence without effort.", features:["3 posts/week","AI-generated visuals","Locally adapted text","Auto trend research","Performance report"], cta:"Start CM AI", accent:"#00C8FF", pop:false },
       { name:"Complete Pack", oldPrice:"110 000", price:"50 000", unit:"FCFA/mo", desc:"Both solutions for total automation of your digital presence.", features:["Alex WhatsApp Agent","AI Community Manager","Unified dashboard","Priority 24/7 support","Save 15,000 FCFA/month"], cta:"Get the Pack", accent:"#FFB400", pop:true },
     ],
-    /* TESTIMONIALS */
     reviews_label:"Reviews",
     reviews_title:"They trust us",
     reviews_sub:"Beninese businesses that automated with DHA.",
     testimonials:[
-      { name:"Fatou A.", role:"Manager · Beauty Boutique, Cotonou", text:"Since Alex, I no longer receive the same questions 10 times a day. My clients get answers in seconds.", avatar:"F", color:"#00FFB4" },
+      { name:"Fatou A.", role:"Manager · Beauty Boutique, Cotonou", text:"Since Alex, I don't receive the same questions 10 times a day. My clients get answers in seconds.", avatar:"F", color:"#00FFB4" },
       { name:"Kodjo M.", role:"Director · Import-Export, Porto-Novo", text:"The daily qualified prospect report is indispensable. My team knows exactly who to follow up with each morning.", avatar:"K", color:"#00C8FF" },
       { name:"Rosine D.", role:"Founder · Catering company", text:"My Facebook page has never been so active. The AI CM posts for me while I work.", avatar:"R", color:"#FFB400" },
       { name:"Ibrahim S.", role:"CEO · Central Pharmacy, Parakou", text:"In 3 weeks, Alex handled over 400 conversations. Zero errors, zero client complaints. Impressive.", avatar:"I", color:"#00FFB4" },
       { name:"Aïcha B.", role:"Director · Training center", text:"Our enrollments doubled. Alex responds at night when we're closed. Our competitors don't understand how.", avatar:"A", color:"#00C8FF" },
     ],
-    /* FAQ */
     faq_label:"FAQ",
     faq_title:"Have questions?",
     faq_sub:"We answer them here.",
@@ -314,33 +268,14 @@ const T = {
       { cat:"⚡ Getting started", q:"I'm not tech-savvy. Can I really use this?", a:"You don't need to install or code anything. Give us your product info and WhatsApp number — we do the rest. If you can read WhatsApp, you can use our products." },
       { cat:"🔄 Flexibility", q:"What if I want to stop?", a:"No commitment. Monthly subscriptions, cancelable anytime with no fees. One WhatsApp message is all it takes." },
     ],
-    /* CTA FINAL */
     cta_title:"Ready to automate?",
     cta_sub:"Join the Beninese businesses that trust AI to grow.",
     cta_wa:"💬 Contact us on WhatsApp",
     cta_demo:"🤖 Test Alex first",
     cta_badges:["✅ Free consultation","✅ No commitment","✅ Support included"],
-    /* FOOTER */
-    footer_copy:"Digital Horizon Agency · Cotonou, Benin · © 2026 DHA",
-    /* FLOATING */
-    wa_bubble:"💬 Chat with Alex on WhatsApp!",
-    /* ALEX CHAT REPLIES */
-    alex_replies:[
-      { keys:["hello","hi","hey","good morning","good evening"], reply:"Hello! 👋 I'm Alex, DHA's AI assistant. How can I help you today?" },
-      { keys:["price","pricing","cost","how much","fcfa"], reply:"Our offers start at **25,000 FCFA/month** for Alex WhatsApp Agent. The Complete Pack is **50,000 FCFA/month**. Want more details?" },
-      { keys:["alex","agent","whatsapp","respond","client"], reply:"Alex is our AI sales agent for WhatsApp 🤖 It responds to your clients 24/7, qualifies prospects and sends a daily report." },
-      { keys:["facebook","post","community","content"], reply:"Our AI Community Manager automatically posts on Facebook 3x/week 📲 It researches trends, generates text and visuals." },
-      { keys:["how","works","process","steps"], reply:"Simple: 1) Free consultation → 2) Configuration → 3) Test → 4) Go live in 72h. We handle everything 🚀" },
-      { keys:["contact","call","talk","team"], reply:"Contact our team directly on WhatsApp 💬 We respond in under 2 hours!" },
-      { keys:["pack","complete","combo","both"], reply:"The Complete Pack includes Alex + AI Community Manager for **50,000 FCFA/month** — save 10,000 FCFA/month! 🎉" },
-    ],
-    alex_fallback:"Great question! 🤔 For a precise answer tailored to your situation, contact our team directly on WhatsApp. They'll respond in under 2 hours 💬",
   },
 };
 
-/* ══════════════════════════════════════════════════════
-   CHAT DEMO
-══════════════════════════════════════════════════════ */
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
@@ -351,48 +286,6 @@ function useIsMobile() {
   return isMobile;
 }
 
-const ALEX_SYSTEM_PROMPT = `Tu es Alex, l'agent commercial IA de Digital Horizon Agency (DHA), une agence d'automatisation IA basée à Cotonou, Bénin.
-
-TON RÔLE : répondre aux visiteurs du site web de DHA, présenter les offres, qualifier les prospects et les orienter vers WhatsApp pour démarrer.
-
-PRODUITS DHA :
-1. Alex Agent WhatsApp (Produit 1) — 25 000 FCFA/mois (promo, -50% du prix normal 50 000)
-   - Agent IA WhatsApp disponible 24h/24, 7j/7
-   - Répond aux clients en moins de 10 secondes
-   - Qualification automatique des prospects avec tag dans CRM Google Sheets
-   - Relance automatique après 1h si pas de réponse
-   - Rapport quotidien WhatsApp chaque matin
-   - Mémoire conversationnelle, base de connaissance RAG personnalisée
-   - Idéal pour : commerces, PME, pharmacies, restaurants, boutiques
-
-2. Community Manager IA (Produit 2) — 35 000 FCFA/mois (promo, -53%)
-   - Publication automatique sur Facebook : Lundi, Mercredi, Vendredi à 9h
-   - Recherche de tendances via Tavily
-   - Textes et visuels générés par IA, adaptés au contexte béninois
-   - Rapport de performance inclus
-
-3. Pack Complet — 50 000 FCFA/mois (les deux produits, économie de 10 000 FCFA/mois)
-   - Tout Alex Agent + Community Manager IA
-   - Support prioritaire 24/7
-
-PROCESSUS : Consultation gratuite (30 min) → Configuration sur mesure → Test & validation → Mise en ligne en 72h
-
-ARGUMENTS CLÉS :
-- Un commercial humain à Cotonou coûte 80 000–150 000 FCFA/mois pour 8h/jour. Alex travaille 24h/24 pour 25 000 FCFA.
-- Aucun risque de ban WhatsApp : messages naturels, respect des fenêtres 24h
-- Adapté au marché béninois : FCFA, Cotonou/Porto-Novo/Parakou, peut répondre en Fon ou Yoruba
-- Sans engagement, résiliable à tout moment
-
-CONTACT : WhatsApp +229 01 60 00 80 46
-
-RÈGLES DE COMPORTEMENT :
-- Réponds toujours en français sauf si le visiteur écrit en anglais
-- Sois chaleureux, direct et professionnel — tu es un commercial, pas un robot
-- Réponses courtes (2-4 phrases max) adaptées au chat
-- À la fin de chaque réponse, oriente naturellement vers WhatsApp ou vers la démo
-- N'invente jamais de chiffres ou de faits non listés ci-dessus
-- Si une question sort de ton domaine, redirige vers l'équipe WhatsApp`;
-
 function DemoChat({ lang }) {
   const t = T[lang] || T.fr;
   const [msgs, setMsgs] = useState([
@@ -400,7 +293,6 @@ function DemoChat({ lang }) {
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
-  const [apiError, setApiError] = useState(false);
   const bottomRef = useRef(null);
   const isMobile = useIsMobile();
   const historyRef = useRef([]);
@@ -414,34 +306,26 @@ function DemoChat({ lang }) {
     if (!txt || typing) return;
     const time = new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
     setInput("");
-    setApiError(false);
     setMsgs(p => [...p, { role:"user", text:txt, time }]);
     setTyping(true);
 
-    // Ajouter le message au historique Groq
-    historyRef.current = [...historyRef.current, { role:"user", content:txt }];
+    historyRef.current.push({ role: "user", content: txt });
 
     try {
       const res = await fetch("/api/chat", {
         method:"POST",
         headers:{ "Content-Type":"application/json" },
         body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          max_tokens: 300,
-          messages: [
-            { role:"system", content: ALEX_SYSTEM_PROMPT },
-            ...historyRef.current.slice(-10), // max 10 messages d'historique
-          ],
+          messages: historyRef.current.slice(-10),
         }),
       });
       const data = await res.json();
       const reply = data?.choices?.[0]?.message?.content?.trim() || (lang==="en" ? "Sorry, I'm having a connection issue. Contact us on WhatsApp!" : "Désolé, je rencontre un problème de connexion. Contactez-nous sur WhatsApp !");
-      historyRef.current = [...historyRef.current, { role:"assistant", content:reply }];
+      historyRef.current.push({ role: "assistant", content: reply });
       setTyping(false);
       setMsgs(p => [...p, { role:"alex", text:reply, time: new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}) }]);
     } catch {
       setTyping(false);
-      setApiError(true);
       const fallback = lang==="en" ? "Connection issue 😔 Contact our team on WhatsApp, they respond in under 2h!" : "Problème de connexion 😔 Contactez notre équipe sur WhatsApp, ils répondent en moins de 2h !";
       setMsgs(p => [...p, { role:"alex", text:fallback, time: new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}) }]);
     }
@@ -464,7 +348,7 @@ function DemoChat({ lang }) {
         <div style={{ background:"#ECE5DD", backgroundImage:"url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4c9ba' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")", height:320, overflowY:"auto", padding:"12px 10px", display:"flex", flexDirection:"column", gap:6 }}>
           {msgs.map((m, i) => (
             <div key={i} style={{ display:"flex", justifyContent: m.role==="alex" ? "flex-start" : "flex-end" }}>
-              <div style={{ maxWidth:"80%", padding:"7px 10px 4px", fontSize:13, lineHeight:1.5, background: m.role==="alex" ? "#fff" : "#DCF8C6", color:"#111", borderRadius: m.role==="alex" ? "0px 10px 10px 10px" : "10px 0px 10px 10px", boxShadow:"0 1px 2px rgba(0,0,0,0.15)", animation:"fadeUp 0.3s ease both" }}>
+              <div style={{ maxWidth:"80%", padding:"7px 10px 4px", fontSize:13, lineHeight:1.5, background: m.role==="alex" ? "#fff" : "#DCF8C6", color:"#111", borderRadius: m.role==="alex" ? "0px 10px 10px 10px" : "10px 0px 10px 10px", boxShadow:"0 1px 2px rgba(0,0,0,0.15)" }}>
                 {m.role==="alex" && <div style={{ fontSize:11, color:"#075E54", fontWeight:700, marginBottom:3 }}>Alex · DHA</div>}
                 <div>{renderText(m.text)}</div>
                 <div style={{ fontSize:10, color:"#999", textAlign:"right", marginTop:3, display:"flex", alignItems:"center", justifyContent:"flex-end", gap:3 }}>
@@ -514,7 +398,7 @@ function DemoChat({ lang }) {
         {msgs.map((m, i) => (
           <div key={i} style={{ display:"flex", justifyContent: m.role==="alex" ? "flex-start" : "flex-end", alignItems:"flex-end", gap:8 }}>
             {m.role==="alex" && <div style={{ width:26, height:26, borderRadius:"50%", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:900, color:"#050810", fontSize:10, flexShrink:0 }}>A</div>}
-            <div style={{ maxWidth:"78%", padding:"10px 14px", fontSize:13, lineHeight:1.65, background: m.role==="alex" ? "rgba(255,255,255,0.05)" : "linear-gradient(135deg,#00FFB4,#00C8FF)", color: m.role==="alex" ? "#e2e8f0" : "#050810", borderRadius: m.role==="alex" ? "4px 16px 16px 16px" : "16px 4px 16px 16px", border: m.role==="alex" ? "1px solid rgba(255,255,255,0.07)" : "none", animation:"fadeUp 0.3s ease both" }}>{renderText(m.text)}</div>
+            <div style={{ maxWidth:"78%", padding:"10px 14px", fontSize:13, lineHeight:1.65, background: m.role==="alex" ? "rgba(255,255,255,0.05)" : "linear-gradient(135deg,#00FFB4,#00C8FF)", color: m.role==="alex" ? "#e2e8f0" : "#050810", borderRadius: m.role==="alex" ? "4px 16px 16px 16px" : "16px 4px 16px 16px", border: m.role==="alex" ? "1px solid rgba(255,255,255,0.07)" : "none" }}>{renderText(m.text)}</div>
           </div>
         ))}
         {typing && (
@@ -540,30 +424,6 @@ function DemoChat({ lang }) {
   );
 }
 
-/* ══════════════════════════════════════════════════════
-   FLOATING WIDGET
-══════════════════════════════════════════════════════ */
-function FloatingWidget({ lang }) {
-  const t = T[lang] || T.fr;
-  const [pulse, setPulse] = useState(true);
-  useEffect(() => { const ti = setTimeout(() => setPulse(false), 5000); return () => clearTimeout(ti); }, []);
-  return (
-    <div style={{ position:"fixed", bottom:24, right:20, zIndex:300 }}>
-      {pulse && (
-        <div style={{ position:"absolute", bottom:66, right:0, background:"#075E54", border:"1px solid rgba(37,211,102,0.3)", borderRadius:"12px 12px 4px 12px", padding:"8px 14px", fontSize:12, color:"#fff", whiteSpace:"nowrap", boxShadow:"0 4px 20px rgba(0,0,0,0.4)", animation:"slideUp 0.4s ease" }}>
-          {t.wa_bubble}
-        </div>
-      )}
-      <a href={`https://wa.me/${WA_NUMBER}?text=Bonjour%20Alex%20!%20Je%20veux%20en%20savoir%20plus%20sur%20DHA.`} target="_blank" rel="noopener noreferrer" style={{ width:56, height:56, borderRadius:"50%", background:"#25D366", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 4px 20px rgba(37,211,102,0.5)", textDecoration:"none", transition:"transform 0.2s" }} onMouseEnter={e=>e.currentTarget.style.transform="scale(1.1)"} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </a>
-    </div>
-  );
-}
-
-/* ══════════════════════════════════════════════════════
-   TESTIMONIALS SCROLL
-══════════════════════════════════════════════════════ */
 function TestimonialsScroll({ testimonials }) {
   const doubled = [...testimonials, ...testimonials];
   return (
@@ -589,9 +449,6 @@ function TestimonialsScroll({ testimonials }) {
   );
 }
 
-/* ══════════════════════════════════════════════════════
-   FAQ
-══════════════════════════════════════════════════════ */
 function FAQ({ faqs }) {
   const [open, setOpen] = useState(null);
   return (
@@ -605,29 +462,18 @@ function FAQ({ faqs }) {
             </div>
             <span style={{ color: open===i ? "#00FFB4" : "#475569", fontSize:20, flexShrink:0, transition:"transform 0.3s, color 0.3s", transform: open===i ? "rotate(45deg)" : "rotate(0)", lineHeight:1 }}>+</span>
           </button>
-          {open===i && <div style={{ padding:"0 20px 18px", paddingTop:14, fontSize:13, color:"#94a3b8", lineHeight:1.85, animation:"fadeUp 0.25s ease", borderTop:"1px solid rgba(255,255,255,0.04)" }}>{f.a}</div>}
+          {open===i && <div style={{ padding:"0 20px 18px", paddingTop:14, fontSize:13, color:"#94a3b8", lineHeight:1.85, borderTop:"1px solid rgba(255,255,255,0.04)" }}>{f.a}</div>}
         </div>
       ))}
     </div>
   );
 }
 
-/* ══════════════════════════════════════════════════════
-   MAIN
-══════════════════════════════════════════════════════ */
 export default function DHASite() {
-  const [scrollY, setScrollY] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { lang } = useLang();
   const [vis, setVis] = useState(new Set());
   const [activeStep, setActiveStep] = useState(0);
-  const [lang, setLang] = useState("fr");
   const t = T[lang] || T.fr;
-
-  useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -643,93 +489,15 @@ export default function DHASite() {
     return () => clearInterval(ti);
   }, [t.steps.length]);
 
-  const scrollTo = id => { document.getElementById(id)?.scrollIntoView({ behavior:"smooth" }); setMenuOpen(false); };
   const v = id => vis.has(id);
 
-  const pageLinks = [
-    { to:"/",         label:t.nav_ia,       emoji:"🤖", active:true },
-    { to:"/creative", label:t.nav_creative,  emoji:"🎨" },
-    { to:"/web",      label:t.nav_web,       emoji:"💻" },
-  ];
-
-  const navLinks = [
-    ["produits",    t.nav_products],
-    ["demo",        t.nav_demo],
-    ["comment",     t.nav_how],
-    ["tarifs",      t.nav_pricing],
-    ["temoignages", t.nav_reviews],
-    ["faq",         t.nav_faq],
-  ];
+  const scrollTo = id => {
+    document.getElementById(id)?.scrollIntoView({ behavior:"smooth" });
+  };
 
   return (
     <div style={{ fontFamily:"'Outfit',sans-serif", background:"#050810", color:"#e2e8f0", overflowX:"hidden" }}>
       <style>{CSS}</style>
-
-      {/* NAV */}
-      <nav style={{ position:"fixed", top:0, left:0, right:0, zIndex:200, transition:"all 0.4s", background: scrollY>60 ? "rgba(5,8,16,0.95)" : "transparent", backdropFilter: scrollY>60 ? "blur(24px)" : "none", borderBottom: scrollY>60 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
-        <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 20px", height:64, display:"flex", alignItems:"center", justifyContent:"space-between", gap:12 }}>
-          <Link to="/" style={{ fontSize:22, fontWeight:900, letterSpacing:"-1px", color:"#e2e8f0", textDecoration:"none", flexShrink:0 }}>
-            <span style={{ color:"#00FFB4" }}>D</span>HA
-            <span style={{ fontSize:11, color:"#94a3b8", fontWeight:400, marginLeft:8, letterSpacing:"1px" }}>AGENCY</span>
-          </Link>
-
-          <div className="desk-nav" style={{ alignItems:"center", gap:2, flex:1, justifyContent:"center" }}>
-            {pageLinks.map(({ to, label, emoji, active }) => (
-              <Link key={to} to={to} style={{ background: active ? "rgba(0,255,180,0.08)" : "none", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid transparent", color: active ? "#00FFB4" : "#94a3b8", fontSize:12, padding:"6px 12px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, transition:"all 0.2s", display:"flex", alignItems:"center", gap:5 }}>
-                <span>{emoji}</span>{label}
-              </Link>
-            ))}
-            <div style={{ width:1, height:18, background:"rgba(255,255,255,0.06)", margin:"0 6px" }} />
-            {navLinks.map(([id,label]) => (
-              <button key={id} onClick={() => scrollTo(id)} style={{ background:"none", border:"none", color: id==="demo" ? "#00FFB4" : "#94a3b8", fontSize:12, cursor:"pointer", padding:"6px 11px", borderRadius:8, fontFamily:"inherit", fontWeight: id==="demo" ? 700 : 500, transition:"color 0.2s", whiteSpace:"nowrap" }}>{label}</button>
-            ))}
-          </div>
-
-          <div className="desk-nav" style={{ alignItems:"center", gap:8, flexShrink:0 }}>
-            {/* Lang toggle FR/EN */}
-            <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:10, overflow:"hidden" }}>
-              {["fr","en"].map(code => (
-                <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"6px 12px", fontSize:12, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400, transition:"all 0.2s" }}>
-                  {code === "fr" ? "🇫🇷 FR" : "🇬🇧 EN"}
-                </button>
-              ))}
-            </div>
-            <a href={`https://wa.me/${WA_NUMBER}`} style={{ background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#050810", padding:"9px 16px", borderRadius:10, fontSize:12, fontWeight:700, textDecoration:"none", whiteSpace:"nowrap" }}>{t.nav_start}</a>
-          </div>
-
-          <button className="burger" onClick={() => setMenuOpen(!menuOpen)} style={{ display:"none", background:"none", border:"none", color:"#e2e8f0", fontSize:24, cursor:"pointer" }}>
-            {menuOpen ? "✕" : "☰"}
-          </button>
-        </div>
-
-        {menuOpen && (
-          <div style={{ background:"rgba(5,8,16,0.98)", borderTop:"1px solid rgba(255,255,255,0.06)" }}>
-            <div style={{ padding:"10px 20px 6px", display:"flex", gap:8, flexWrap:"wrap" }}>
-              {pageLinks.map(({ to, label, emoji, active }) => (
-                <Link key={to} to={to} onClick={() => setMenuOpen(false)} style={{ background: active ? "rgba(0,255,180,0.08)" : "rgba(255,255,255,0.03)", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid rgba(255,255,255,0.06)", color: active ? "#00FFB4" : "#94a3b8", fontSize:12, padding:"6px 12px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, display:"flex", alignItems:"center", gap:5 }}>
-                  {emoji} {label}
-                </Link>
-              ))}
-            </div>
-            <div style={{ height:1, background:"rgba(255,255,255,0.06)", margin:"6px 0" }} />
-            {navLinks.map(([id,label]) => (
-              <button key={id} onClick={() => scrollTo(id)} style={{ display:"block", width:"100%", background:"none", border:"none", borderBottom:"1px solid rgba(255,255,255,0.06)", color: id==="demo"?"#00FFB4":"#94a3b8", fontSize:15, padding:"14px 24px", textAlign:"left", cursor:"pointer", fontFamily:"inherit" }}>{label}</button>
-            ))}
-            <div style={{ display:"flex", alignItems:"center", gap:10, padding:"12px 20px" }}>
-              <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:10, overflow:"hidden" }}>
-                {["fr","en"].map(code => (
-                  <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"7px 14px", fontSize:12, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400 }}>
-                    {code==="fr" ? "🇫🇷 FR" : "🇬🇧 EN"}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div style={{ padding:"4px 20px 16px" }}>
-              <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"block", background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#050810", padding:"13px", borderRadius:12, fontSize:15, fontWeight:700, textDecoration:"none", textAlign:"center" }}>{t.nav_start}</a>
-            </div>
-          </div>
-        )}
-      </nav>
 
       {/* HERO */}
       <section style={{ minHeight:"100svh", padding:"90px 20px 60px", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
@@ -737,21 +505,21 @@ export default function DHASite() {
         <div style={{ position:"absolute", top:"-5%", left:"-10%", width:"50vw", height:"50vw", maxWidth:600, maxHeight:600, background:"radial-gradient(circle,rgba(0,255,180,0.08) 0%,transparent 65%)", filter:"blur(60px)", borderRadius:"50%" }} />
         <div style={{ position:"absolute", bottom:"-5%", right:"-10%", width:"45vw", height:"45vw", maxWidth:500, maxHeight:500, background:"radial-gradient(circle,rgba(0,200,255,0.07) 0%,transparent 65%)", filter:"blur(60px)", borderRadius:"50%" }} />
         <div style={{ position:"relative", zIndex:1, maxWidth:700, textAlign:"center" }}>
-          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,255,180,0.07)", border:"1px solid rgba(0,255,180,0.2)", borderRadius:24, padding:"7px 16px", fontSize:12, color:"#00FFB4", marginBottom:28, animation:"fadeUp 0.6s ease both" }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(0,255,180,0.07)", border:"1px solid rgba(0,255,180,0.2)", borderRadius:24, padding:"7px 16px", fontSize:12, color:"#00FFB4", marginBottom:28 }}>
             <span style={{ width:6, height:6, background:"#00FFB4", borderRadius:"50%", animation:"blink 2s infinite" }} />
             {t.hero_badge}
           </div>
-          <h1 style={{ fontSize:"clamp(36px,8vw,72px)", fontWeight:900, lineHeight:1.15, letterSpacing:"-2.5px", color:"#fff", margin:"0 0 20px", animation:"fadeUp 0.7s 0.1s ease both", display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
+          <h1 style={{ fontSize:"clamp(36px,8vw,72px)", fontWeight:900, lineHeight:1.15, letterSpacing:"-2.5px", color:"#fff", margin:"0 0 20px", display:"flex", flexDirection:"column", alignItems:"center", gap:4 }}>
             <span>{t.hero_title}</span>
             <HeroWord lang={lang} />
             <SparkleText text={t.hero_sparkle} />
           </h1>
-          <p style={{ fontSize:"clamp(15px,3.5vw,18px)", color:"#94a3b8", lineHeight:1.75, maxWidth:520, margin:"0 auto 36px", animation:"fadeUp 0.7s 0.2s ease both" }}>{t.hero_sub}</p>
-          <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap", marginBottom:48, animation:"fadeUp 0.7s 0.3s ease both" }}>
+          <p style={{ fontSize:"clamp(15px,3.5vw,18px)", color:"#94a3b8", lineHeight:1.75, maxWidth:520, margin:"0 auto 36px" }}>{t.hero_sub}</p>
+          <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap", marginBottom:48 }}>
             <a href={`https://wa.me/${WA_NUMBER}`} style={{ background:"linear-gradient(135deg,#00FFB4,#00C8FF)", color:"#050810", padding:"14px 28px", borderRadius:12, fontSize:15, fontWeight:700, textDecoration:"none", display:"inline-flex", alignItems:"center", gap:8, boxShadow:"0 0 40px rgba(0,255,180,0.25)" }}>{t.hero_cta1}</a>
             <button onClick={() => scrollTo("demo")} style={{ background:"rgba(255,255,255,0.05)", color:"#e2e8f0", border:"1px solid rgba(255,255,255,0.1)", padding:"14px 28px", borderRadius:12, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit" }}>{t.hero_cta2}</button>
           </div>
-          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:16, flexWrap:"wrap", animation:"fadeUp 0.7s 0.4s ease both" }}>
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:16, flexWrap:"wrap" }}>
             <div style={{ display:"flex" }}>
               {["F","K","R","I","A"].map((l,i) => (
                 <div key={i} style={{ width:32, height:32, borderRadius:"50%", background:`linear-gradient(135deg,${["#00FFB4","#00C8FF","#FFB400","#00FFB4","#00C8FF"][i]},#050810)`, border:"2px solid #050810", marginLeft: i>0?-8:0, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:800, color:"#050810" }}>{l}</div>
@@ -759,7 +527,7 @@ export default function DHASite() {
             </div>
             <div style={{ fontSize:13, color:"#64748b" }}><span style={{ color:"#00FFB4", fontWeight:700 }}>4.9/5</span> · {t.hero_social}</div>
           </div>
-          <div style={{ display:"flex", gap:24, justifyContent:"center", flexWrap:"wrap", marginTop:48, animation:"fadeUp 0.7s 0.5s ease both" }}>
+          <div style={{ display:"flex", gap:24, justifyContent:"center", flexWrap:"wrap", marginTop:48 }}>
             {t.hero_stats.map(([v,l]) => (
               <div key={l} style={{ textAlign:"center" }}>
                 <div style={{ fontSize:"clamp(20px,4vw,28px)", fontWeight:900, color:"#00FFB4", letterSpacing:"-1px", lineHeight:1.1 }}>{v}</div>
@@ -930,9 +698,9 @@ export default function DHASite() {
               ))}
             </div>
             <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.07)", borderRadius:20, padding:32, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", minHeight:280 }}>
-              <div style={{ fontSize:64, marginBottom:20, animation:"fadeUp 0.4s ease" }}>{t.steps[activeStep].icon}</div>
+              <div style={{ fontSize:64, marginBottom:20 }}>{t.steps[activeStep].icon}</div>
               <h3 style={{ fontSize:20, fontWeight:800, color:"#fff", textAlign:"center", marginBottom:12, letterSpacing:"-0.5px" }}>{t.steps[activeStep].title}</h3>
-              <p style={{ fontSize:13, color:"#64748b", textAlign:"center", lineHeight:1.7, maxWidth:260, animation:"fadeUp 0.4s ease" }}>{t.steps[activeStep].desc}</p>
+              <p style={{ fontSize:13, color:"#64748b", textAlign:"center", lineHeight:1.7, maxWidth:260 }}>{t.steps[activeStep].desc}</p>
               <div style={{ display:"flex", gap:8, marginTop:24 }}>
                 {t.steps.map((_,i) => (
                   <div key={i} style={{ width: activeStep===i ? 20 : 6, height:6, borderRadius:3, background: activeStep===i ? "#00FFB4" : "rgba(255,255,255,0.15)", transition:"all 0.3s" }} />
@@ -1021,19 +789,6 @@ export default function DHASite() {
           </div>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer style={{ borderTop:"1px solid rgba(255,255,255,0.06)", padding:"40px 20px", textAlign:"center" }}>
-        <div style={{ fontSize:20, fontWeight:900, color:"#fff", letterSpacing:"-0.5px", marginBottom:14 }}><span style={{ color:"#00FFB4" }}>D</span>HA</div>
-        <div style={{ display:"flex", justifyContent:"center", gap:20, marginBottom:16, flexWrap:"wrap" }}>
-          {pageLinks.map(({ to, label, emoji }) => (
-            <Link key={to} to={to} style={{ fontSize:13, color:"#94a3b8", textDecoration:"none", display:"flex", alignItems:"center", gap:5 }}>{emoji} {label}</Link>
-          ))}
-        </div>
-        <p style={{ fontSize:13, color:"#334155" }}>{t.footer_copy}</p>
-      </footer>
-
-      <FloatingWidget lang={lang} />
     </div>
   );
 }
@@ -1043,15 +798,9 @@ const h2Style   = { fontSize:"clamp(26px,5vw,46px)", fontWeight:900, letterSpaci
 const subStyle  = { fontSize:15, color:"#64748b", maxWidth:480, margin:"0 auto", lineHeight:1.7 };
 
 const CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
-  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-  html { scroll-behavior:smooth; }
-  body { background:#050810; -webkit-font-smoothing:antialiased; }
-
   @keyframes blink      { 0%,100%{opacity:.35} 50%{opacity:1} }
   @keyframes sparkle    { 0%,100%{opacity:0;transform:scale(0) rotate(0deg)} 20%{opacity:1;transform:scale(1.2) rotate(15deg)} 50%{opacity:.8;transform:scale(0.9) rotate(-10deg)} 80%{opacity:.3;transform:scale(1.1) rotate(20deg)} }
   @keyframes fadeUp     { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes slideUp    { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   @keyframes typeBounce { 0%,80%,100%{transform:scale(0.6);opacity:.4} 40%{transform:scale(1);opacity:1} }
   @keyframes scrollLeft { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
@@ -1064,8 +813,6 @@ const CSS = `
   .three-col-grid { display:grid; grid-template-columns:1fr; gap:20px; }
   .feat-grid      { display:grid; grid-template-columns:1fr; gap:14px; }
   .steps-layout   { display:grid; grid-template-columns:1fr; gap:20px; }
-  .desk-nav       { display:none !important; }
-  .burger         { display:block !important; }
 
   @media(min-width:600px) {
     .feat-grid      { grid-template-columns:repeat(2,1fr); }
@@ -1073,8 +820,6 @@ const CSS = `
     .feat6-grid     { grid-template-columns:repeat(2,1fr); }
   }
   @media(min-width:900px) {
-    .desk-nav       { display:flex !important; }
-    .burger         { display:none !important; }
     .three-col-grid { grid-template-columns:repeat(3,1fr); }
     .feat-grid      { grid-template-columns:repeat(4,1fr); }
     .steps-layout   { grid-template-columns:1fr 1fr; gap:28px; align-items:start; }
@@ -1084,3 +829,4 @@ const CSS = `
   button:hover { opacity:.85; }
   a:hover      { opacity:.85; }
 `;
+import { useLang } from "./LangContext";
