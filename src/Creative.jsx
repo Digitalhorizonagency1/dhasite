@@ -1,13 +1,18 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useLang } from "./LangContext";
 
 const WA_NUMBER = "2290160008046";
 
-const LANG = {
+const T = {
   fr: {
-    nav_ia:"IA", nav_creative:"Créatif", nav_web:"Web",
-    nav_products:"Produits", nav_demo:"🤖 Démo Alex", nav_how:"Comment ça marche",
-    nav_pricing:"Tarifs", nav_reviews:"Témoignages", nav_faq:"FAQ", nav_start:"Démarrer →",
+    start_btn:"Démarrer →",
+    process_label:"Processus",
+    process_title:"Notre Processus",
+    process_sub:"Simple, rapide, efficace.",
+    cta_title:"Un projet en tête ?",
+    cta_sub:"Dites-nous tout — on s'occupe du reste.",
+    submit_wa:"Soumettre via WhatsApp",
+    next:"Suivant →", prev:"← Retour", step:"Étape", of:"sur",
     hero_badge:"Design · Vidéo · Motion",
     hero_title:"Donnez vie à vos idées",
     hero_sub:"Design graphique, montage vidéo et motion design pensés pour le marché africain.",
@@ -18,12 +23,6 @@ const LANG = {
     filter_all:"Tous", filter_logos:"Logos", filter_affiches:"Affiches", filter_videos:"Vidéos",
     services_title:"Nos Services Créatifs",
     services_sub:"De l'idée au rendu final, on s'occupe de tout.",
-    process_title:"Notre Processus",
-    process_sub:"Simple, rapide, efficace.",
-    cta_title:"Un projet en tête ?",
-    cta_sub:"Dites-nous tout — on s'occupe du reste.",
-    submit_wa:"Soumettre via WhatsApp",
-    next:"Suivant →", prev:"← Retour", step:"Étape", of:"sur",
     services:[
       { icon:"🎨", title:"Design Graphique", desc:"Logos, affiches, flyers, identités visuelles. Chaque visuel est pensé pour capter l'attention et convertir.", items:["Création de logo","Charte graphique","Affiches & flyers","Posts réseaux sociaux","Packaging"] },
       { icon:"🎬", title:"Montage Vidéo & Motion", desc:"Spots publicitaires, motion design, animations pour vos réseaux. Du script au rendu final.", items:["Spot app mobile/web","Motion flyer","Teaser événementiel","Intro/outro YouTube","Reels & TikTok"] },
@@ -37,13 +36,16 @@ const LANG = {
     ],
     video_steps_titles:["Vos coordonnées","Type de projet","Détails du projet","Script & Voix","Délai & Budget"],
     graphic_steps_titles:["Vos coordonnées","Type de projet","Style & Références","Délai & Budget"],
-    footer_copy:"Digital Horizon Agency · Cotonou, Bénin · © 2026 DHA",
-    wa_bubble:"💬 Discutez avec nous sur WhatsApp !",
   },
   en: {
-    nav_ia:"AI", nav_creative:"Creative", nav_web:"Web",
-    nav_products:"Products", nav_demo:"🤖 Demo Alex", nav_how:"How it works",
-    nav_pricing:"Pricing", nav_reviews:"Reviews", nav_faq:"FAQ", nav_start:"Get started →",
+    start_btn:"Get started →",
+    process_label:"Process",
+    process_title:"Our Process",
+    process_sub:"Simple, fast, effective.",
+    cta_title:"Have a project in mind?",
+    cta_sub:"Tell us everything — we'll handle the rest.",
+    submit_wa:"Submit via WhatsApp",
+    next:"Next →", prev:"← Back", step:"Step", of:"of",
     hero_badge:"Design · Video · Motion",
     hero_title:"Bring your ideas to life",
     hero_sub:"Graphic design, video editing and motion design for the African market.",
@@ -54,37 +56,29 @@ const LANG = {
     filter_all:"All", filter_logos:"Logos", filter_affiches:"Posters", filter_videos:"Videos",
     services_title:"Our Creative Services",
     services_sub:"From idea to final output, we handle everything.",
-    process_title:"Our Process",
-    process_sub:"Simple, fast, effective.",
-    cta_title:"Have a project in mind?",
-    cta_sub:"Tell us everything — we'll handle the rest.",
-    submit_wa:"Submit via WhatsApp",
-    next:"Next →", prev:"← Back", step:"Step", of:"of",
     services:[
       { icon:"🎨", title:"Graphic Design", desc:"Logos, posters, flyers, visual identities. Every visual is designed to capture attention and convert.", items:["Logo creation","Brand guidelines","Posters & flyers","Social media posts","Packaging"] },
       { icon:"🎬", title:"Video & Motion Design", desc:"Ads, motion design, animations for your social media. From script to final render.", items:["App mobile/web spot","Motion flyer","Event teaser","YouTube intro/outro","Reels & TikTok"] },
       { icon:"✨", title:"Brand Identity", desc:"Your brand deserves a consistent and memorable identity across all platforms.", items:["Logo + variations","Color palette","Typography","Style guide","Social templates"] },
     ],
     steps:[
-      { n:"01", icon:"💬", title:"Brief", desc:"You fill out the online form. We understand your vision, objectives and budget." },
-      { n:"02", icon:"🎯", title:"Proposal", desc:"We send you a detailed proposal with timelines and pricing within 24h." },
-      { n:"03", icon:"✏️", title:"Creation", desc:"Our team works on your project. You follow progress and give feedback." },
-      { n:"04", icon:"🚀", title:"Delivery", desc:"Source files + final exports delivered. Revisions included until you're satisfied." },
+      { n:"01", icon:"💬", title:"Brief", desc:"We analyze your business and clients. A 30-min call is enough to understand everything." },
+      { n:"02", icon:"⚙️", title:"Custom configuration", desc:"We configure Alex with your catalog, prices, tone. 100% personalized for you." },
+      { n:"03", icon:"✅", title:"Test & validation", desc:"You test the agent before going live. We adjust until you're fully satisfied." },
+      { n:"04", icon:"🚀", title:"Go live in 72h", desc:"Your AI agent is active. Ongoing support for updates and optimizations." },
     ],
     video_steps_titles:["Your details","Project type","Project details","Script & Voice","Deadline & Budget"],
     graphic_steps_titles:["Your details","Project type","Style & References","Deadline & Budget"],
-    footer_copy:"Digital Horizon Agency · Cotonou, Benin · © 2026 DHA",
-    wa_bubble:"💬 Chat with us on WhatsApp!",
   },
 };
 
-const PORTFOLIO = [
-  { cat:"logos",    title:"Logo Tech Startup",   img:"https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80", tags:["Branding","Logo"] },
-  { cat:"logos",    title:"Identité Restaurant", img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", tags:["Logo","Identité"] },
-  { cat:"affiches", title:"Affiche Événement",   img:"https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=600&q=80", tags:["Affiche","Event"] },
-  { cat:"affiches", title:"Flyer Promotionnel",  img:"https://images.unsplash.com/photo-1586717799252-bd134ad00e26?w=600&q=80", tags:["Flyer","Print"] },
-  { cat:"videos",   title:"Motion Design App",   img:"https://images.unsplash.com/photo-1536240478700-b869ad10e128?w=600&q=80", tags:["Motion","App"] },
-  { cat:"videos",   title:"Spot Publicitaire",   img:"https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80", tags:["Vidéo","Pub"] },
+const PORTFOLIO_ITEMS = [
+  { img:"https://images.unsplash.com/photo-1626785774573-4b799315345d?w=600&q=80", title:"Logo Tech Startup", cat:"logos", tags:["Branding","Logo"] },
+  { img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80", title:"Identité Restaurant", cat:"logos", tags:["Logo","Identité"] },
+  { img:"https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=600&q=80", title:"Affiche Événement", cat:"affiches", tags:["Affiche","Event"] },
+  { img:"https://images.unsplash.com/photo-1586717799252-bd134ad00e26?w=600&q=80", title:"Flyer Promotionnel", cat:"affiches", tags:["Flyer","Print"] },
+  { img:"https://images.unsplash.com/photo-1536240478700-b869ad10e128?w=600&q=80", title:"Motion Design App", cat:"videos", tags:["Motion","App"] },
+  { img:"https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80", title:"Spot Publicitaire", cat:"videos", tags:["Vidéo","Pub"] },
 ];
 
 const VIDEO_STEPS = [
@@ -92,7 +86,8 @@ const VIDEO_STEPS = [
     { id:"nom", label:"Nom & Prénom *", type:"text", placeholder:"Jean Dupont" },
     { id:"email", label:"Email *", type:"email", placeholder:"jean@exemple.com" },
     { id:"tel", label:"WhatsApp *", type:"tel", placeholder:"+229 XX XX XX XX" },
-    { id:"entreprise", label:"Entreprise", type:"text", placeholder:"Nom de votre entreprise" },
+    { id:"tel", label:"WhatsApp *", type:"tel", placeholder:"+229 XX XX XX XX" },
+    { id:"entreprise", label:"Nom de l'entreprise (optionnel)", type:"text", placeholder:"Ex: DHA Agency" }
   ]},
   { tiles:[
     { id:"app_mobile", icon:"📱", title:"Spot · App Mobile",   desc:"Promo application iOS/Android" },
@@ -100,25 +95,25 @@ const VIDEO_STEPS = [
     { id:"saas",       icon:"⚙️", title:"Spot · SAAS",         desc:"Explication logiciel B2B" },
     { id:"event",      icon:"🎪", title:"Spot Événementiel",   desc:"Teaser ou récap événement" },
     { id:"flyer",      icon:"📲", title:"Motion Flyer",        desc:"Affiche animée réseaux sociaux" },
-    { id:"autre",      icon:"✨", title:"Autre besoin",         desc:"Précisez votre demande" },
+    { id:"autre",      icon:"✨", title:"Autre besoin",         desc:"Précisez votre demande" }
   ]},
   { fields:[
     { id:"duree",      label:"Durée souhaitée",     type:"select", options:["Moins de 30 secondes","30 à 60 secondes","1 à 2 minutes","Plus de 2 minutes"] },
     { id:"style",      label:"Style visuel",        type:"select", options:["Moderne & épuré","Dynamique & coloré","Professionnel & corporate","Créatif & artistique","Je fais confiance à votre équipe"] },
     { id:"references", label:"Références (liens)",  type:"textarea", placeholder:"https://..." },
-    { id:"details",    label:"Décrivez votre projet", type:"textarea", placeholder:"Votre produit, votre cible, vos objectifs..." },
+    { id:"details",    label:"Décrivez votre projet", type:"textarea", placeholder:"Votre produit, votre cible, vos objectifs..." }
   ]},
   { fields:[
     { id:"script",      label:"Avez-vous un script ?",  type:"select", options:["Oui, j'ai un script prêt","Non, j'ai besoin que vous le rédigiez","J'ai une ébauche à affiner"] },
     { id:"voix",        label:"Voix off souhaitée",     type:"select", options:["Voix masculine","Voix féminine","Pas de voix off","À discuter"] },
     { id:"langue_voix", label:"Langue de la voix",      type:"select", options:["Français","Anglais","Fon","Yoruba","Autre"] },
-    { id:"musique",     label:"Musique de fond",        type:"select", options:["Oui, proposez-en une","Oui, j'en fournis une","Non, pas de musique"] },
+    { id:"musique",     label:"Musique de fond",        type:"select", options:["Oui, proposez-en une","Oui, j'en fournis une","Non, pas de musique"] }
   ]},
   { fields:[
     { id:"delai",     label:"Délai souhaité",         type:"select", options:["Urgent (< 3 jours)","1 semaine","2 semaines","1 mois ou plus","Flexible"] },
     { id:"budget",    label:"Budget estimé (FCFA)",   type:"select", options:["Moins de 50 000","50 000 – 100 000","100 000 – 200 000","200 000 – 500 000","Plus de 500 000","À discuter"] },
-    { id:"infos_sup", label:"Informations supplémentaires", type:"textarea", placeholder:"Tout ce qui pourrait nous aider..." },
-  ]},
+    { id:"infos_sup", label:"Informations supplémentaires", type:"textarea", placeholder:"Tout ce qui pourrait nous aider..." }
+  ]}
 ];
 
 const GRAPHIC_STEPS = [
@@ -126,7 +121,7 @@ const GRAPHIC_STEPS = [
     { id:"nom", label:"Nom & Prénom *", type:"text", placeholder:"Jean Dupont" },
     { id:"email", label:"Email *", type:"email", placeholder:"jean@exemple.com" },
     { id:"tel", label:"WhatsApp *", type:"tel", placeholder:"+229 XX XX XX XX" },
-    { id:"entreprise", label:"Entreprise", type:"text", placeholder:"Nom de votre entreprise" },
+    { id:"entreprise", label:"Entreprise", type:"text", placeholder:"Nom de votre entreprise" }
   ]},
   { tiles:[
     { id:"logo",      icon:"✏️", title:"Création de Logo",      desc:"Logo + déclinaisons" },
@@ -134,24 +129,24 @@ const GRAPHIC_STEPS = [
     { id:"affiche",   icon:"🖼️", title:"Affiche / Flyer",       desc:"Print ou digital" },
     { id:"post",      icon:"📱", title:"Posts Réseaux Sociaux", desc:"Facebook, Instagram, TikTok" },
     { id:"packaging", icon:"📦", title:"Packaging",             desc:"Emballage produit" },
-    { id:"autre",     icon:"✨", title:"Autre besoin",           desc:"Précisez votre demande" },
+    { id:"autre",     icon:"✨", title:"Autre besoin",           desc:"Précisez votre demande" }
   ]},
   { fields:[
     { id:"style",       label:"Style souhaité",          type:"select",   options:["Moderne & minimaliste","Coloré & dynamique","Traditionnel & élégant","Ludique & créatif","Corporate & professionnel","Je fais confiance à votre équipe"] },
     { id:"couleurs",    label:"Couleurs préférées",      type:"text",     placeholder:"Ex: bleu marine, or, blanc..." },
     { id:"references",  label:"Références visuelles",    type:"textarea", placeholder:"Sites, logos, affiches que vous aimez..." },
-    { id:"concurrents", label:"Concurrents du secteur",  type:"text",     placeholder:"Pour éviter les ressemblances" },
+    { id:"concurrents", label:"Concurrents du secteur",  type:"text",     placeholder:"Pour éviter les ressemblances" }
   ]},
   { fields:[
     { id:"fichiers",  label:"Éléments existants ?",  type:"select",   options:["Non, je pars de zéro","Oui, j'ai un ancien logo","Oui, j'enverrai les fichiers sur WhatsApp"] },
     { id:"delai",     label:"Délai souhaité",         type:"select",   options:["Urgent (< 3 jours)","1 semaine","2 semaines","1 mois ou plus","Flexible"] },
     { id:"budget",    label:"Budget estimé (FCFA)",   type:"select",   options:["Moins de 25 000","25 000 – 50 000","50 000 – 100 000","100 000 – 200 000","Plus de 200 000","À discuter"] },
-    { id:"infos_sup", label:"Décrivez votre projet",  type:"textarea", placeholder:"Votre activité, votre cible, vos attentes..." },
-  ]},
+    { id:"infos_sup", label:"Décrivez votre projet",  type:"textarea", placeholder:"Votre activité, votre cible, vos attentes..." }
+  ]}
 ];
 
 function BriefModal({ type, onClose, lang }) {
-  const t = LANG[lang] || LANG.fr;
+  const t = T[lang] || T.fr;
   const steps = type === "video" ? VIDEO_STEPS : GRAPHIC_STEPS;
   const stepTitles = type === "video" ? t.video_steps_titles : t.graphic_steps_titles;
   const [step, setStep] = useState(0);
@@ -173,7 +168,7 @@ function BriefModal({ type, onClose, lang }) {
 
   return (
     <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.85)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }} onClick={e => e.target === e.currentTarget && onClose()}>
-      <div style={{ background:"#0d1117", border:`1px solid ${accent}25`, borderRadius:24, width:"100%", maxWidth:560, maxHeight:"90vh", overflowY:"auto", animation:"fadeUp 0.3s ease" }}>
+      <div style={{ background:"#0d1117", border:`1px solid ${accent}25`, borderRadius:24, width:"100%", maxWidth:560, maxHeight:"90vh", overflowY:"auto" }}>
         <div style={{ padding:"20px 24px 0", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
           <div>
             <div style={{ fontSize:11, color:accent, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:4 }}>{type==="video" ? "🎬 Brief Vidéo / Motion" : "🎨 Brief Design Graphique"}</div>
@@ -252,95 +247,21 @@ function useInView(threshold = 0.1) {
 }
 
 export default function Creative() {
-  const [scrollY, setScrollY] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const { lang } = useLang();
   const [filter, setFilter] = useState("all");
   const [modal, setModal] = useState(null);
-  const [lang, setLang] = useState("fr");
   const [portRef, portIn] = useInView(0.1);
   const [servRef, servIn] = useInView(0.1);
   const [procRef, procIn] = useInView(0.1);
-  const t = LANG[lang] || LANG.fr;
+  const t = T[lang] || T.fr;
 
-  /* Fix auto-scroll — scroll to top on mount */
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  useEffect(() => {
-    const fn = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-
-  const filtered = filter === "all" ? PORTFOLIO : PORTFOLIO.filter(p => p.cat === filter);
-
-  const pageLinks = [
-    { to:"/",         label:t.nav_ia,       emoji:"🤖" },
-    { to:"/creative", label:t.nav_creative,  emoji:"🎨", active:true },
-    { to:"/web",      label:t.nav_web,       emoji:"💻" },
-  ];
+  const filtered = filter === "all" ? PORTFOLIO_ITEMS : PORTFOLIO_ITEMS.filter(p => p.cat === filter);
 
   return (
     <div style={{ fontFamily:"'Outfit',sans-serif", background:"#050810", color:"#e2e8f0", overflowX:"hidden" }}>
       <style>{CSS}</style>
-
-      {/* ── NAV UNIFORME ── */}
-      <nav style={{ position:"fixed", top:0, left:0, right:0, zIndex:200, transition:"all 0.4s", background: scrollY>60 ? "rgba(5,8,16,0.95)" : "transparent", backdropFilter: scrollY>60 ? "blur(24px)" : "none", borderBottom: scrollY>60 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
-        <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 20px", height:64, display:"flex", alignItems:"center", justifyContent:"space-between", gap:12 }}>
-          <Link to="/" style={{ fontSize:22, fontWeight:900, letterSpacing:"-1px", color:"#e2e8f0", textDecoration:"none", flexShrink:0 }}>
-            <span style={{ color:"#00FFB4" }}>D</span>HA
-            <span style={{ fontSize:11, color:"#94a3b8", fontWeight:400, marginLeft:8, letterSpacing:"1px" }}>AGENCY</span>
-          </Link>
-
-          <div className="desk-nav" style={{ alignItems:"center", gap:2, flex:1, justifyContent:"center" }}>
-            {pageLinks.map(({ to, label, emoji, active }) => (
-              <Link key={to} to={to} style={{ background: active ? "rgba(0,255,180,0.08)" : "none", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid transparent", color: active ? "#00FFB4" : "#94a3b8", fontSize:12, padding:"6px 10px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, transition:"all 0.2s", display:"flex", alignItems:"center", gap:4 }}>
-                <span>{emoji}</span>{label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="desk-nav" style={{ alignItems:"center", gap:6, flexShrink:0 }}>
-            <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:8, overflow:"hidden" }}>
-              {["fr","en"].map(code => (
-                <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"5px 9px", fontSize:11, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400, transition:"all 0.2s" }}>
-                  {code === "fr" ? "🇫🇷" : "🇬🇧"}
-                </button>
-              ))}
-            </div>
-            <button onClick={() => setModal("graphic")} style={{ background:"linear-gradient(135deg,#f59e0b,#ef4444)", color:"#fff", border:"none", padding:"8px 12px", borderRadius:8, fontSize:11, fontWeight:700, cursor:"pointer", fontFamily:"inherit", whiteSpace:"nowrap" }}>{t.cta_graphic}</button>
-          </div>
-
-          <button className="burger" onClick={() => setMenuOpen(!menuOpen)} style={{ display:"none", background:"none", border:"none", color:"#e2e8f0", fontSize:24, cursor:"pointer" }}>{menuOpen ? "✕" : "☰"}</button>
-        </div>
-
-        {menuOpen && (
-          <div style={{ background:"rgba(5,8,16,0.98)", borderTop:"1px solid rgba(255,255,255,0.06)", maxHeight:"90vh", overflowY:"auto" }}>
-            {/* Pages */}
-            <div style={{ padding:"12px 20px 8px", display:"flex", gap:8, flexWrap:"wrap" }}>
-              {pageLinks.map(({ to, label, emoji, active }) => (
-                <Link key={to} to={to} onClick={() => setMenuOpen(false)} style={{ background: active ? "rgba(0,255,180,0.08)" : "rgba(255,255,255,0.03)", border: active ? "1px solid rgba(0,255,180,0.2)" : "1px solid rgba(255,255,255,0.06)", color: active ? "#00FFB4" : "#94a3b8", fontSize:13, padding:"7px 14px", borderRadius:8, textDecoration:"none", fontWeight: active ? 700 : 500, display:"flex", alignItems:"center", gap:5 }}>
-                  {emoji} {label}
-                </Link>
-              ))}
-            </div>
-            <div style={{ height:1, background:"rgba(255,255,255,0.06)", margin:"4px 0" }} />
-            {/* Lang + CTAs */}
-            <div style={{ padding:"10px 20px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-              <div style={{ display:"flex", background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)", borderRadius:8, overflow:"hidden" }}>
-                {["fr","en"].map(code => (
-                  <button key={code} onClick={() => setLang(code)} style={{ background: lang===code ? "rgba(0,255,180,0.15)" : "none", border:"none", padding:"7px 14px", fontSize:13, color: lang===code ? "#00FFB4" : "#94a3b8", cursor:"pointer", fontFamily:"inherit", fontWeight: lang===code ? 700 : 400 }}>
-                    {code==="fr" ? "🇫🇷 FR" : "🇬🇧 EN"}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div style={{ padding:"0 20px 16px", display:"flex", gap:8 }}>
-              <button onClick={() => { setModal("graphic"); setMenuOpen(false); }} style={{ flex:1, background:"linear-gradient(135deg,#f59e0b,#ef4444)", color:"#fff", border:"none", padding:"12px", borderRadius:12, fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>{t.cta_graphic}</button>
-              <button onClick={() => { setModal("video"); setMenuOpen(false); }} style={{ flex:1, background:"linear-gradient(135deg,#a855f7,#7c3aed)", color:"#fff", border:"none", padding:"12px", borderRadius:12, fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>{t.cta_video}</button>
-            </div>
-          </div>
-        )}
-      </nav>
 
       {/* HERO */}
       <section style={{ minHeight:"100svh", display:"flex", alignItems:"center", justifyContent:"center", padding:"100px 24px 60px", position:"relative", overflow:"hidden" }}>
@@ -348,20 +269,20 @@ export default function Creative() {
         <div style={{ position:"absolute", top:"20%", right:"5%", width:400, height:400, background:"radial-gradient(circle,rgba(168,85,247,0.06),transparent 70%)", filter:"blur(60px)", borderRadius:"50%" }} />
         <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(245,158,11,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,0.02) 1px,transparent 1px)", backgroundSize:"80px 80px" }} />
         <div style={{ position:"relative", zIndex:1, textAlign:"center", maxWidth:760 }}>
-          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(245,158,11,0.08)", border:"1px solid rgba(245,158,11,0.25)", borderRadius:50, padding:"7px 18px", fontSize:12, color:"#f59e0b", marginBottom:32, animation:"fadeUp 0.8s ease both" }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(245,158,11,0.08)", border:"1px solid rgba(245,158,11,0.25)", borderRadius:50, padding:"7px 18px", fontSize:12, color:"#f59e0b", marginBottom:32 }}>
             <span style={{ width:7, height:7, background:"#f59e0b", borderRadius:"50%", animation:"pulse 2s infinite" }} />
             {t.hero_badge}
           </div>
-          <h1 style={{ fontSize:"clamp(38px,7vw,72px)", fontWeight:900, lineHeight:1.05, letterSpacing:"-2.5px", color:"#fff", margin:"0 0 24px", animation:"fadeUp 0.8s 0.1s ease both" }}>
+          <h1 style={{ fontSize:"clamp(38px,7vw,72px)", fontWeight:900, lineHeight:1.05, letterSpacing:"-2.5px", color:"#fff", margin:"0 0 24px" }}>
             {t.hero_title}<br />
             <span style={{ background:"linear-gradient(135deg,#f59e0b,#ef4444,#a855f7)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>avec DHA</span>
           </h1>
-          <p style={{ fontSize:"clamp(15px,2.5vw,18px)", color:"#94a3b8", lineHeight:1.8, maxWidth:520, margin:"0 auto 40px", animation:"fadeUp 0.8s 0.2s ease both" }}>{t.hero_sub}</p>
-          <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap", animation:"fadeUp 0.8s 0.3s ease both" }}>
+          <p style={{ fontSize:"clamp(15px,2.5vw,18px)", color:"#94a3b8", lineHeight:1.8, maxWidth:520, margin:"0 auto 40px" }}>{t.hero_sub}</p>
+          <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
             <button onClick={() => setModal("graphic")} style={{ background:"linear-gradient(135deg,#f59e0b,#ef4444)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, fontSize:16, fontWeight:700, cursor:"pointer", fontFamily:"inherit", boxShadow:"0 8px 30px rgba(245,158,11,0.3)" }}>{t.cta_graphic}</button>
             <button onClick={() => setModal("video")} style={{ background:"linear-gradient(135deg,#a855f7,#7c3aed)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, fontSize:16, fontWeight:700, cursor:"pointer", fontFamily:"inherit", boxShadow:"0 8px 30px rgba(168,85,247,0.3)" }}>{t.cta_video}</button>
           </div>
-          <div style={{ display:"flex", gap:40, justifyContent:"center", flexWrap:"wrap", marginTop:56, animation:"fadeUp 0.8s 0.4s ease both" }}>
+          <div style={{ display:"flex", gap:40, justifyContent:"center", flexWrap:"wrap", marginTop:56 }}>
             {[["50+",lang==="en"?"Projects delivered":"Projets livrés"],["30+",lang==="en"?"Happy clients":"Clients satisfaits"],["3",lang==="en"?"Years experience":"Ans d'expérience"]].map(([v,l]) => (
               <div key={l} style={{ textAlign:"center" }}>
                 <div style={{ fontSize:28, fontWeight:900, color:"#f59e0b", letterSpacing:"-1px" }}>{v}</div>
@@ -465,24 +386,6 @@ export default function Creative() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ borderTop:"1px solid rgba(255,255,255,0.06)", padding:"32px 24px", textAlign:"center" }}>
-        <Link to="/" style={{ textDecoration:"none", fontSize:20, fontWeight:900 }}>
-          <span style={{ color:"#00FFB4" }}>D</span><span style={{ color:"#fff" }}>HA</span>
-        </Link>
-        <div style={{ display:"flex", justifyContent:"center", gap:20, margin:"12px 0", flexWrap:"wrap" }}>
-          {pageLinks.map(({ to, label, emoji }) => (
-            <Link key={to} to={to} style={{ fontSize:13, color:"#94a3b8", textDecoration:"none", display:"flex", alignItems:"center", gap:5 }}>{emoji} {label}</Link>
-          ))}
-        </div>
-        <p style={{ fontSize:13, color:"#334155" }}>{t.footer_copy}</p>
-      </footer>
-
-      {/* WhatsApp flottant */}
-      <a href={`https://wa.me/${WA_NUMBER}`} target="_blank" rel="noopener noreferrer" style={{ position:"fixed", bottom:28, right:28, zIndex:999, width:56, height:56, borderRadius:"50%", background:"#25D366", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0 8px 30px rgba(37,211,102,0.5)", textDecoration:"none", transition:"transform 0.2s" }} onMouseEnter={e=>e.currentTarget.style.transform="scale(1.1)"} onMouseLeave={e=>e.currentTarget.style.transform="scale(1)"}>
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      </a>
-
       {modal && <BriefModal type={modal} onClose={() => setModal(null)} lang={lang} />}
     </div>
   );
@@ -493,26 +396,14 @@ const h2 = { fontSize:"clamp(28px,5vw,46px)", fontWeight:900, letterSpacing:"-1.
 const sub = { fontSize:16, color:"#64748b", maxWidth:500, margin:"0 auto" };
 
 const CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
-  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-  html { scroll-behavior:smooth; }
-  body { background:#050810; -webkit-font-smoothing:antialiased; }
   @keyframes pulse  { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.2)} }
   @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
   .card { transition:transform 0.25s ease, box-shadow 0.25s ease; }
   .card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(0,0,0,0.3); }
   .portfolio-img { transition:transform 0.4s ease; }
   .card:hover .portfolio-img { transform:scale(1.05); }
-  .desk-nav { display:none !important; align-items:center; gap:4px; }
-  .burger { display:block !important; }
-  ::-webkit-scrollbar { width:4px; }
-  ::-webkit-scrollbar-thumb { background:rgba(245,158,11,0.2); border-radius:4px; }
   input:focus, textarea:focus, select:focus { border-color:rgba(245,158,11,0.4) !important; outline:none; }
   textarea { resize:vertical; }
   button:hover { opacity:.88; }
   a:hover { opacity:.88; }
-  @media (min-width:900px) {
-    .desk-nav { display:flex !important; }
-    .burger { display:none !important; }
-  }
 `;
