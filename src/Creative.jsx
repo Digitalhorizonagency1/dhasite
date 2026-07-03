@@ -1,6 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { useLang } from "./LangContext";
 
+function useInView(threshold = 0.1) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, inView];
+}
+
 const WA_NUMBER = "2290160008046";
 
 const T = {
