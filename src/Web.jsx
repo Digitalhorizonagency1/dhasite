@@ -393,4 +393,3 @@ const CSS = `
     border-color: rgba(0,200,255,0.25) !important;
   }
 `;
-import { useLang } from "./LangContext";
