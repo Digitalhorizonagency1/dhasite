@@ -107,7 +107,7 @@ export default function Layout() {
                   <span>{emoji}</span>{label}
                 </Link>
               ))}
-              <div style={{ width: 1, height: 16, background: "rgba(255,255,255,0.08)", margin: "0 8px" }} />
+              <div style={{ width: 1, height: 18, background: "rgba(255,255,255,0.06)", margin: "0 8px" }} />
               {navLinks.map(([id, label]) => (
                 <button key={id} onClick={() => scrollTo(id)} style={{
                   background: "none", border: "none", color: id === "demo" ? "#00FFB4" : "#94a3b8", fontSize: 12, cursor: "pointer", padding: "6px 11px", borderRadius: 12, fontWeight: id === "demo" ? 700 : 500, transition: "color 0.25s"
@@ -160,7 +160,7 @@ export default function Layout() {
                 </div>
               </div>
               <div style={{ padding: "4px 20px 4px" }}>
-                <a href={`https://wa.me/${WA_NUMBER}`} style={{ display: "block", background: "linear-gradient(135deg,#00FFB4,#00C8FF)", color: "#050810", padding: "12px", borderRadius: 12, fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center" }}>{t.start}</a>
+                <a href={`https://wa.me/${WA_NUMBER}`} style={{ display: "block", background: "linear-gradient(135deg,#00FFB4,#00C8FF)", color: "#050810", padding: "13px", borderRadius: 12, fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center" }}>{t.start}</a>
               </div>
             </div>
           )}
