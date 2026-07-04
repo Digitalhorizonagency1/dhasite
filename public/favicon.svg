@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="dhaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="45%" stop-color="#6366F1"/>
+      <stop offset="75%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#22D97A"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#0F172A"/>
+  <text x="32" y="44" font-family="Space Grotesk, Arial, sans-serif" font-weight="800" font-size="34" text-anchor="middle" fill="url(#dhaGrad)">D</text>
+</svg>

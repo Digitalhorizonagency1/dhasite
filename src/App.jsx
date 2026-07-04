@@ -8,6 +8,7 @@ import {
   CaretDownIcon, StarIcon, CheckIcon, LaptopIcon, FacebookLogoIcon,
 } from "@phosphor-icons/react";
 import { useLang } from "./LangContext";
+import { usePageMeta } from "./usePageMeta";
 
 const WA_NUMBER = "2290160008046";
 
@@ -68,9 +69,16 @@ function FAQ({ faqs }) {
     <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
       {faqs.map((item, i) => {
         const isOpen = open === i;
+        const panelId = `faq-panel-${i}`;
+        const btnId = `faq-btn-${i}`;
         return (
           <div key={i} className="glass-card" style={{ borderRadius:16, overflow:"hidden", transition:"box-shadow 0.3s" }}>
-            <button onClick={() => setOpen(isOpen ? -1 : i)} style={{
+            <button
+              id={btnId}
+              onClick={() => setOpen(isOpen ? -1 : i)}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              style={{
               width:"100%", background:"none", border:"none", cursor:"pointer",
               padding:"18px 20px", display:"flex", alignItems:"center", justifyContent:"space-between",
               gap:16, fontFamily:"inherit", textAlign:"left"
@@ -86,7 +94,11 @@ function FAQ({ faqs }) {
                 transform: isOpen ? "rotate(180deg)" : "none", transition:"transform 0.3s"
               }}><CaretDownIcon size={13} weight="bold" /></span>
             </button>
-            <div style={{
+            <div
+              id={panelId}
+              role="region"
+              aria-labelledby={btnId}
+              style={{
               maxHeight: isOpen ? 300 : 0, overflow:"hidden", transition:"max-height 0.35s ease"
             }}>
               <p style={{ padding:"0 20px 20px", fontSize:13, color:"var(--ink-soft)", lineHeight:1.8, margin:0 }}>
@@ -460,12 +472,12 @@ function DemoChat({ lang }) {
           )}
           <div ref={bottomRef} />
         </div>
-        <div style={{ background:"#fff", padding:"6px 10px", display:"flex", gap:6, flexWrap:"wrap", borderTop:"1px solid var(--glass-border)" }}>
+        <div style={{ background:"var(--surface-solid)", padding:"6px 10px", display:"flex", gap:6, flexWrap:"wrap", borderTop:"1px solid var(--glass-border)" }}>
           {t.demo_wa_suggestions.map(s => (
             <button key={s} onClick={() => setInput(s)} style={{ background:"var(--bg-alt)", border:"1px solid var(--glass-border)", borderRadius:20, padding:"4px 10px", fontSize:11, color:"var(--ink-soft)", cursor:"pointer", fontFamily:"inherit" }}>{s}</button>
           ))}
         </div>
-        <div style={{ background:"#fff", padding:"8px 10px", display:"flex", alignItems:"center", gap:8, borderTop:"1px solid var(--glass-border)" }}>
+        <div style={{ background:"var(--surface-solid)", padding:"8px 10px", display:"flex", alignItems:"center", gap:8, borderTop:"1px solid var(--glass-border)" }}>
           <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => { if (e.key==="Enter") send(); }} placeholder={t.demo_wa_placeholder} style={{ flex:1, background:"var(--bg-alt)", border:"1px solid var(--glass-border)", borderRadius:24, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit" }} />
           <button onClick={send} disabled={typing || !input.trim()} style={{ width:42, height:42, borderRadius:"50%", background: input.trim() ? "var(--grad-primary)" : "var(--bg-alt)", border:"none", cursor: input.trim() ? "pointer" : "default", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}><PaperPlaneRightIcon size={18} weight="fill" color={input.trim() ? "#fff" : "var(--ink-faint)"} /></button>
         </div>
@@ -498,19 +510,19 @@ function DemoChat({ lang }) {
         {typing && (
           <div style={{ display:"flex", alignItems:"flex-end", gap:8 }}>
             <div style={{ width:26, height:26, borderRadius:"50%", background:"var(--grad-primary)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:800, color:"#fff", fontSize:10, flexShrink:0 }}>A</div>
-            <div style={{ background:"#fff", border:"1px solid var(--glass-border)", borderRadius:"4px 16px 16px 16px", padding:"12px 16px", display:"flex", gap:4 }}>
+            <div style={{ background:"var(--surface-solid)", border:"1px solid var(--glass-border)", borderRadius:"4px 16px 16px 16px", padding:"12px 16px", display:"flex", gap:4 }}>
               {[0,0.2,0.4].map((d,i) => <span key={i} style={{ width:6, height:6, background:"var(--indigo)", borderRadius:"50%", display:"inline-block", animation:`typeBounce 0.9s ${d}s infinite` }} />)}
             </div>
           </div>
         )}
         <div ref={bottomRef} />
       </div>
-      <div style={{ padding:"0 14px 10px", display:"flex", gap:6, flexWrap:"wrap", background:"#fff" }}>
+      <div style={{ padding:"0 14px 10px", display:"flex", gap:6, flexWrap:"wrap", background:"var(--surface-solid)" }}>
         {t.demo_suggestions.map(s => (
           <button key={s} onClick={() => setInput(s)} style={{ background:"rgba(99,102,241,0.06)", border:"1px solid rgba(99,102,241,0.2)", borderRadius:20, padding:"5px 12px", fontSize:11, color:"var(--indigo)", cursor:"pointer", fontFamily:"inherit", transition:"all 0.2s" }} className="chat-sug">{s}</button>
         ))}
       </div>
-      <div style={{ padding:"10px 12px 14px", borderTop:"1px solid var(--glass-border)", display:"flex", gap:8, background:"#fff" }}>
+      <div style={{ padding:"10px 12px 14px", borderTop:"1px solid var(--glass-border)", display:"flex", gap:8, background:"var(--surface-solid)" }}>
         <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")send();}} placeholder={t.demo_placeholder} style={{ flex:1, background:"var(--bg-alt)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"11px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit" }} />
         <button onClick={send} disabled={typing || !input.trim()} style={{ width:42, height:42, borderRadius:12, background: input.trim() ? "var(--grad-primary)" : "var(--bg-alt)", border:"none", cursor: input.trim() ? "pointer" : "default", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}><PaperPlaneRightIcon size={17} weight="fill" color={input.trim() ? "#fff" : "var(--ink-faint)"} /></button>
       </div>
@@ -523,6 +535,16 @@ export default function DHASite() {
   const [vis, setVis] = useState(new Set());
   const [activeStep, setActiveStep] = useState(0);
   const t = T[lang] || T.fr;
+
+  usePageMeta(lang === "en" ? {
+    title: "DHA — AI Agency & Automation in Benin | Digital Horizon Agency",
+    description: "Digital Horizon Agency (DHA): 24/7 WhatsApp AI agent, automated Community Manager, custom websites. Based in Cotonou, Benin. From 25,000 FCFA/month.",
+    path: "/",
+  } : {
+    title: "DHA — Agence IA & Automatisation au Bénin | Digital Horizon Agency",
+    description: "Digital Horizon Agency (DHA) — Automatisez votre business avec l'IA. Agent WhatsApp 24h/24, Community Manager IA, sites web sur mesure. Basé à Cotonou, Bénin. Dès 25 000 FCFA/mois.",
+    path: "/",
+  });
 
   useEffect(() => {
     const obs = new IntersectionObserver(

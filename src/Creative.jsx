@@ -4,6 +4,7 @@ import {
   ArrowRightIcon, ChatCircleTextIcon, TargetIcon, PencilLineIcon, RocketLaunchIcon,
 } from "@phosphor-icons/react";
 import { useLang } from "./LangContext";
+import { usePageMeta } from "./usePageMeta";
 
 const WA_NUMBER = "2290160008046";
 
@@ -208,7 +209,7 @@ function BriefModal({ type, onClose, lang }) {
                   {f.type==="textarea" ? (
                     <textarea value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} rows={3} style={{ width:"100%", background:"rgba(255,255,255,0.6)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", resize:"vertical", boxSizing:"border-box" }} />
                   ) : f.type==="select" ? (
-                    <select value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} style={{ width:"100%", background:"#fff", border:"1px solid var(--glass-border)", borderRadius:12, padding:"12px 14px", fontSize:13, color: data[f.id]?"var(--ink)":"var(--ink-faint)", outline:"none", fontFamily:"inherit", cursor:"pointer" }}>
+                    <select value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} style={{ width:"100%", background:"var(--surface-solid)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"12px 14px", fontSize:13, color: data[f.id]?"var(--ink)":"var(--ink-faint)", outline:"none", fontFamily:"inherit", cursor:"pointer" }}>
                       <option value="">Choisissez...</option>
                       {f.options.map(o => <option key={o} value={o}>{o}</option>)}
                     </select>
@@ -256,6 +257,16 @@ export default function Creative() {
   const [servRef, servIn] = useInView(0.1);
   const [procRef, procIn] = useInView(0.1);
   const t = T[lang] || T.fr;
+
+  usePageMeta(lang === "en" ? {
+    title: "Creative Services — Design & Content | Digital Horizon Agency",
+    description: "DHA offers graphic design, video editing and AI-assisted content creation for businesses in Benin. Cotonou-based creative team.",
+    path: "/creative",
+  } : {
+    title: "Créatif — Design & Contenu | Digital Horizon Agency",
+    description: "DHA propose du graphisme, du montage vidéo et de la création de contenu assistée par IA pour les entreprises béninoises. Équipe créative basée à Cotonou.",
+    path: "/creative",
+  });
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 

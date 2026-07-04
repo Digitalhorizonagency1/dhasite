@@ -30,6 +30,28 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Données structurées (aide Google à identifier la marque) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Digital Horizon Agency",
+      "alternateName": "DHA",
+      "url": "https://dhasite.vercel.app/",
+      "logo": "https://dhasite.vercel.app/favicon.svg",
+      "image": "https://dhasite.vercel.app/og-image.png",
+      "description": "Agence d'automatisation IA basée à Cotonou, Bénin : agents WhatsApp intelligents, automatisation de workflows, sites web sur mesure et création de contenu.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Cotonou",
+        "addressCountry": "BJ"
+      },
+      "sameAs": [],
+      "areaServed": "Bénin",
+      "knowsAbout": ["Intelligence artificielle", "Automatisation WhatsApp", "Développement web", "Community management IA"]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -3,9 +3,10 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   RobotIcon, PaletteIcon, CodeIcon, RocketLaunchIcon,
   ChatCircleDotsIcon, ArrowRightIcon, ListIcon, XIcon,
-  WhatsappLogoIcon, GlobeIcon,
+  WhatsappLogoIcon, GlobeIcon, SunIcon, MoonIcon,
 } from "@phosphor-icons/react";
 import { useLang } from "./LangContext";
+import { useTheme } from "./ThemeContext";
 
 const WA_NUMBER = "2290160008046";
 
@@ -28,6 +29,7 @@ const T_NAV = {
 
 export default function Layout() {
   const { lang, setLang } = useLang();
+  const { theme, toggleTheme } = useTheme();
   const t = T_NAV[lang] || T_NAV.fr;
   const [scrollY, setScrollY] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -115,6 +117,17 @@ export default function Layout() {
                   </button>
                 ))}
               </div>
+              <button
+                className="theme-switch"
+                onClick={toggleTheme}
+                aria-label={theme === "dark" ? "Activer le mode clair" : "Activer le mode sombre"}
+                aria-pressed={theme === "dark"}
+                title={theme === "dark" ? "Mode clair" : "Mode sombre"}
+              >
+                <span className="theme-thumb">
+                  {theme === "dark" ? <MoonIcon size={12} weight="fill" /> : <SunIcon size={12} weight="fill" />}
+                </span>
+              </button>
               <a href={`https://wa.me/${WA_NUMBER}`} className="nav-cta-btn">
                 {t.start}<ArrowRightIcon size={14} weight="bold" />
               </a>
@@ -148,6 +161,19 @@ export default function Layout() {
                     </button>
                   ))}
                 </div>
+              </div>
+              <div className="mobile-theme-row">
+                <span>{theme === "dark" ? "Mode sombre" : "Mode clair"}</span>
+                <button
+                  className="theme-switch"
+                  onClick={toggleTheme}
+                  aria-label={theme === "dark" ? "Activer le mode clair" : "Activer le mode sombre"}
+                  aria-pressed={theme === "dark"}
+                >
+                  <span className="theme-thumb">
+                    {theme === "dark" ? <MoonIcon size={12} weight="fill" /> : <SunIcon size={12} weight="fill" />}
+                  </span>
+                </button>
               </div>
               <div style={{ padding: "4px 20px 4px" }}>
                 <a href={`https://wa.me/${WA_NUMBER}`} className="mobile-cta">
@@ -196,6 +222,8 @@ const NAV_CSS = `
     --ink: #0F172A;
     --ink-soft: #475569;
     --ink-faint: #94A3B8;
+    --ink-rgb: 15,23,42;
+    --surface-solid: #ffffff;
     --glass: rgba(255,255,255,0.55);
     --glass-strong: rgba(255,255,255,0.72);
     --glass-border: rgba(15,23,42,0.08);
@@ -213,10 +241,39 @@ const NAV_CSS = `
     --font-body: 'Inter', sans-serif;
   }
 
+  [data-theme="dark"] {
+    --bg: #0B1120;
+    --bg-alt: #111827;
+    --ink: #F1F5F9;
+    --ink-soft: #AEB9CC;
+    --ink-faint: #6B7A93;
+    --ink-rgb: 226,232,240;
+    --surface-solid: #141B2E;
+    --glass: rgba(30,41,59,0.55);
+    --glass-strong: rgba(30,41,59,0.72);
+    --glass-border: rgba(226,232,240,0.1);
+    --shadow-glass: 0 8px 32px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.25);
+    --shadow-glass-lg: 0 20px 60px rgba(0,0,0,0.45), 0 4px 16px rgba(0,0,0,0.3);
+  }
+
   * { box-sizing: border-box; }
-  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin:0; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin:0; transition: background-color 0.35s ease, color 0.35s ease; }
   h1, h2, h3, h4 { font-family: var(--font-display); }
   ::selection { background: rgba(139,92,246,0.18); }
+
+  .theme-switch {
+    position: relative; width: 44px; height: 25px; border-radius: 20px; border: 1px solid var(--glass-border);
+    background: rgba(var(--ink-rgb),0.08); cursor: pointer; padding: 0; flex-shrink: 0;
+    display: flex; align-items: center; transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .theme-switch .theme-thumb {
+    position: absolute; top: 2px; left: 2px; width: 19px; height: 19px; border-radius: 50%;
+    background: var(--grad-primary); display: flex; align-items: center; justify-content: center; color: #fff;
+    transition: transform 0.32s cubic-bezier(0.16,1,0.3,1); box-shadow: 0 2px 6px rgba(var(--ink-rgb),0.25);
+  }
+  [data-theme="dark"] .theme-switch .theme-thumb { transform: translateX(19px); }
+  .mobile-theme-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 18px 12px; }
+  .mobile-theme-row span { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
 
   .glass-card {
     background: var(--glass);
@@ -241,10 +298,10 @@ const NAV_CSS = `
     max-width: 1180px; margin: 0 auto;
   }
   .main-nav.is-scrolled {
-    background: rgba(255,255,255,0.65);
+    background: var(--glass-strong);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border-color: rgba(15,23,42,0.06);
+    border-color: var(--glass-border);
     box-shadow: 0 8px 32px rgba(99,102,241,0.10);
   }
   .nav-inner { padding: 0 22px; height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
@@ -263,15 +320,15 @@ const NAV_CSS = `
   .page-link:hover { background: rgba(99,102,241,0.06); color: var(--indigo); }
   .page-link.is-active { background: rgba(99,102,241,0.09); border-color: rgba(99,102,241,0.18); color: var(--indigo); font-weight: 700; }
 
-  .nav-sep { width: 1px; height: 16px; background: rgba(15,23,42,0.08); margin: 0 8px; }
+  .nav-sep { width: 1px; height: 16px; background: rgba(var(--ink-rgb),0.08); margin: 0 8px; }
 
   .nav-link { background: none; border: none; color: var(--ink-soft); font-size: 12.5px; cursor: pointer; padding: 6px 10px; border-radius: 10px; font-weight: 500; transition: color 0.2s; font-family: var(--font-body); }
   .nav-link:hover { color: var(--indigo); }
   .nav-link.is-accent { color: var(--violet); font-weight: 700; }
 
-  .lang-switch { display: flex; background: rgba(15,23,42,0.04); border: 1px solid rgba(15,23,42,0.07); border-radius: 9px; overflow: hidden; padding: 2px; }
+  .lang-switch { display: flex; background: rgba(var(--ink-rgb),0.04); border: 1px solid rgba(var(--ink-rgb),0.07); border-radius: 9px; overflow: hidden; padding: 2px; }
   .lang-btn { background: none; border: none; padding: 6px 11px; font-size: 11px; color: var(--ink-faint); cursor: pointer; font-weight: 600; border-radius: 7px; transition: all 0.2s; font-family: var(--font-body); }
-  .lang-btn.is-active { background: #fff; color: var(--indigo); box-shadow: 0 1px 4px rgba(15,23,42,0.08); }
+  .lang-btn.is-active { background: var(--surface-solid); color: var(--indigo); box-shadow: 0 1px 4px rgba(var(--ink-rgb),0.08); }
 
   .nav-cta-btn {
     background: var(--grad-primary); color: #fff; padding: 10px 18px; border-radius: 11px;
@@ -282,17 +339,17 @@ const NAV_CSS = `
 
   .burger { background: none; border: none; color: var(--ink); cursor: pointer; align-items:center; justify-content:center; }
 
-  .mobile-panel { background: rgba(255,255,255,0.92); backdrop-filter: blur(20px); border-radius: 18px; margin: 0 8px 8px; padding-bottom: 14px; border: 1px solid rgba(15,23,42,0.06); }
+  .mobile-panel { background: var(--glass-strong); backdrop-filter: blur(20px); border-radius: 18px; margin: 0 8px 8px; padding-bottom: 14px; border: 1px solid var(--glass-border); }
   .mobile-pagelinks { padding: 14px 18px 6px; display: flex; gap: 8px; flex-wrap: wrap; }
-  .mobile-pagelink { background: rgba(15,23,42,0.03); border: 1px solid rgba(15,23,42,0.06); color: var(--ink-soft); font-size: 12px; padding: 7px 12px; border-radius: 9px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .mobile-pagelink { background: rgba(var(--ink-rgb),0.03); border: 1px solid rgba(var(--ink-rgb),0.06); color: var(--ink-soft); font-size: 12px; padding: 7px 12px; border-radius: 9px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 5px; }
   .mobile-pagelink.is-active { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.2); color: var(--indigo); }
-  .mobile-divider { height: 1px; background: rgba(15,23,42,0.06); margin: 6px 0; }
-  .mobile-navlink { display: block; width: 100%; background: none; border: none; border-bottom: 1px solid rgba(15,23,42,0.04); color: var(--ink-soft); font-size: 14px; padding: 12px 22px; text-align: left; cursor: pointer; font-family: var(--font-body); font-weight: 500; }
+  .mobile-divider { height: 1px; background: rgba(var(--ink-rgb),0.06); margin: 6px 0; }
+  .mobile-navlink { display: block; width: 100%; background: none; border: none; border-bottom: 1px solid rgba(var(--ink-rgb),0.04); color: var(--ink-soft); font-size: 14px; padding: 12px 22px; text-align: left; cursor: pointer; font-family: var(--font-body); font-weight: 500; }
   .mobile-navlink.is-accent { color: var(--violet); font-weight: 700; }
   .mobile-lang-row { display: flex; align-items: center; gap: 10px; padding: 12px 18px; }
   .mobile-cta { display: flex; align-items:center; justify-content:center; gap:8px; background: var(--grad-primary); color: #fff; padding: 13px; border-radius: 12px; font-size: 15px; font-weight: 700; text-decoration: none; text-align: center; }
 
-  .site-footer { border-top: 1px solid rgba(15,23,42,0.06); padding: 44px 20px; text-align: center; background: var(--bg-alt); }
+  .site-footer { border-top: 1px solid var(--glass-border); padding: 44px 20px; text-align: center; background: var(--bg-alt); }
   .footer-brand { justify-content: center; margin-bottom: 16px; font-size: 21px; }
   .footer-links { display: flex; justify-content: center; gap: 22px; margin-bottom: 18px; flex-wrap: wrap; }
   .footer-link { font-size: 13px; color: var(--ink-soft); text-decoration: none; display: flex; align-items: center; gap: 6px; font-weight: 500; }

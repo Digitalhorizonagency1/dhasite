@@ -5,6 +5,7 @@ import {
   ClipboardTextIcon, PaintBrushIcon, CodeIcon, RocketLaunchIcon,
 } from "@phosphor-icons/react";
 import { useLang } from "./LangContext";
+import { usePageMeta } from "./usePageMeta";
 
 const WA_NUMBER = "2290160008046";
 
@@ -184,7 +185,7 @@ function WebBriefModal({ onClose, lang }) {
                   {f.type==="textarea" ? (
                     <textarea value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} rows={3} style={{ width:"100%", background:"rgba(255,255,255,0.6)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", resize:"vertical", boxSizing:"border-box" }} />
                   ) : f.type==="select" ? (
-                    <select value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} style={{ width:"100%", background:"#fff", border:"1px solid var(--glass-border)", borderRadius:12, padding:"12px 14px", fontSize:13, color: data[f.id]?"var(--ink)":"var(--ink-faint)", outline:"none", fontFamily:"inherit", cursor:"pointer" }}>
+                    <select value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} style={{ width:"100%", background:"var(--surface-solid)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"12px 14px", fontSize:13, color: data[f.id]?"var(--ink)":"var(--ink-faint)", outline:"none", fontFamily:"inherit", cursor:"pointer" }}>
                       <option value="">Choisissez...</option>
                       {f.options.map(o => <option key={o} value={o}>{o}</option>)}
                     </select>
@@ -231,6 +232,16 @@ export default function Web() {
   const [servRef, servIn] = useInView(0.1);
   const [procRef, procIn] = useInView(0.1);
   const t = T[lang] || T.fr;
+
+  usePageMeta(lang === "en" ? {
+    title: "Web Development — Custom Websites | Digital Horizon Agency",
+    description: "DHA builds fast, modern, custom-coded websites for businesses in Benin: showcase sites, e-commerce, web apps. Cotonou-based team.",
+    path: "/web",
+  } : {
+    title: "Développement Web — Sites sur mesure | Digital Horizon Agency",
+    description: "DHA conçoit des sites web modernes, rapides et sur mesure pour les entreprises béninoises : vitrines, e-commerce, applications web. Équipe basée à Cotonou.",
+    path: "/web",
+  });
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
