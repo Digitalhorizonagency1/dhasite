@@ -171,21 +171,21 @@ function BriefModal({ type, onClose, lang }) {
   const current = steps[step];
 
   return (
-    <div style={{ position:"fixed", inset:0, background:"rgba(15,23,42,0.35)", backdropFilter:"blur(12px)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }} onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="glass-card" style={{ background:"rgba(255,255,255,0.92)", borderRadius:24, width:"100%", maxWidth:560, maxHeight:"90vh", overflowY:"auto", boxShadow:"var(--shadow-glass-lg)" }}>
+    <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.5)", backdropFilter:"blur(12px)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }} onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="glass-card" style={{ background:"var(--glass-strong)", borderRadius:24, width:"100%", maxWidth:560, maxHeight:"90vh", overflowY:"auto", boxShadow:"var(--shadow-glass-lg)" }}>
         <div style={{ padding:"24px 24px 0", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
           <div>
             <div style={{ fontSize:11, color:accent, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:4 }}>{type==="video" ? "Brief Vidéo / Motion" : "Brief Design Graphique"}</div>
             <div style={{ fontSize:18, fontWeight:800, color:"var(--ink)", letterSpacing:"-0.5px" }}>{stepTitles[step]}</div>
           </div>
-          <button onClick={onClose} style={{ background:"rgba(15,23,42,0.05)", border:"none", color:"var(--ink-soft)", cursor:"pointer", borderRadius:"50%", width:36, height:36, display:"flex", alignItems:"center", justifyContent:"center" }}><XIcon size={18} /></button>
+          <button onClick={onClose} style={{ background:"rgba(var(--ink-rgb),0.06)", border:"none", color:"var(--ink-soft)", cursor:"pointer", borderRadius:"50%", width:36, height:36, display:"flex", alignItems:"center", justifyContent:"center" }}><XIcon size={18} /></button>
         </div>
         <div style={{ padding:"14px 24px 0" }}>
           <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
             <span style={{ fontSize:11, color:"var(--ink-faint)" }}>{t.step} {step+1} {t.of} {steps.length}</span>
             <span style={{ fontSize:11, color:accent, fontWeight:700 }}>{Math.round(progress)}%</span>
           </div>
-          <div style={{ height:4, background:"rgba(15,23,42,0.06)", borderRadius:4 }}>
+          <div style={{ height:4, background:"rgba(var(--ink-rgb),0.08)", borderRadius:4 }}>
             <div style={{ height:"100%", width:`${progress}%`, background:accent, borderRadius:4, transition:"width 0.4s ease" }} />
           </div>
         </div>
@@ -193,7 +193,7 @@ function BriefModal({ type, onClose, lang }) {
           {current.tiles && (
             <div style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:12 }}>
               {current.tiles.map(ti => (
-                <button key={ti.id} onClick={() => { setTile(ti.title); update("type_projet", ti.title); }} style={{ background: tile===ti.title ? `${accent}12` : "rgba(255,255,255,0.5)", border:`1px solid ${tile===ti.title ? accent : "var(--glass-border)"}`, borderRadius:14, padding:"14px 12px", cursor:"pointer", textAlign:"left", fontFamily:"inherit", transition:"all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+                <button key={ti.id} onClick={() => { setTile(ti.title); update("type_projet", ti.title); }} style={{ background: tile===ti.title ? `${accent}12` : "var(--glass)", border:`1px solid ${tile===ti.title ? accent : "var(--glass-border)"}`, borderRadius:14, padding:"14px 12px", cursor:"pointer", textAlign:"left", fontFamily:"inherit", transition:"all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }}>
                   <div style={{ marginBottom:6 }}><ti.Icon size={22} weight="duotone" color={accent} /></div>
                   <div style={{ fontSize:13, fontWeight:700, color:"var(--ink)", marginBottom:3 }}>{ti.title}</div>
                   <div style={{ fontSize:11, color:"var(--ink-faint)" }}>{ti.desc}</div>
@@ -207,14 +207,14 @@ function BriefModal({ type, onClose, lang }) {
                 <div key={f.id}>
                   <label style={{ display:"block", fontSize:13, color:"var(--ink-soft)", marginBottom:6, fontWeight:500 }}>{f.label}</label>
                   {f.type==="textarea" ? (
-                    <textarea value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} rows={3} style={{ width:"100%", background:"rgba(255,255,255,0.6)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", resize:"vertical", boxSizing:"border-box" }} />
+                    <textarea value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} rows={3} style={{ width:"100%", background:"var(--bg-alt)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", resize:"vertical", boxSizing:"border-box" }} />
                   ) : f.type==="select" ? (
                     <select value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} style={{ width:"100%", background:"var(--surface-solid)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"12px 14px", fontSize:13, color: data[f.id]?"var(--ink)":"var(--ink-faint)", outline:"none", fontFamily:"inherit", cursor:"pointer" }}>
                       <option value="">Choisissez...</option>
                       {f.options.map(o => <option key={o} value={o}>{o}</option>)}
                     </select>
                   ) : (
-                    <input type={f.type} value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} style={{ width:"100%", background:"rgba(255,255,255,0.6)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", boxSizing:"border-box" }} />
+                    <input type={f.type} value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} style={{ width:"100%", background:"var(--bg-alt)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", boxSizing:"border-box" }} />
                   )}
                 </div>
               ))}
@@ -222,7 +222,7 @@ function BriefModal({ type, onClose, lang }) {
           )}
           <div style={{ display:"flex", justifyContent:"space-between", marginTop:24, gap:12 }}>
             {step > 0 ? (
-              <button onClick={() => setStep(p=>p-1)} style={{ background:"rgba(15,23,42,0.05)", border:"1px solid var(--glass-border)", color:"var(--ink-soft)", padding:"11px 20px", borderRadius:12, fontSize:14, cursor:"pointer", fontFamily:"inherit" }}>{t.prev}</button>
+              <button onClick={() => setStep(p=>p-1)} style={{ background:"rgba(var(--ink-rgb),0.06)", border:"1px solid var(--glass-border)", color:"var(--ink-soft)", padding:"11px 20px", borderRadius:12, fontSize:14, cursor:"pointer", fontFamily:"inherit" }}>{t.prev}</button>
             ) : <div />}
             {step < steps.length-1 ? (
               <button onClick={() => setStep(p=>p+1)} style={{ background:accent, color:"#fff", border:"none", padding:"11px 24px", borderRadius:12, fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>{t.next}</button>
@@ -316,7 +316,7 @@ export default function Creative() {
           </div>
           <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap", marginBottom:40 }}>
             {[["all",t.filter_all],["logos",t.filter_logos],["affiches",t.filter_affiches],["videos",t.filter_videos]].map(([key,lbl]) => (
-              <button key={key} onClick={() => setFilter(key)} style={{ background: filter===key ? "linear-gradient(135deg,#F5A623,#EF4444)" : "rgba(255,255,255,0.5)", color: filter===key ? "#fff" : "var(--ink-soft)", border: filter===key ? "none" : "1px solid var(--glass-border)", padding:"8px 20px", borderRadius:50, fontSize:13, fontWeight: filter===key ? 700 : 500, cursor:"pointer", fontFamily:"inherit", transition:"all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }} className="filter-tab-btn">{lbl}</button>
+              <button key={key} onClick={() => setFilter(key)} style={{ background: filter===key ? "linear-gradient(135deg,#F5A623,#EF4444)" : "var(--glass)", color: filter===key ? "#fff" : "var(--ink-soft)", border: filter===key ? "none" : "1px solid var(--glass-border)", padding:"8px 20px", borderRadius:50, fontSize:13, fontWeight: filter===key ? 700 : 500, cursor:"pointer", fontFamily:"inherit", transition:"all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }} className="filter-tab-btn">{lbl}</button>
             ))}
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))", gap:20 }}>

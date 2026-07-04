@@ -124,7 +124,7 @@ function HeroWord({ lang }) {
       {blocks.map((b, i) => (
         <span key={i} className="glass-card" style={{
           display:"inline-block",
-          background: active===i ? b.grad : "rgba(255,255,255,0.35)",
+          background: active===i ? b.grad : "rgba(var(--ink-rgb),0.06)",
           color: active===i ? "#fff" : "var(--ink-faint)",
           padding:"8px 24px",
           borderRadius:16,
@@ -432,7 +432,7 @@ function DemoChat({ lang }) {
   if (isMobile) {
     return (
       <div style={{ borderRadius:24, overflow:"hidden", boxShadow:"var(--shadow-glass-lg)", maxWidth:340, margin:"0 auto", fontFamily:"var(--font-body)", border:"1px solid var(--glass-border)" }}>
-        <div style={{ background:"rgba(255,255,255,0.85)", backdropFilter:"blur(12px)", padding:"12px 16px", display:"flex", alignItems:"center", gap:10, borderBottom:"1px solid var(--glass-border)" }}>
+        <div style={{ background:"var(--glass-strong)", backdropFilter:"blur(12px)", padding:"12px 16px", display:"flex", alignItems:"center", gap:10, borderBottom:"1px solid var(--glass-border)" }}>
           <ArrowLeftIcon size={18} color="var(--ink)" />
           <div style={{ width:36, height:36, borderRadius:"50%", background:"var(--grad-primary)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:800, color:"#fff", fontSize:14 }}>A</div>
           <div style={{ flex:1 }}>
@@ -487,7 +487,7 @@ function DemoChat({ lang }) {
 
   return (
     <div className="glass-card" style={{ borderRadius:24, overflow:"hidden", boxShadow:"var(--shadow-glass-lg)" }}>
-      <div style={{ background:"rgba(255,255,255,0.5)", borderBottom:"1px solid var(--glass-border)", padding:"14px 18px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+      <div style={{ background:"var(--glass)", borderBottom:"1px solid var(--glass-border)", padding:"14px 18px", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         <div style={{ display:"flex", alignItems:"center", gap:12 }}>
           <div style={{ width:38, height:38, borderRadius:"50%", background:"var(--grad-primary)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:800, color:"#fff", fontSize:15 }}>A</div>
           <div>
@@ -504,7 +504,7 @@ function DemoChat({ lang }) {
         {msgs.map((m, i) => (
           <div key={i} style={{ display:"flex", justifyContent: m.role==="alex" ? "flex-start" : "flex-end", alignItems:"flex-end", gap:8 }}>
             {m.role==="alex" && <div style={{ width:26, height:26, borderRadius:"50%", background:"var(--grad-primary)", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:800, color:"#fff", fontSize:10, flexShrink:0 }}>A</div>}
-            <div style={{ maxWidth:"78%", padding:"11px 16px", fontSize:13, lineHeight:1.65, background: m.role==="alex" ? "#fff" : "var(--grad-primary)", color: m.role==="alex" ? "var(--ink)" : "#fff", borderRadius: m.role==="alex" ? "4px 16px 16px 16px" : "16px 4px 16px 16px", border: m.role==="alex" ? "1px solid var(--glass-border)" : "none", boxShadow:"0 2px 6px rgba(15,23,42,0.05)" }}>{renderText(m.text)}</div>
+            <div style={{ maxWidth:"78%", padding:"11px 16px", fontSize:13, lineHeight:1.65, background: m.role==="alex" ? "var(--surface-solid)" : "var(--grad-primary)", color: m.role==="alex" ? "var(--ink)" : "#fff", borderRadius: m.role==="alex" ? "4px 16px 16px 16px" : "16px 4px 16px 16px", border: m.role==="alex" ? "1px solid var(--glass-border)" : "none", boxShadow:"0 2px 6px rgba(15,23,42,0.05)" }}>{renderText(m.text)}</div>
           </div>
         ))}
         {typing && (
@@ -680,7 +680,7 @@ export default function DHASite() {
                 </div>
                 <div className="feat6-grid" style={{ marginBottom:36 }}>
                   {t.prod1_features.map((f,i) => (
-                    <div key={i} style={{ background:"rgba(255,255,255,0.45)", border:"1px solid var(--glass-border)", borderRadius:16, padding:"20px 18px", transition:"all 0.3s" }} className="sub-feat-card">
+                    <div key={i} style={{ background:"var(--glass)", border:"1px solid var(--glass-border)", borderRadius:16, padding:"20px 18px", transition:"all 0.3s" }} className="sub-feat-card">
                       <div style={{ marginBottom:10 }}><f.Icon size={22} weight="duotone" color="var(--cyan)" /></div>
                       <div style={{ fontSize:14, fontWeight:700, color:"var(--ink)", marginBottom:6 }}>{f.title}</div>
                       <div style={{ fontSize:12, color:"var(--ink-soft)", lineHeight:1.65 }}>{f.desc}</div>
@@ -729,7 +729,7 @@ export default function DHASite() {
                 </div>
                 <div className="feat6-grid" style={{ marginBottom:36 }}>
                   {t.prod2_features.map((f,i) => (
-                    <div key={i} style={{ background:"rgba(255,255,255,0.45)", border:"1px solid var(--glass-border)", borderRadius:16, padding:"20px 18px", transition:"all 0.3s" }} className="sub-feat-card">
+                    <div key={i} style={{ background:"var(--glass)", border:"1px solid var(--glass-border)", borderRadius:16, padding:"20px 18px", transition:"all 0.3s" }} className="sub-feat-card">
                       <div style={{ marginBottom:10 }}><f.Icon size={20} weight="duotone" color="var(--indigo)" /></div>
                       <div style={{ fontSize:14, fontWeight:700, color:"var(--ink)", marginBottom:6 }}>{f.title}</div>
                       <div style={{ fontSize:12, color:"var(--ink-soft)", lineHeight:1.65 }}>{f.desc}</div>
@@ -765,12 +765,12 @@ export default function DHASite() {
             <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
               {t.steps.map((s, i) => (
                 <button key={i} onClick={() => setActiveStep(i)} style={{
-                  background: activeStep===i ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.25)",
+                  background: activeStep===i ? "var(--glass-strong)" : "var(--glass)",
                   border:`1px solid ${activeStep===i ? "rgba(99,102,241,0.3)" : "var(--glass-border)"}`,
                   borderRadius:20, padding:"20px 24px", cursor:"pointer", textAlign:"left", fontFamily:"inherit", transition:"all 0.3s cubic-bezier(0.16, 1, 0.3, 1)", display:"flex", alignItems:"flex-start", gap:20,
                   backdropFilter:"blur(12px)"
                 }} className="step-button">
-                  <div style={{ fontSize:28, fontWeight:800, color: activeStep===i ? "var(--indigo)" : "rgba(15,23,42,0.12)", letterSpacing:"-1px", lineHeight:1, flexShrink:0, transition:"color 0.3s" }}>{s.n}</div>
+                  <div style={{ fontSize:28, fontWeight:800, color: activeStep===i ? "var(--indigo)" : "rgba(var(--ink-rgb),0.12)", letterSpacing:"-1px", lineHeight:1, flexShrink:0, transition:"color 0.3s" }}>{s.n}</div>
                   <div>
                     <div style={{ fontSize:16, fontWeight:700, color: activeStep===i ? "var(--ink)" : "var(--ink-soft)", marginBottom:6, transition:"color 0.3s", display:"flex", alignItems:"center", gap:8 }}><s.Icon size={16} weight="bold" />{s.title}</div>
                     {activeStep===i && <div style={{ fontSize:13, color:"var(--ink-soft)", lineHeight:1.7, animation:"fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }}>{s.desc}</div>}
@@ -804,7 +804,7 @@ export default function DHASite() {
           </div>
           <div className="three-col-grid" style={{ alignItems:"start" }}>
             {t.pricing_cards.map((card, i) => (
-              <div key={i} data-observe id={`t${i}`} className="glass-card pricing-card" style={{ background: card.pop ? `linear-gradient(160deg,${card.accent}0F,rgba(255,255,255,0.6))` : undefined, border:`1px solid ${card.pop ? card.accent+"55" : "var(--glass-border)"}`, borderRadius:24, padding:"36px 28px", position:"relative", opacity:v(`t${i}`)?1:0, transform:v(`t${i}`)?"none":"translateY(36px)", transition:`opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.12}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.12}s, box-shadow 0.4s` }}>
+              <div key={i} data-observe id={`t${i}`} className="glass-card pricing-card" style={{ background: card.pop ? `linear-gradient(160deg,${card.accent}0F,var(--glass-strong))` : undefined, border:`1px solid ${card.pop ? card.accent+"55" : "var(--glass-border)"}`, borderRadius:24, padding:"36px 28px", position:"relative", opacity:v(`t${i}`)?1:0, transform:v(`t${i}`)?"none":"translateY(36px)", transition:`opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.12}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.12}s, box-shadow 0.4s` }}>
                 {card.pop && <div style={{ position:"absolute", top:-13, left:"50%", transform:"translateX(-50%)", background:card.accent, color:"#fff", padding:"4px 16px", borderRadius:20, fontSize:11, fontWeight:800, whiteSpace:"nowrap", display:"flex", alignItems:"center", gap:5 }}><StarIcon size={11} weight="fill" />{lang==="en"?"Most popular":"Le plus populaire"}</div>}
                 <h3 style={{ fontSize:18, fontWeight:800, color:card.accent, marginBottom:16 }}>{card.name}</h3>
                 <div style={{ marginBottom:16 }}>
@@ -823,7 +823,7 @@ export default function DHASite() {
                     </li>
                   ))}
                 </ul>
-                <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"block", textAlign:"center", background: card.pop ? card.accent : "rgba(15,23,42,0.05)", border: card.pop ? "none" : "1px solid var(--glass-border)", color: card.pop ? "#fff" : "var(--ink)", padding:"14px", borderRadius:12, fontSize:14, fontWeight:700, textDecoration:"none", transition:"all 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }} className="pricing-card-btn">{card.cta}</a>
+                <a href={`https://wa.me/${WA_NUMBER}`} style={{ display:"block", textAlign:"center", background: card.pop ? card.accent : "rgba(var(--ink-rgb),0.05)", border: card.pop ? "none" : "1px solid var(--glass-border)", color: card.pop ? "#fff" : "var(--ink)", padding:"14px", borderRadius:12, fontSize:14, fontWeight:700, textDecoration:"none", transition:"all 0.3s cubic-bezier(0.16, 1, 0.3, 1)" }} className="pricing-card-btn">{card.cta}</a>
               </div>
             ))}
           </div>
@@ -887,7 +887,7 @@ const CSS = `
   @keyframes scrollLeft { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
   input::placeholder { color: var(--ink-faint); }
-  input:focus { border-color: rgba(99,102,241,0.35) !important; background: #fff !important; }
+  input:focus { border-color: rgba(99,102,241,0.35) !important; background: var(--surface-solid) !important; }
 
   .card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; }
   .card:hover { transform: translateY(-5px); }
@@ -896,7 +896,7 @@ const CSS = `
   .product-card:hover { transform: translateY(-4px); }
 
   .sub-feat-card { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-  .sub-feat-card:hover { background: #fff !important; box-shadow: 0 8px 20px rgba(15,23,42,0.06); }
+  .sub-feat-card:hover { background: var(--surface-solid) !important; box-shadow: 0 8px 20px rgba(15,23,42,0.06); }
 
   .step-button:hover { box-shadow: 0 8px 24px rgba(99,102,241,0.08); }
 

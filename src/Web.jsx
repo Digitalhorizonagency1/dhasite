@@ -147,21 +147,21 @@ function WebBriefModal({ onClose, lang }) {
   const current = WEB_FORM_STEPS[step];
 
   return (
-    <div style={{ position:"fixed", inset:0, background:"rgba(15,23,42,0.35)", backdropFilter:"blur(12px)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }} onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="glass-card" style={{ background:"rgba(255,255,255,0.92)", borderRadius:24, width:"100%", maxWidth:580, maxHeight:"90vh", overflowY:"auto", boxShadow:"var(--shadow-glass-lg)" }}>
+    <div style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.5)", backdropFilter:"blur(12px)", zIndex:1000, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }} onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="glass-card" style={{ background:"var(--glass-strong)", borderRadius:24, width:"100%", maxWidth:580, maxHeight:"90vh", overflowY:"auto", boxShadow:"var(--shadow-glass-lg)" }}>
         <div style={{ padding:"24px 24px 0", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
           <div>
             <div style={{ fontSize:11, color:"var(--cyan)", fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:4 }}>Brief Création Web / App</div>
             <div style={{ fontSize:18, fontWeight:800, color:"var(--ink)", letterSpacing:"-0.5px" }}>{t.form_steps_titles[step]}</div>
           </div>
-          <button onClick={onClose} style={{ background:"rgba(15,23,42,0.05)", border:"none", color:"var(--ink-soft)", cursor:"pointer", borderRadius:"50%", width:36, height:36, display:"flex", alignItems:"center", justifyContent:"center" }}><XIcon size={18} /></button>
+          <button onClick={onClose} style={{ background:"rgba(var(--ink-rgb),0.06)", border:"none", color:"var(--ink-soft)", cursor:"pointer", borderRadius:"50%", width:36, height:36, display:"flex", alignItems:"center", justifyContent:"center" }}><XIcon size={18} /></button>
         </div>
         <div style={{ padding:"14px 24px 0" }}>
           <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
             <span style={{ fontSize:11, color:"var(--ink-faint)" }}>{t.step} {step+1} {t.of} {WEB_FORM_STEPS.length}</span>
             <span style={{ fontSize:11, color:"var(--cyan)", fontWeight:700 }}>{Math.round(progress)}%</span>
           </div>
-          <div style={{ height:4, background:"rgba(15,23,42,0.06)", borderRadius:4 }}>
+          <div style={{ height:4, background:"rgba(var(--ink-rgb),0.08)", borderRadius:4 }}>
             <div style={{ height:"100%", width:`${progress}%`, background:"var(--grad-primary)", borderRadius:4, transition:"width 0.4s ease" }} />
           </div>
         </div>
@@ -169,7 +169,7 @@ function WebBriefModal({ onClose, lang }) {
           {current.tiles && (
             <div style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:12 }}>
               {current.tiles.map(ti => (
-                <button key={ti.id} onClick={() => { setTile(ti.title); update("type_projet", ti.title); }} style={{ background: tile===ti.title ? "rgba(6,182,212,0.08)" : "rgba(255,255,255,0.5)", border:`1px solid ${tile===ti.title ? "var(--cyan)" : "var(--glass-border)"}`, borderRadius:14, padding:"14px 12px", cursor:"pointer", textAlign:"left", fontFamily:"inherit", transition:"all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }}>
+                <button key={ti.id} onClick={() => { setTile(ti.title); update("type_projet", ti.title); }} style={{ background: tile===ti.title ? "rgba(6,182,212,0.08)" : "var(--glass)", border:`1px solid ${tile===ti.title ? "var(--cyan)" : "var(--glass-border)"}`, borderRadius:14, padding:"14px 12px", cursor:"pointer", textAlign:"left", fontFamily:"inherit", transition:"all 0.25s cubic-bezier(0.16, 1, 0.3, 1)" }}>
                   <div style={{ marginBottom:6 }}><ti.Icon size={22} weight="duotone" color="var(--cyan)" /></div>
                   <div style={{ fontSize:13, fontWeight:700, color:"var(--ink)", marginBottom:3 }}>{ti.title}</div>
                   <div style={{ fontSize:11, color:"var(--ink-faint)" }}>{ti.desc}</div>
@@ -183,14 +183,14 @@ function WebBriefModal({ onClose, lang }) {
                 <div key={f.id}>
                   <label style={{ display:"block", fontSize:13, color:"var(--ink-soft)", marginBottom:6, fontWeight:500 }}>{f.label}</label>
                   {f.type==="textarea" ? (
-                    <textarea value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} rows={3} style={{ width:"100%", background:"rgba(255,255,255,0.6)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", resize:"vertical", boxSizing:"border-box" }} />
+                    <textarea value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} rows={3} style={{ width:"100%", background:"var(--bg-alt)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", resize:"vertical", boxSizing:"border-box" }} />
                   ) : f.type==="select" ? (
                     <select value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} style={{ width:"100%", background:"var(--surface-solid)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"12px 14px", fontSize:13, color: data[f.id]?"var(--ink)":"var(--ink-faint)", outline:"none", fontFamily:"inherit", cursor:"pointer" }}>
                       <option value="">Choisissez...</option>
                       {f.options.map(o => <option key={o} value={o}>{o}</option>)}
                     </select>
                   ) : (
-                    <input type={f.type} value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} style={{ width:"100%", background:"rgba(255,255,255,0.6)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", boxSizing:"border-box" }} />
+                    <input type={f.type} value={data[f.id]||""} onChange={e=>update(f.id,e.target.value)} placeholder={f.placeholder} style={{ width:"100%", background:"var(--bg-alt)", border:"1px solid var(--glass-border)", borderRadius:12, padding:"10px 14px", fontSize:13, color:"var(--ink)", outline:"none", fontFamily:"inherit", boxSizing:"border-box" }} />
                   )}
                 </div>
               ))}
@@ -198,7 +198,7 @@ function WebBriefModal({ onClose, lang }) {
           )}
           <div style={{ display:"flex", justifyContent:"space-between", marginTop:24, gap:12 }}>
             {step > 0 ? (
-              <button onClick={() => setStep(p=>p-1)} style={{ background:"rgba(15,23,42,0.05)", border:"1px solid var(--glass-border)", color:"var(--ink-soft)", padding:"11px 20px", borderRadius:12, fontSize:14, cursor:"pointer", fontFamily:"inherit" }}>{t.prev}</button>
+              <button onClick={() => setStep(p=>p-1)} style={{ background:"rgba(var(--ink-rgb),0.06)", border:"1px solid var(--glass-border)", color:"var(--ink-soft)", padding:"11px 20px", borderRadius:12, fontSize:14, cursor:"pointer", fontFamily:"inherit" }}>{t.prev}</button>
             ) : <div />}
             {step < WEB_FORM_STEPS.length-1 ? (
               <button onClick={() => setStep(p=>p+1)} style={{ background:"var(--grad-primary)", color:"#fff", border:"none", padding:"11px 24px", borderRadius:12, fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>{t.next}</button>
