@@ -10,6 +10,80 @@ import {
 import { useLang } from "./LangContext";
 import { usePageMeta } from "./usePageMeta";
 
+/* ══════════════════════════════════════════════════════
+   AUTOMATION FLOW — signature du hero : WhatsApp → Alex → CRM
+   avec un point lumineux qui voyage le long de la ligne, en boucle
+══════════════════════════════════════════════════════ */
+function AutomationFlow({ lang }) {
+  const nodes = lang === "en"
+    ? [{ Icon: WhatsappLogoIcon, label: "Message" }, { Icon: BrainIcon, label: "Alex AI" }, { Icon: ChartLineUpIcon, label: "CRM / Sheets" }]
+    : [{ Icon: WhatsappLogoIcon, label: "Message" }, { Icon: BrainIcon, label: "Alex IA" }, { Icon: ChartLineUpIcon, label: "CRM / Sheets" }];
+
+  return (
+    <div className="flow-diagram" aria-hidden="true">
+      <svg className="flow-svg" viewBox="0 0 600 20" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="flowGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="var(--cyan)" />
+            <stop offset="50%" stopColor="var(--indigo)" />
+            <stop offset="100%" stopColor="var(--violet)" />
+          </linearGradient>
+        </defs>
+        <line x1="40" y1="10" x2="560" y2="10" stroke="url(#flowGrad)" strokeWidth="1.5" strokeDasharray="1 9" strokeLinecap="round" opacity="0.55" />
+        <circle r="4.5" fill="var(--cyan)">
+          <animateMotion dur="3.2s" repeatCount="indefinite" path="M40,10 L560,10" />
+          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.08;0.92;1" dur="3.2s" repeatCount="indefinite" />
+        </circle>
+        <circle r="4.5" fill="var(--violet)">
+          <animateMotion dur="3.2s" begin="1.6s" repeatCount="indefinite" path="M40,10 L560,10" />
+          <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.08;0.92;1" dur="3.2s" begin="1.6s" repeatCount="indefinite" />
+        </circle>
+      </svg>
+      <div className="flow-nodes">
+        {nodes.map(({ Icon, label }, i) => (
+          <div key={label} className={`flow-node ${i === 1 ? "is-accent" : ""}`}>
+            <div className="flow-node-icon"><Icon size={18} weight={i === 1 ? "fill" : "regular"} /></div>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+function CountUp({ value, duration = 1200 }) {
+  const ref = useRef(null);
+  const [display, setDisplay] = useState(value);
+  const done = useRef(false);
+
+  const match = typeof value === "string" ? value.match(/^(\D*)(\d+)(\D*)$/) : null;
+
+  useEffect(() => {
+    if (!match || !ref.current) return;
+    const [, prefix, numStr, suffix] = match;
+    const target = parseInt(numStr, 10);
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !done.current) {
+          done.current = true;
+          const start = performance.now();
+          const tick = now => {
+            const p = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - p, 3);
+            const current = Math.round(target * eased);
+            setDisplay(`${prefix}${current}${suffix}`);
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      });
+    }, { threshold: 0.4 });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [match, duration]);
+
+  return <span ref={ref}>{match ? display : value}</span>;
+}
+
 const WA_NUMBER = "2290160008046";
 
 const HERO_BLOCKS = {
@@ -546,6 +620,28 @@ export default function DHASite() {
     path: "/",
   });
 
+  const heroRef = useRef(null);
+  const handleHeroMove = (e) => {
+    const el = heroRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    el.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  };
+
+  const magneticRef = useRef(null);
+  const handleMagnetic = (e) => {
+    const el = magneticRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) * 0.25;
+    const y = (e.clientY - rect.top - rect.height / 2) * 0.25;
+    el.style.transform = `translate(${x}px, ${y}px)`;
+  };
+  const resetMagnetic = () => {
+    if (magneticRef.current) magneticRef.current.style.transform = "translate(0,0)";
+  };
+
   useEffect(() => {
     const obs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) setVis(p => new Set([...p, e.target.id])); }),
@@ -573,7 +669,8 @@ export default function DHASite() {
       <style>{CSS}</style>
 
       {/* HERO */}
-      <section style={{ minHeight:"100svh", padding:"100px 20px 60px", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
+      <section ref={heroRef} onMouseMove={handleHeroMove} style={{ minHeight:"100svh", padding:"100px 20px 60px", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
+        <div className="cursor-halo" />
         <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(15,23,42,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(15,23,42,0.025) 1px,transparent 1px)", backgroundSize:"64px 64px" }} />
         <div style={{ position:"absolute", top:"-5%", left:"-10%", width:"50vw", height:"50vw", maxWidth:600, maxHeight:600, background:"radial-gradient(circle,rgba(6,182,212,0.14) 0%,transparent 65%)", filter:"blur(60px)", borderRadius:"50%" }} />
         <div style={{ position:"absolute", bottom:"-5%", right:"-10%", width:"45vw", height:"45vw", maxWidth:500, maxHeight:500, background:"radial-gradient(circle,rgba(139,92,246,0.13) 0%,transparent 65%)", filter:"blur(60px)", borderRadius:"50%" }} />
@@ -587,9 +684,10 @@ export default function DHASite() {
             <HeroWord lang={lang} />
             <SparkleText text={t.hero_sparkle} />
           </h1>
-          <p style={{ fontSize:"clamp(15px,3.5vw,18px)", color:"var(--ink-soft)", lineHeight:1.8, maxWidth:520, margin:"0 auto 36px" }}>{t.hero_sub}</p>
-          <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap", marginBottom:48 }}>
-            <a href={`https://wa.me/${WA_NUMBER}`} style={{ background:"var(--grad-primary)", color:"#fff", padding:"14px 28px", borderRadius:14, fontSize:15, fontWeight:700, textDecoration:"none", display:"inline-flex", alignItems:"center", gap:8, boxShadow:"0 8px 30px rgba(6,182,212,0.3)" }} className="primary-hero-cta">{t.hero_cta1}<ArrowRightIcon size={16} weight="bold" /></a>
+          <p style={{ fontSize:"clamp(15px,3.5vw,18px)", color:"var(--ink-soft)", lineHeight:1.8, maxWidth:520, margin:"0 auto 28px" }}>{t.hero_sub}</p>
+          <AutomationFlow lang={lang} />
+          <div style={{ display:"flex", gap:12, justifyContent:"center", flexWrap:"wrap", marginBottom:48, marginTop:28 }}>
+            <a ref={magneticRef} onMouseMove={handleMagnetic} onMouseLeave={resetMagnetic} href={`https://wa.me/${WA_NUMBER}`} style={{ background:"var(--grad-primary)", color:"#fff", padding:"14px 28px", borderRadius:14, fontSize:15, fontWeight:700, textDecoration:"none", display:"inline-flex", alignItems:"center", gap:8, boxShadow:"0 8px 30px rgba(6,182,212,0.3)", transition:"transform 0.15s ease-out" }} className="primary-hero-cta">{t.hero_cta1}<ArrowRightIcon size={16} weight="bold" /></a>
             <button onClick={() => scrollTo("demo")} className="glass-card secondary-hero-cta" style={{ color:"var(--ink)", padding:"14px 28px", borderRadius:14, fontSize:15, fontWeight:600, cursor:"pointer", fontFamily:"inherit", border:"1px solid var(--glass-border)", display:"inline-flex", alignItems:"center", gap:8 }}><RobotIcon size={17} />{t.hero_cta2}</button>
           </div>
           <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:16, flexWrap:"wrap" }}>
@@ -603,7 +701,7 @@ export default function DHASite() {
           <div style={{ display:"flex", gap:24, justifyContent:"center", flexWrap:"wrap", marginTop:48 }}>
             {t.hero_stats.map(([v,l]) => (
               <div key={l} style={{ textAlign:"center" }}>
-                <div style={{ fontSize:"clamp(22px,4vw,30px)", fontWeight:800, background:"var(--grad-primary)", WebkitBackgroundClip:"text", backgroundClip:"text", color:"transparent", letterSpacing:"-1px", lineHeight:1.1 }}>{v}</div>
+                <div style={{ fontSize:"clamp(22px,4vw,30px)", fontWeight:800, background:"var(--grad-primary)", WebkitBackgroundClip:"text", backgroundClip:"text", color:"transparent", letterSpacing:"-1px", lineHeight:1.1 }}><CountUp value={v} /></div>
                 <div style={{ fontSize:11, color:"var(--ink-faint)", marginTop:3, fontWeight:500 }}>{l}</div>
               </div>
             ))}
@@ -804,7 +902,20 @@ export default function DHASite() {
           </div>
           <div className="three-col-grid" style={{ alignItems:"start" }}>
             {t.pricing_cards.map((card, i) => (
-              <div key={i} data-observe id={`t${i}`} className="glass-card pricing-card" style={{ background: card.pop ? `linear-gradient(160deg,${card.accent}0F,var(--glass-strong))` : undefined, border:`1px solid ${card.pop ? card.accent+"55" : "var(--glass-border)"}`, borderRadius:24, padding:"36px 28px", position:"relative", opacity:v(`t${i}`)?1:0, transform:v(`t${i}`)?"none":"translateY(36px)", transition:`opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.12}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.12}s, box-shadow 0.4s` }}>
+              <div
+                key={i}
+                data-observe
+                id={`t${i}`}
+                className="glass-card pricing-card"
+                onMouseMove={e => {
+                  const el = e.currentTarget;
+                  const r = el.getBoundingClientRect();
+                  const rx = ((e.clientY - r.top) / r.height - 0.5) * -8;
+                  const ry = ((e.clientX - r.left) / r.width - 0.5) * 8;
+                  el.style.transform = `translateY(-6px) perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+                }}
+                onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0) perspective(800px) rotateX(0) rotateY(0)"; }}
+                style={{ background: card.pop ? `linear-gradient(160deg,${card.accent}0F,var(--glass-strong))` : undefined, border:`1px solid ${card.pop ? card.accent+"55" : "var(--glass-border)"}`, borderRadius:24, padding:"36px 28px", position:"relative", opacity:v(`t${i}`)?1:0, transform:v(`t${i}`)?"none":"translateY(36px)", transition:`opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.12}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${i*0.12}s, box-shadow 0.4s`, transformStyle:"preserve-3d" }}>
                 {card.pop && <div style={{ position:"absolute", top:-13, left:"50%", transform:"translateX(-50%)", background:card.accent, color:"#fff", padding:"4px 16px", borderRadius:20, fontSize:11, fontWeight:800, whiteSpace:"nowrap", display:"flex", alignItems:"center", gap:5 }}><StarIcon size={11} weight="fill" />{lang==="en"?"Most popular":"Le plus populaire"}</div>}
                 <h3 style={{ fontSize:18, fontWeight:800, color:card.accent, marginBottom:16 }}>{card.name}</h3>
                 <div style={{ marginBottom:16 }}>
@@ -885,6 +996,36 @@ const CSS = `
   @keyframes fadeUp     { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
   @keyframes typeBounce { 0%,80%,100%{transform:scale(0.6);opacity:.4} 40%{transform:scale(1);opacity:1} }
   @keyframes scrollLeft { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* Flux d'automatisation — signature du hero */
+  .flow-diagram { position: relative; max-width: 560px; margin: 0 auto; }
+  .flow-svg { display: block; width: 100%; height: 20px; }
+  .flow-nodes { display: flex; justify-content: space-between; align-items: center; margin-top: -30px; padding: 0 4px; }
+  .flow-node { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .flow-node span { font-size: 10.5px; color: var(--ink-faint); font-weight: 600; white-space: nowrap; }
+  .flow-node-icon {
+    width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    background: var(--glass-strong); border: 1px solid var(--glass-border); color: var(--ink-soft);
+    box-shadow: var(--shadow-glass); transition: transform 0.3s ease;
+  }
+  .flow-node.is-accent .flow-node-icon { background: var(--grad-primary); color: #fff; border: none; box-shadow: 0 6px 20px rgba(6,182,212,0.35); }
+  .flow-diagram:hover .flow-node-icon { transform: translateY(-2px); }
+  @media (max-width: 520px) { .flow-node span { display: none; } }
+
+  /* Halo qui suit le curseur dans le hero (désactivé au toucher / mobile) */
+  .cursor-halo {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(99,102,241,0.12), transparent 70%);
+    opacity: 0; transition: opacity 0.4s ease;
+  }
+  @media (hover: hover) {
+    section:hover > .cursor-halo { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flow-diagram circle animateMotion, .flow-diagram animate { display: none; }
+    .flow-svg circle { display: none; }
+    .cursor-halo { display: none; }
+  }
 
   input::placeholder { color: var(--ink-faint); }
   input:focus { border-color: rgba(99,102,241,0.35) !important; background: var(--surface-solid) !important; }

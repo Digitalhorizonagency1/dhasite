@@ -33,17 +33,25 @@ export default function Layout() {
   const t = T_NAV[lang] || T_NAV.fr;
   const [scrollY, setScrollY] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [pulse, setPulse] = useState(true);
+  const [pulse, setPulse] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll);
-    const bubbleTimer = setTimeout(() => setPulse(false), 5000);
+    // Première apparition après 3s, visible 6s, puis réapparaît toutes les 28s
+    const showTimer = setTimeout(() => setPulse(true), 3000);
+    const hideTimer = setTimeout(() => setPulse(false), 9000);
+    const loop = setInterval(() => {
+      setPulse(true);
+      setTimeout(() => setPulse(false), 6000);
+    }, 28000);
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      clearTimeout(bubbleTimer);
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+      clearInterval(loop);
     };
   }, []);
 
@@ -358,7 +366,14 @@ const NAV_CSS = `
 
   .wa-float { position: fixed; bottom: 24px; right: 20px; z-index: 1000; }
   .wa-bubble { position: absolute; bottom: 66px; right: 0; background: rgba(15,23,42,0.92); backdrop-filter: blur(10px); border-radius: 12px 12px 4px 12px; padding: 9px 14px; font-size: 12px; color: #fff; white-space: nowrap; box-shadow: 0 8px 24px rgba(15,23,42,0.25); display:flex; align-items:center; gap:6px; font-weight: 500; }
-  .wa-button { width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.4); text-decoration: none; transition: transform 0.25s; }
+  .wa-button { width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.4); text-decoration: none; transition: transform 0.25s; animation: waBreathe 3.5s ease-in-out infinite; }
   .wa-button:hover { transform: scale(1.06); }
+  @keyframes waBreathe {
+    0%,100% { box-shadow: 0 8px 24px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 8px 24px rgba(37,211,102,0.4), 0 0 0 8px rgba(37,211,102,0.12); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wa-button { animation: none; }
+  }
 `;
       
