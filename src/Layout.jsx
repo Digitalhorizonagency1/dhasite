@@ -225,15 +225,15 @@ const NAV_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
 
   :root {
-    --bg: #F6F8FC;
-    --bg-alt: #EEF2FA;
+    --bg: #F1F4FA;
+    --bg-alt: #E9EEF7;
     --ink: #0F172A;
     --ink-soft: #475569;
     --ink-faint: #94A3B8;
     --ink-rgb: 15,23,42;
-    --surface-solid: #ffffff;
-    --glass: rgba(255,255,255,0.55);
-    --glass-strong: rgba(255,255,255,0.72);
+    --surface-solid: #FAFBFE;
+    --glass: rgba(250,251,254,0.6);
+    --glass-strong: rgba(250,251,254,0.78);
     --glass-border: rgba(15,23,42,0.08);
     --cyan: #06B6D4;
     --violet: #8B5CF6;
@@ -265,9 +265,16 @@ const NAV_CSS = `
   }
 
   * { box-sizing: border-box; }
-  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin:0; transition: background-color 0.35s ease, color 0.35s ease; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); margin:0; transition: background-color 0.5s ease, color 0.5s ease; }
   h1, h2, h3, h4 { font-family: var(--font-display); }
   ::selection { background: rgba(139,92,246,0.18); }
+
+  .glass-card, .mobile-panel, .site-footer, input, textarea, select {
+    transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body, .glass-card, .mobile-panel, .site-footer, input, textarea, select { transition: none; }
+  }
 
   .theme-switch {
     position: relative; width: 44px; height: 25px; border-radius: 20px; border: 1px solid var(--glass-border);
@@ -376,4 +383,3 @@ const NAV_CSS = `
     .wa-button { animation: none; }
   }
 `;
-      
