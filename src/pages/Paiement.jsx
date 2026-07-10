@@ -106,6 +106,9 @@ export default function Paiement() {
           </div>
 
           <a href="https://wa.me/22900000000" style={s.cta} className="paiement-cta">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.83 14.13c-.24.68-1.4 1.31-1.94 1.36-.5.05-1.02.15-3.36-.83-2.83-1.19-4.66-4.09-4.8-4.28-.14-.19-1.15-1.53-1.15-2.92s.72-2.08.98-2.36c.24-.26.53-.33.71-.33.18 0 .35.002.51.008.16.006.38-.06.6.46.24.57.81 1.97.88 2.11.07.14.12.31.02.5-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.61.17.3.75 1.24 1.62 2.01 1.11.99 2.04 1.3 2.34 1.44.3.15.48.13.65-.08.18-.21.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.02.96.3.15.49.22.56.35.07.13.07.75-.17 1.43z"/>
+            </svg>
             Contacter mon revendeur
           </a>
 
@@ -125,10 +128,7 @@ export default function Paiement() {
           50% { box-shadow: 0 0 0 6px rgba(201,162,75,0.06); }
         }
         .paiement-cta {
-          min-height: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          min-height: 42px;
         }
         @media (max-width: 380px) {
           .paiement-grid { grid-template-columns: repeat(3, 1fr) !important; }
@@ -197,13 +197,13 @@ const s = {
   },
   card: {
     width: "100%",
-    maxWidth: 400,
+    maxWidth: 360,
     background: "rgba(20,20,24,0.72)",
     backdropFilter: "blur(20px)",
     WebkitBackdropFilter: "blur(20px)",
     border: "1px solid rgba(255,255,255,0.08)",
-    borderRadius: 20,
-    padding: "36px 30px",
+    borderRadius: 18,
+    padding: "28px 24px",
     boxShadow: "0 24px 60px rgba(0,0,0,0.5)",
   },
   brandRow: {
@@ -281,17 +281,19 @@ const s = {
     animation: "pulseDot 2.6s ease-in-out infinite",
   },
   cta: {
-    display: "block",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
     textAlign: "center",
     textDecoration: "none",
     background: "#e30613",
     color: "#fff",
-    fontWeight: 700,
-    fontSize: 14,
-    borderRadius: 12,
-    padding: "14px 20px",
-    marginBottom: 16,
-    transition: "opacity 0.15s ease",
+    fontWeight: 600,
+    fontSize: 13,
+    borderRadius: 10,
+    padding: "12px 18px",
+    marginBottom: 14,
   },
   footNote: {
     textAlign: "center",
