@@ -26,8 +26,9 @@ function setCanonical(path) {
  * Met à jour <title>, meta description, Open Graph, Twitter Card et le lien
  * canonical pour la page active. À appeler une fois dans chaque page
  * (App / Creative / Web) avec { title, description, path }.
+ * Passer noindex: true pour empêcher l'indexation (ex: pages privées).
  */
-export function usePageMeta({ title, description, path = "/" }) {
+export function usePageMeta({ title, description, path = "/", noindex = false }) {
   useEffect(() => {
     document.title = title;
     setMeta("description", description);
@@ -37,5 +38,6 @@ export function usePageMeta({ title, description, path = "/" }) {
     setMeta("twitter:title", title);
     setMeta("twitter:description", description);
     setCanonical(path);
-  }, [title, description, path]);
+    setMeta("robots", noindex ? "noindex, nofollow" : "index, follow");
+  }, [title, description, path, noindex]);
 }
