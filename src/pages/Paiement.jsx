@@ -1,22 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePageMeta } from "../usePageMeta";
 
 // ── IMAGES ─────────────────────────────────────────────────────────
-// Place tes visuels dans src/assets/posters/ puis importe-les ici.
-// Formats recommandés : .jpg ou .webp, ratio 2:3 (portrait), ~600x900px.
-// Exemple une fois tes fichiers ajoutés :
-//
-// import poster1 from "../assets/posters/poster1.jpg";
-// import poster2 from "../assets/posters/poster2.jpg";
-// import poster3 from "../assets/posters/poster3.jpg";
-// ...
-//
-// Puis remplace le tableau POSTERS ci-dessous par :
-// const POSTERS = [poster1, poster2, poster3, ...];
-//
-// Tant qu'aucune image n'est fournie, la page utilise un dégradé de
-// secours (aucune erreur, aucun import cassé).
-
 const POSTERS = [];
 
 export default function Paiement() {
@@ -27,9 +12,11 @@ export default function Paiement() {
     noindex: true,
   });
 
+  // États pour le formulaire de pré-remplissage WhatsApp
+  const [cardNumber, setCardNumber] = useState("");
+  const [selectedFormula, setSelectedFormula] = useState("Access");
+
   // Force le fond sombre sur html/body pour cette page uniquement
-  // (évite le cadre blanc autour si le reste du site a un fond clair).
-  // Restauré automatiquement en quittant la page.
   useEffect(() => {
     const prevHtmlBg = document.documentElement.style.background;
     const prevBodyBg = document.body.style.background;
@@ -51,7 +38,6 @@ export default function Paiement() {
     "Docs", "Kids", "Action", "Foot",
   ];
 
-  // Grille plus large : 4 colonnes desktop, tuiles plus grandes (moins denses)
   const tileCount = 12;
   const tiles = Array.from({ length: tileCount }, (_, i) => ({
     id: i,
@@ -60,6 +46,34 @@ export default function Paiement() {
     light: 10 + ((i * 13) % 14),
     image: POSTERS.length ? POSTERS[i % POSTERS.length] : null,
   }));
+
+  const formulas = [
+    "Access (5 000 F)",
+    "Évasion (10 000 F)",
+    "Évasion+ (15 000 F)",
+    "Tout CANAL+ (40 000 F)"
+  ];
+
+  // Génération du lien WhatsApp avec message pré-rempli
+  const getWhatsAppLink = () => {
+    // Remplacer par le numéro à 10 chiffres du revendeur (ex: 22901XXXXXXXX)
+    const phone = "2290100000000"; 
+    
+    const message = `Bonjour, je souhaite renouveler mon abonnement Canal+ via Mobile Money.
+    
+• Formule : ${selectedFormula}
+• Numéro de carte : ${cardNumber || "Non renseigné"}`;
+
+    return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  };
+
+  // Limite la saisie aux chiffres et à 14 caractères (longueur standard d'une carte Canal+)
+  const handleCardNumberChange = (e) => {
+    const val = e.target.value.replace(/\D/g, ""); // Garde uniquement les chiffres
+    if (val.length <= 14) {
+      setCardNumber(val);
+    }
+  };
 
   return (
     <div style={s.page}>
@@ -90,29 +104,79 @@ export default function Paiement() {
 
           <h1 style={s.h1} className="paiement-h1">Renouvellement en ligne</h1>
           <p style={s.sub}>
-            Le paiement Mobile Money arrive très bientôt sur cet espace.
-            En attendant, votre revendeur peut renouveler votre abonnement
-            en quelques minutes.
+            Le paiement Mobile Money direct arrive très bientôt. En attendant, 
+            renseignez vos informations ci-dessous pour être renouvelé par notre revendeur en 2 minutes.
           </p>
 
           <div style={s.divider} />
 
+          {/* Formulaire interactif */}
+          <div style={s.form}>
+            <div style={s.inputGroup}>
+              <label style={s.label} htmlFor="cardNumber">Numéro de réabonnement / Carte</label>
+              <input
+                id="cardNumber"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                placeholder="Ex: 14 chiffres au dos de la carte"
+                value={cardNumber}
+                onChange={handleCardNumberChange}
+                style={s.input}
+                className="paiement-input"
+              />
+              {cardNumber && cardNumber.length < 14 && (
+                <span style={s.inputHint}>{cardNumber.length}/14 chiffres</span>
+              )}
+            </div>
+
+            <div style={s.inputGroup}>
+              <label style={s.label} htmlFor="formula">Formule souhaitée</label>
+              <select
+                id="formula"
+                value={selectedFormula}
+                onChange={(e) => setSelectedFormula(e.target.value)}
+                style={s.select}
+                className="paiement-select"
+              >
+                {formulas.map((f) => (
+                  <option key={f} value={f} style={{ background: "#141418", color: "#fff" }}>
+                    {f}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <div style={s.row}>
-            <span style={s.rowLabel}>Statut</span>
+            <span style={s.rowLabel}>Statut service</span>
             <span style={s.badge} className="paiement-badge">
               <span style={s.dot} className="paiement-dot" />
               Bientôt disponible
             </span>
           </div>
 
-          <a href="https://wa.me/22900000000" style={s.cta} className="paiement-cta">
+          <a 
+            href={getWhatsAppLink()} 
+            target="_blank"
+            rel="noopener noreferrer"
+            style={s.cta} 
+            className="paiement-cta"
+          >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
               <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.83 14.13c-.24.68-1.4 1.31-1.94 1.36-.5.05-1.02.15-3.36-.83-2.83-1.19-4.66-4.09-4.8-4.28-.14-.19-1.15-1.53-1.15-2.92s.72-2.08.98-2.36c.24-.26.53-.33.71-.33.18 0 .35.002.51.008.16.006.38-.06.6.46.24.57.81 1.97.88 2.11.07.14.12.31.02.5-.1.19-.15.31-.29.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.61.17.3.75 1.24 1.62 2.01 1.11.99 2.04 1.3 2.34 1.44.3.15.48.13.65-.08.18-.21.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.02.96.3.15.49.22.56.35.07.13.07.75-.17 1.43z"/>
             </svg>
-            Contacter mon revendeur
+            Envoyer ma demande par WhatsApp
           </a>
 
-          <p style={s.footNote}>Paiement sécurisé MTN MoMo · Moov Money</p>
+          {/* Badges de paiement visuels et rassurants */}
+          <div style={s.paymentPartners}>
+            <span style={s.paymentTitle}>Moyens acceptés par le revendeur :</span>
+            <div style={s.brandBadges}>
+              <span style={{ ...s.brandBadge, border: "1px solid #ffcc00", color: "#ffcc00" }}>MTN MoMo</span>
+              <span style={{ ...s.brandBadge, border: "1px solid #00a5e3", color: "#00a5e3" }}>Moov Money</span>
+            </div>
+          </div>
         </div>
 
         <footer style={s.footer}>Canal+ Bénin — Paiement by DHA</footer>
@@ -128,15 +192,34 @@ export default function Paiement() {
           50% { box-shadow: 0 0 0 6px rgba(201,162,75,0.06); }
         }
         .paiement-cta {
-          min-height: 42px;
+          min-height: 44px;
+          transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        .paiement-cta:hover {
+          background-color: #f41b28 !important;
+        }
+        .paiement-cta:active {
+          transform: scale(0.98);
+        }
+        .paiement-cta:focus-visible {
+          outline: 2px solid #fff;
+          outline-offset: 2px;
+        }
+        .paiement-input:focus, .paiement-select:focus {
+          outline: none;
+          border-color: rgba(255,255,255,0.25) !important;
+          background: rgba(255,255,255,0.07) !important;
         }
         @media (max-width: 380px) {
           .paiement-grid { grid-template-columns: repeat(3, 1fr) !important; }
-          .paiement-card { padding: 28px 22px !important; }
+          .paiement-card { padding: 24px 20px !important; }
           .paiement-h1 { font-size: 19px !important; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .paiement-badge, .paiement-dot { animation: none !important; }
+          .paiement-badge, .paiement-dot, .paiement-cta { 
+            animation: none !important; 
+            transition: none !important; 
+          }
         }
       `}</style>
     </div>
@@ -210,7 +293,7 @@ const s = {
     display: "flex",
     alignItems: "center",
     gap: 10,
-    marginBottom: 28,
+    marginBottom: 24,
   },
   mark: {
     width: 34,
@@ -240,21 +323,66 @@ const s = {
     lineHeight: 1.25,
   },
   sub: {
-    fontSize: 14,
-    lineHeight: 1.6,
+    fontSize: 13,
+    lineHeight: 1.55,
     color: "rgba(255,255,255,0.5)",
-    marginBottom: 24,
+    marginBottom: 20,
   },
   divider: {
     height: 1,
     background: "rgba(255,255,255,0.08)",
     marginBottom: 20,
   },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+    marginBottom: 20,
+  },
+  inputGroup: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 6,
+  },
+  label: {
+    fontSize: 11,
+    fontWeight: 600,
+    color: "rgba(255,255,255,0.45)",
+    textTransform: "uppercase",
+    letterSpacing: "0.05em",
+  },
+  input: {
+    background: "rgba(255,255,255,0.04)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    borderRadius: 8,
+    padding: "10px 12px",
+    color: "#fff",
+    fontSize: 13,
+    fontFamily: "inherit",
+    transition: "border-color 0.2s, background-color 0.2s",
+  },
+  inputHint: {
+    fontSize: 10,
+    textAlign: "right",
+    color: "rgba(255,255,255,0.3)",
+    marginTop: 2,
+  },
+  select: {
+    background: "rgba(255,255,255,0.04)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    borderRadius: 8,
+    padding: "10px 12px",
+    color: "#fff",
+    fontSize: 13,
+    fontFamily: "inherit",
+    cursor: "pointer",
+    transition: "border-color 0.2s, background-color 0.2s",
+  },
   row: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 24,
+    marginBottom: 20,
   },
   rowLabel: {
     fontSize: 13,
@@ -293,17 +421,22 @@ const s = {
     fontSize: 13,
     borderRadius: 10,
     padding: "12px 18px",
-    marginBottom: 14,
+    marginBottom: 20,
   },
-  footNote: {
-    textAlign: "center",
-    fontSize: 11,
-    color: "rgba(255,255,255,0.3)",
+  paymentPartners: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 8,
+    borderTop: "1px solid rgba(255,255,255,0.05)",
+    paddingTop: 16,
+  },
+  paymentTitle: {
+    fontSize: 10,
+    color: "rgba(255,255,255,0.35)",
+    textTransform: "uppercase",
     letterSpacing: "0.02em",
   },
-  footer: {
-    marginTop: 24,
-    fontSize: 12,
-    color: "rgba(255,255,255,0.25)",
-  },
-};
+  brandBadges: {
+    display: "flex",
+    gap:
