@@ -146,14 +146,13 @@ export default function Paiement() {
 const s = {
   page: {
     position: "relative",
-    minHeight: "100vh",
+    minHeight: "100dvh",
     background: "#07070a",
-    overflow: "hidden",
     fontFamily:
       '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   },
   grid: {
-    position: "absolute",
+    position: "fixed",
     inset: 0,
     display: "grid",
     gridTemplateColumns: "repeat(4, 1fr)",
@@ -161,6 +160,7 @@ const s = {
     padding: 4,
     filter: "saturate(0.9)",
     transform: "scale(1.02)",
+    zIndex: 0,
   },
   tile: {
     position: "relative",
@@ -179,19 +179,21 @@ const s = {
     fontWeight: 700,
   },
   scrim: {
-    position: "absolute",
+    position: "fixed",
     inset: 0,
     background:
       "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(7,7,10,0.94) 0%, rgba(7,7,10,0.86) 40%, rgba(7,7,10,0.78) 100%)",
+    zIndex: 1,
   },
   wrap: {
     position: "relative",
-    minHeight: "100vh",
+    zIndex: 2,
+    minHeight: "100dvh",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: 24,
+    padding: "24px 24px calc(24px + env(safe-area-inset-bottom))",
   },
   card: {
     width: "100%",
