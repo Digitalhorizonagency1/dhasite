@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { usePageMeta } from "../usePageMeta";
 
 // ── IMAGES ─────────────────────────────────────────────────────────
@@ -26,6 +27,25 @@ export default function Paiement() {
     noindex: true,
   });
 
+  // Force le fond sombre sur html/body pour cette page uniquement
+  // (évite le cadre blanc autour si le reste du site a un fond clair).
+  // Restauré automatiquement en quittant la page.
+  useEffect(() => {
+    const prevHtmlBg = document.documentElement.style.background;
+    const prevBodyBg = document.body.style.background;
+    const prevBodyMargin = document.body.style.margin;
+
+    document.documentElement.style.background = "#07070a";
+    document.body.style.background = "#07070a";
+    document.body.style.margin = "0";
+
+    return () => {
+      document.documentElement.style.background = prevHtmlBg;
+      document.body.style.background = prevBodyBg;
+      document.body.style.margin = prevBodyMargin;
+    };
+  }, []);
+
   const genres = [
     "Films", "Séries", "Sport", "Ciné+",
     "Docs", "Kids", "Action", "Foot",
@@ -43,7 +63,7 @@ export default function Paiement() {
 
   return (
     <div style={s.page}>
-      <div style={s.grid} aria-hidden="true">
+      <div style={s.grid} className="paiement-grid" aria-hidden="true">
         {tiles.map((t) => (
           <div
             key={t.id}
@@ -62,13 +82,13 @@ export default function Paiement() {
       <div style={s.scrim} aria-hidden="true" />
 
       <main style={s.wrap}>
-        <div style={s.card}>
+        <div style={s.card} className="paiement-card">
           <div style={s.brandRow}>
             <div style={s.mark}>C+</div>
             <span style={s.brandName}>CANAL+ BÉNIN</span>
           </div>
 
-          <h1 style={s.h1}>Renouvellement en ligne</h1>
+          <h1 style={s.h1} className="paiement-h1">Renouvellement en ligne</h1>
           <p style={s.sub}>
             Le paiement Mobile Money arrive très bientôt sur cet espace.
             En attendant, votre revendeur peut renouveler votre abonnement
@@ -79,13 +99,13 @@ export default function Paiement() {
 
           <div style={s.row}>
             <span style={s.rowLabel}>Statut</span>
-            <span style={s.badge}>
-              <span style={s.dot} />
+            <span style={s.badge} className="paiement-badge">
+              <span style={s.dot} className="paiement-dot" />
               Bientôt disponible
             </span>
           </div>
 
-          <a href="https://wa.me/22900000000" style={s.cta}>
+          <a href="https://wa.me/22900000000" style={s.cta} className="paiement-cta">
             Contacter mon revendeur
           </a>
 
@@ -103,6 +123,20 @@ export default function Paiement() {
         @keyframes pulseBadge {
           0%, 100% { box-shadow: 0 0 0 0 rgba(201,162,75,0.0); }
           50% { box-shadow: 0 0 0 6px rgba(201,162,75,0.06); }
+        }
+        .paiement-cta {
+          min-height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        @media (max-width: 380px) {
+          .paiement-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          .paiement-card { padding: 28px 22px !important; }
+          .paiement-h1 { font-size: 19px !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .paiement-badge, .paiement-dot { animation: none !important; }
         }
       `}</style>
     </div>
