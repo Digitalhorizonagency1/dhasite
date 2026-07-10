@@ -12,11 +12,9 @@ export default function Paiement() {
     noindex: true,
   });
 
-  // États pour le formulaire de pré-remplissage WhatsApp
   const [cardNumber, setCardNumber] = useState("");
   const [selectedFormula, setSelectedFormula] = useState("Access");
 
-  // Force le fond sombre sur html/body pour cette page uniquement
   useEffect(() => {
     const prevHtmlBg = document.documentElement.style.background;
     const prevBodyBg = document.body.style.background;
@@ -54,11 +52,8 @@ export default function Paiement() {
     "Tout CANAL+ (40 000 F)"
   ];
 
-  // Génération du lien WhatsApp avec message pré-rempli
   const getWhatsAppLink = () => {
-    // Remplacer par le numéro à 10 chiffres du revendeur (ex: 22901XXXXXXXX)
     const phone = "2290100000000"; 
-    
     const message = `Bonjour, je souhaite renouveler mon abonnement Canal+ via Mobile Money.
     
 • Formule : ${selectedFormula}
@@ -67,9 +62,8 @@ export default function Paiement() {
     return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   };
 
-  // Limite la saisie aux chiffres et à 14 caractères (longueur standard d'une carte Canal+)
   const handleCardNumberChange = (e) => {
-    const val = e.target.value.replace(/\D/g, ""); // Garde uniquement les chiffres
+    const val = e.target.value.replace(/\D/g, "");
     if (val.length <= 14) {
       setCardNumber(val);
     }
@@ -110,7 +104,6 @@ export default function Paiement() {
 
           <div style={s.divider} />
 
-          {/* Formulaire interactif */}
           <div style={s.form}>
             <div style={s.inputGroup}>
               <label style={s.label} htmlFor="cardNumber">Numéro de réabonnement / Carte</label>
@@ -169,7 +162,6 @@ export default function Paiement() {
             Envoyer ma demande par WhatsApp
           </a>
 
-          {/* Badges de paiement visuels et rassurants */}
           <div style={s.paymentPartners}>
             <span style={s.paymentTitle}>Moyens acceptés par le revendeur :</span>
             <div style={s.brandBadges}>
@@ -439,4 +431,19 @@ const s = {
   },
   brandBadges: {
     display: "flex",
-    gap:
+    gap: 8,
+  },
+  brandBadge: {
+    fontSize: 10,
+    fontWeight: 700,
+    borderRadius: 6,
+    padding: "4px 8px",
+    background: "rgba(255,255,255,0.02)",
+    letterSpacing: "0.03em",
+  },
+  footer: {
+    marginTop: 24,
+    fontSize: 12,
+    color: "rgba(255,255,255,0.25)",
+  },
+};
