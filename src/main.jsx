@@ -7,6 +7,7 @@ import Layout from "./Layout";
 import App from "./App";
 import Creative from "./Creative";
 import Web from "./Web";
+import Paiement from "./pages/Paiement";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root")).render(
               <Route path="creative" element={<Creative />} />
               <Route path="web" element={<Web />} />
             </Route>
+            <Route path="paiement" element={<Paiement />} />
           </Routes>
         </BrowserRouter>
       </LangProvider>
